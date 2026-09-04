@@ -36,12 +36,11 @@ const validatePassword = (password, firstName, lastName, email) => {
   if (!/\d/.test(password)) {
     errors.push("Password must contain at least one number.");
   }
-
-  if (!/[.,'";]/.test(password)) {
-    errors.push(
-      'Password must contain at least one special character: . , \' ; "'
-    );
-  }
+if (!/[!@#$%^&*(),.?":{}|<>_\-;'[\]\\]/.test(password)) {
+  errors.push(
+    "Password must contain at least one special character."
+  );
+}
 
   // No three identical characters in a row
   if (/(.)\1\1/.test(password)) {

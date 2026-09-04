@@ -29,16 +29,53 @@ const userSchema = new mongoose.Schema(
       match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
     },
 
-    role: {
-  type: String,
-  enum: ["user", "admin"],
-  default: "user",
-},
+    gender: {
+      type: String,
+      enum: ["male", "female"],
+      required: true,
+    },
 
-   password: {
-  type: String,
-  required: true,
-},
+    dateOfBirth: {
+      type: Date,
+      required: true,
+    },
+
+    weight: {
+      type: Number,
+      required: true,
+      min: 20,
+      max: 300,
+    },
+
+    height: {
+      type: Number,
+      required: true,
+      min: 100,
+      max: 250,
+    },
+
+    goal: {
+      type: String,
+      required: true,
+      trim: true,
+      maxlength: 500,
+    },
+
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
+
+    password: {
+      type: String,
+      required: true,
+    },
+
+    imageUrl: {
+      type: String,
+      default: "/uploads/users/default-user.png",
+    },
   },
   {
     timestamps: true,

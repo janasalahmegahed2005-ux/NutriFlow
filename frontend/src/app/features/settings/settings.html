@@ -1,0 +1,122 @@
+<div class="page-layout">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">N</div>
+      <div class="brand-text"><h1>NutriFlow</h1><span>Nutrition & Wellness</span></div>
+    </div>
+    <nav class="navigation">
+      <a class="nav-item" routerLink="/dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+      <a class="nav-item" routerLink="/food-diary"><span class="nav-icon">◷</span><span>Food Diary</span></a>
+      <a class="nav-item" routerLink="/ai-scanner"><span class="nav-icon">⌁</span><span>AI Food Scanner</span></a>
+      <a class="nav-item" routerLink="/recipes"><span class="nav-icon">♡</span><span>Recipes</span></a>
+      <a class="nav-item" routerLink="/meal-planner"><span class="nav-icon">◌</span><span>Meal Planner</span></a>
+      <a class="nav-item" routerLink="/water"><span class="nav-icon">💧</span><span>Water</span></a>
+      <a class="nav-item" routerLink="/goals"><span class="nav-icon">◎</span><span>Goals</span></a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a class="nav-item active" routerLink="/settings"><span class="nav-icon">⚙</span><span>Settings</span></a>
+      <button type="button" class="nav-item logout" (click)="logout()"><span class="nav-icon">↪</span><span>Log out</span></button>
+    </div>
+    <div class="sidebar-decoration">
+      <div class="leaf-decoration">⚙</div>
+      <p>Keep your profile up to date.</p>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">ACCOUNT SETTINGS</p>
+        <h2>Settings</h2>
+        <p class="subtitle">Update your profile, body stats, and wellness goal.</p>
+      </div>
+    </header>
+
+    @if (saved) {
+      <div class="success-banner">✓ Settings saved successfully!</div>
+    }
+
+    @if (errorMessage) {
+      <div class="error-banner">{{ errorMessage }}</div>
+    }
+
+    <div class="settings-card">
+      <h3>Personal Information</h3>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" [(ngModel)]="firstName" placeholder="First name" />
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" [(ngModel)]="lastName" placeholder="Last name" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" [value]="email" disabled class="disabled-input" />
+        <p class="field-note">Email cannot be changed.</p>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Gender</label>
+          <input type="text" [value]="gender | titlecase" disabled class="disabled-input" />
+          <p class="field-note">Gender cannot be changed.</p>
+        </div>
+        <div class="form-group">
+          <label>Date of Birth</label>
+          <input type="text" [value]="dateOfBirth" disabled class="disabled-input" />
+          <p class="field-note">Date of birth cannot be changed.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="settings-card">
+      <h3>Body Stats</h3>
+      <p class="card-subtitle">Updating these will recalculate your calorie and macro targets.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Weight (kg)</label>
+          <input type="number" [(ngModel)]="weight" min="20" max="300" />
+        </div>
+        <div class="form-group">
+          <label>Height (cm)</label>
+          <input type="number" [(ngModel)]="height" min="100" max="250" />
+        </div>
+      </div>
+
+    </div>
+
+    <div class="settings-card">
+      <h3>Wellness Goal</h3>
+      <p class="card-subtitle">Describe what you want to achieve. This helps personalize your macro targets.</p>
+
+      <div class="form-group">
+        <label>Your Goal</label>
+        <textarea [(ngModel)]="goal" rows="3" placeholder="e.g. I want to lose weight and feel more energetic..."></textarea>
+      </div>
+
+    </div>
+
+    <button type="button" class="save-btn" (click)="saveSettings()" [disabled]="saving">
+      {{ saving ? 'Saving...' : 'Save Changes' }}
+    </button>
+
+    <section class="motivation">
+      <div class="motivation-icon">✦</div>
+      <div>
+        <strong>Your profile, your journey.</strong>
+        <p>Keep your stats updated for the most accurate nutrition targets.</p>
+      </div>
+      <span class="motivation-decoration">✿</span>
+    </section>
+
+  </main>
+</div>

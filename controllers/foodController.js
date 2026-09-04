@@ -4,6 +4,7 @@ const { normalizeUSDANutrition } = require("../utils/nutritionHelper");
 // ==========================================
 // GET ALL FOODS
 // ==========================================
+
 const getFoods = async (req, res) => {
   try {
     const foods = await Food.find();
@@ -14,21 +15,28 @@ const getFoods = async (req, res) => {
       foods,
     });
   } catch (error) {
+    console.error("Get foods error:", error);
+
     res.status(500).json({
       success: false,
       message: "Failed to fetch foods",
-      error: error.message,
     });
   }
 };
 
+
 // ==========================================
 // SEARCH FOOD
-// Searches MongoDB first, then USDA
+// Searches MongoDB + USDA
 // ==========================================
+
 const searchFoods = async (req, res) => {
   try {
     const { query } = req.query;
+
+    // ==========================================
+    // VALIDATE QUERY
+    // ==========================================
 
     if (!query || typeof query !== "string") {
       return res.status(400).json({
@@ -46,84 +54,306 @@ const searchFoods = async (req, res) => {
       });
     }
 
-    // Search local database first
+
+    // ==========================================
+    // 1. SEARCH MONGODB
+    // ==========================================
+
     const localFoods = await Food.find({
-      name: { $regex: searchQuery, $options: "i" },
-    }).limit(10);
+      name: {
+        $regex: searchQuery,
+        $options: "i",
+      },
+    }).limit(20);
 
-    if (localFoods.length > 0) {
-      return res.status(200).json({
-        success: true,
-        source: "local",
-        count: localFoods.length,
-        foods: localFoods,
+
+    // ==========================================
+    // 2. SEARCH USDA
+    // ==========================================
+
+    let usdaFoods = [];
+
+    const USDA_API_KEY = process.env.USDA_API_KEY;
+
+    console.log(
+      "USDA API key configured:",
+      Boolean(USDA_API_KEY)
+    );
+
+
+    if (USDA_API_KEY) {
+
+      const baseUrl =
+        "https://api.nal.usda.gov/fdc/v1/foods/search";
+
+
+      // ==========================================
+      // USDA STANDARD FOODS
+      // ==========================================
+
+      const standardParams = new URLSearchParams({
+        api_key: USDA_API_KEY,
+        query: searchQuery,
+        dataType: "Foundation,SR Legacy,FNDDS",
+        pageSize: "30",
       });
-    }
 
-    // USDA API configuration
-    if (!process.env.USDA_API_KEY) {
-      return res.status(500).json({
-        success: false,
-        message: "Nutrition service is not configured",
-      });
-    }
 
-    const baseUrl =
-      "https://api.nal.usda.gov/fdc/v1/foods/search";
+      const standardUrl =
+        `${baseUrl}?${standardParams.toString()}`;
 
-    const apiKey = encodeURIComponent(process.env.USDA_API_KEY);
-    const encodedQuery = encodeURIComponent(searchQuery);
 
-    // Search standard/basic foods first
-    const standardUrl =
-      `${baseUrl}?api_key=${apiKey}` +
-      `&query=${encodedQuery}` +
-      `&dataType=Foundation,SR%20Legacy,FNDDS` +
-      `&pageSize=10`;
+      try {
 
-    let response = await fetch(standardUrl);
+        const standardResponse =
+          await fetch(standardUrl);
 
-    if (!response.ok) {
-      return res.status(502).json({
-        success: false,
-        message: "Nutrition service is temporarily unavailable",
-      });
-    }
 
-    let data = await response.json();
+        console.log(
+          "USDA standard status:",
+          standardResponse.status
+        );
 
-    // Search branded foods if necessary
-    if (!data.foods || data.foods.length === 0) {
-      const brandedUrl =
-        `${baseUrl}?api_key=${apiKey}` +
-        `&query=${encodedQuery}` +
-        `&dataType=Branded` +
-        `&pageSize=10`;
 
-      response = await fetch(brandedUrl);
+        if (standardResponse.ok) {
 
-      if (!response.ok) {
-        return res.status(502).json({
-          success: false,
-          message: "Nutrition service is temporarily unavailable",
-        });
+          const data =
+            await standardResponse.json();
+
+
+          const standardFoods =
+            (data.foods || []).map((food) =>
+              normalizeUSDANutrition(food)
+            );
+
+
+          usdaFoods.push(
+            ...standardFoods
+          );
+        }
+
+      } catch (error) {
+
+        console.error(
+          "USDA standard search error:",
+          error.message
+        );
       }
 
-      data = await response.json();
+
+      // ==========================================
+      // USDA BRANDED FOODS
+      // ==========================================
+
+      const brandedParams = new URLSearchParams({
+        api_key: USDA_API_KEY,
+        query: searchQuery,
+        dataType: "Branded",
+        pageSize: "30",
+      });
+
+
+      const brandedUrl =
+        `${baseUrl}?${brandedParams.toString()}`;
+
+
+      try {
+
+        const brandedResponse =
+          await fetch(brandedUrl);
+
+
+        console.log(
+          "USDA branded status:",
+          brandedResponse.status
+        );
+
+
+        if (brandedResponse.ok) {
+
+          const data =
+            await brandedResponse.json();
+
+
+          const brandedFoods =
+            (data.foods || []).map((food) =>
+              normalizeUSDANutrition(food)
+            );
+
+
+          usdaFoods.push(
+            ...brandedFoods
+          );
+        }
+
+      } catch (error) {
+
+        console.error(
+          "USDA branded search error:",
+          error.message
+        );
+      }
+
+    } else {
+
+      console.log(
+        "USDA_API_KEY is missing from environment variables."
+      );
     }
 
-    const foods = (data.foods || []).map((food) =>
-      normalizeUSDANutrition(food)
+
+    // ==========================================
+    // 3. COMBINE LOCAL + USDA
+    // ==========================================
+
+    const combinedFoods = [
+      ...localFoods,
+      ...usdaFoods,
+    ];
+
+
+    // ==========================================
+    // 4. REMOVE DUPLICATES
+    // ==========================================
+
+    const uniqueFoods = [];
+
+    const seenNames = new Set();
+
+
+    for (const food of combinedFoods) {
+
+      if (!food || !food.name) {
+        continue;
+      }
+
+
+      const normalizedName =
+        food.name
+          .toLowerCase()
+          .replace(/\s+/g, " ")
+          .trim();
+
+
+      if (!seenNames.has(normalizedName)) {
+
+        seenNames.add(normalizedName);
+
+        uniqueFoods.push(food);
+      }
+    }
+
+
+    // ==========================================
+    // 5. SCORE RESULTS
+    // ==========================================
+
+    const searchLower =
+      searchQuery.toLowerCase();
+
+
+    const queryWords =
+      searchLower
+        .split(/\s+/)
+        .filter(Boolean);
+
+
+    const scoredFoods =
+      uniqueFoods.map((food) => {
+
+        const name =
+          food.name.toLowerCase();
+
+
+        let score = 0;
+
+
+        // Exact match
+        if (name === searchLower) {
+          score += 100;
+        }
+
+
+        // Starts with search
+        if (name.startsWith(searchLower)) {
+          score += 50;
+        }
+
+
+        // Contains complete search phrase
+        if (name.includes(searchLower)) {
+          score += 30;
+        }
+
+
+        // Matching words
+        for (const word of queryWords) {
+
+          if (name.includes(word)) {
+            score += 20;
+          }
+        }
+
+
+        return {
+          food,
+          score,
+        };
+
+      });
+
+
+    // Highest score first
+
+    scoredFoods.sort(
+      (a, b) => b.score - a.score
     );
+
+
+    // ==========================================
+    // 6. SELECT TOP RESULTS
+    // ==========================================
+
+    const selectedFoods =
+      scoredFoods
+        .slice(0, 10)
+        .map((item) => item.food);
+
+
+    // ==========================================
+    // 7. RESPONSE
+    // ==========================================
+
+    console.log(
+      `Food search "${searchQuery}":`,
+      `${localFoods.length} local +`,
+      `${usdaFoods.length} USDA =`,
+      `${selectedFoods.length} results`
+    );
+
 
     res.status(200).json({
       success: true,
-      source: "usda",
-      count: foods.length,
-      foods,
+
+      source:
+        usdaFoods.length > 0
+          ? "local+usda"
+          : "local",
+
+      count:
+        selectedFoods.length,
+
+      foods:
+        selectedFoods,
     });
+
   } catch (error) {
-    console.error("Food search error:", error.message);
+
+    console.error(
+      "Food search error:",
+      error.message
+    );
+
 
     res.status(500).json({
       success: false,
@@ -132,38 +362,57 @@ const searchFoods = async (req, res) => {
   }
 };
 
+
 // ==========================================
 // GET ONE FOOD
 // ==========================================
+
 const getFoodById = async (req, res) => {
   try {
-    const food = await Food.findById(req.params.id);
+
+    const food =
+      await Food.findById(
+        req.params.id
+      );
+
 
     if (!food) {
+
       return res.status(404).json({
         success: false,
         message: "Food not found",
       });
     }
 
+
     res.status(200).json({
       success: true,
       food,
     });
+
   } catch (error) {
+
+    console.error(
+      "Get food error:",
+      error.message
+    );
+
+
     res.status(500).json({
       success: false,
       message: "Failed to fetch food",
-      error: error.message,
     });
   }
 };
 
+
 // ==========================================
 // CREATE FOOD
 // ==========================================
+
 const createFood = async (req, res) => {
   try {
+
     const {
       name,
       calories,
@@ -174,96 +423,141 @@ const createFood = async (req, res) => {
       vitamins,
     } = req.body;
 
-    const newFood = new Food({
-      name,
-      calories,
-      protein,
-      carbs,
-      fat,
-      fiber,
-      vitamins,
-    });
 
-    const savedFood = await newFood.save();
+    const newFood =
+      new Food({
+        name,
+        calories,
+        protein,
+        carbs,
+        fat,
+        fiber,
+        vitamins,
+      });
+
+
+    const savedFood =
+      await newFood.save();
+
 
     res.status(201).json({
       success: true,
       message: "Food created successfully",
       food: savedFood,
     });
+
   } catch (error) {
+
+    console.error(
+      "Create food error:",
+      error.message
+    );
+
+
     res.status(500).json({
       success: false,
       message: "Failed to create food",
-      error: error.message,
     });
   }
 };
 
+
 // ==========================================
 // UPDATE FOOD
 // ==========================================
+
 const updateFood = async (req, res) => {
   try {
-    const updatedFood = await Food.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+
+    const updatedFood =
+      await Food.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+
 
     if (!updatedFood) {
+
       return res.status(404).json({
         success: false,
         message: "Food not found",
       });
     }
+
 
     res.status(200).json({
       success: true,
       message: "Food updated successfully",
       food: updatedFood,
     });
+
   } catch (error) {
+
+    console.error(
+      "Update food error:",
+      error.message
+    );
+
+
     res.status(500).json({
       success: false,
       message: "Failed to update food",
-      error: error.message,
     });
   }
 };
 
+
 // ==========================================
 // DELETE FOOD
 // ==========================================
+
 const deleteFood = async (req, res) => {
   try {
-    const deletedFood = await Food.findByIdAndDelete(
-      req.params.id
-    );
+
+    const deletedFood =
+      await Food.findByIdAndDelete(
+        req.params.id
+      );
+
 
     if (!deletedFood) {
+
       return res.status(404).json({
         success: false,
         message: "Food not found",
       });
     }
 
+
     res.status(200).json({
       success: true,
       message: "Food deleted successfully",
       food: deletedFood,
     });
+
   } catch (error) {
+
+    console.error(
+      "Delete food error:",
+      error.message
+    );
+
+
     res.status(500).json({
       success: false,
       message: "Failed to delete food",
-      error: error.message,
     });
   }
 };
+
+
+// ==========================================
+// EXPORT
+// ==========================================
 
 module.exports = {
   getFoods,
@@ -273,3 +567,4 @@ module.exports = {
   updateFood,
   deleteFood,
 };
+

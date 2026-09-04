@@ -1,0 +1,628 @@
+<div class="nutrition-page">
+
+  <!-- ==================================================
+       SIDEBAR
+  ================================================== -->
+
+  <aside class="sidebar">
+
+    <div class="brand">
+
+      <div class="brand-icon">
+        N
+      </div>
+
+      <div class="brand-text">
+        <h1>NutriFlow</h1>
+        <span>Nutrition & Wellness</span>
+      </div>
+
+    </div>
+
+
+    <nav class="navigation">
+
+      <a
+        class="nav-item"
+        routerLink="/dashboard"
+      >
+        <span class="nav-icon">⌂</span>
+        <span>Dashboard</span>
+      </a>
+
+
+      <a
+        class="nav-item"
+        routerLink="/food-diary"
+      >
+        <span class="nav-icon">◷</span>
+        <span>Food Diary</span>
+      </a>
+
+
+      <a
+        class="nav-item"
+        routerLink="/ai-scanner"
+      >
+        <span class="nav-icon">⌁</span>
+        <span>AI Food Scanner</span>
+      </a>
+
+
+      <a
+        class="nav-item"
+        routerLink="/recipes"
+      >
+        <span class="nav-icon">♡</span>
+        <span>Recipes</span>
+      </a>
+
+
+      <!-- NEW FEATURE -->
+
+      <a
+        class="nav-item active"
+        routerLink="/nutrition-lookup"
+      >
+        <span class="nav-icon">⌕</span>
+        <span>Nutrition Lookup</span>
+      </a>
+
+
+      <a
+        class="nav-item"
+        routerLink="/meal-planner"
+      >
+        <span class="nav-icon">◌</span>
+        <span>Meal Planner</span>
+      </a>
+
+
+      <a
+        class="nav-item"
+        routerLink="/water"
+      >
+        <span class="nav-icon">💧</span>
+        <span>Water</span>
+      </a>
+
+
+      <a
+        class="nav-item"
+        routerLink="/goals"
+      >
+        <span class="nav-icon">◎</span>
+        <span>Goals</span>
+      </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+      <a
+        class="nav-item"
+        routerLink="/settings"
+      >
+        <span class="nav-icon">⚙</span>
+        <span>Settings</span>
+      </a>
+
+    </div>
+
+  </aside>
+
+
+  <!-- ==================================================
+       MAIN CONTENT
+  ================================================== -->
+
+  <main class="main-content">
+
+    <section class="hero">
+
+      <div class="eyebrow">
+        KNOW YOUR FOOD
+      </div>
+
+      <h2>
+        Nutrition Lookup
+      </h2>
+
+      <p>
+        Search any food to instantly see its calories,
+        macros and fiber.
+      </p>
+
+    </section>
+
+
+    <!-- ==================================================
+         SEARCH
+    ================================================== -->
+
+    <section class="search-card">
+
+      <div class="search-label">
+        Search for a food
+      </div>
+
+      <div class="search-row">
+
+        <div class="search-box">
+
+          <span class="search-icon">
+            ⌕
+          </span>
+
+          <input
+            type="text"
+            [(ngModel)]="searchQuery"
+            (keyup.enter)="searchFoods()"
+            placeholder="Try rice, bread, chicken, banana..."
+          />
+
+        </div>
+
+
+        <button
+          class="search-button"
+          type="button"
+          (click)="searchFoods()"
+          [disabled]="loading"
+        >
+
+          @if (loading) {
+            Searching...
+          } @else {
+            Search
+          }
+
+        </button>
+
+
+        @if (searched) {
+
+          <button
+            class="clear-button"
+            type="button"
+            (click)="clearSearch()"
+          >
+            Clear
+          </button>
+
+        }
+
+      </div>
+
+
+      <!-- QUICK SEARCH -->
+
+      <div class="quick-search">
+
+        <span>Popular:</span>
+
+        <button
+          type="button"
+          (click)="quickSearch('rice')"
+        >
+          Rice
+        </button>
+
+        <button
+          type="button"
+          (click)="quickSearch('bread')"
+        >
+          Bread
+        </button>
+
+        <button
+          type="button"
+          (click)="quickSearch('chicken')"
+        >
+          Chicken
+        </button>
+
+        <button
+          type="button"
+          (click)="quickSearch('banana')"
+        >
+          Banana
+        </button>
+
+        <button
+          type="button"
+          (click)="quickSearch('egg')"
+        >
+          Egg
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         ERROR
+    ================================================== -->
+
+    @if (errorMessage) {
+
+      <div class="error-message">
+        {{ errorMessage }}
+      </div>
+
+    }
+
+
+    <!-- ==================================================
+         SEARCH RESULTS
+    ================================================== -->
+
+    @if (
+      !selectedFood &&
+      searchResults.length > 0
+    ) {
+
+      <section class="results-section">
+
+        <div class="section-heading">
+
+          <div>
+            <span class="section-eyebrow">
+              SEARCH RESULTS
+            </span>
+
+            <h3>
+              Choose a food
+            </h3>
+          </div>
+
+          <span class="result-count">
+            {{ searchResults.length }} results
+          </span>
+
+        </div>
+
+
+        <div class="food-results">
+
+          @for (
+            food of searchResults;
+            track food._id || food.fdcId || food.name
+          ) {
+
+            <button
+              class="food-result"
+              type="button"
+              (click)="selectFood(food)"
+            >
+
+              <div class="food-result-icon">
+                🍽️
+              </div>
+
+              <div class="food-result-info">
+
+                <strong>
+                  {{ food.name }}
+                </strong>
+
+                <span>
+                  {{ food.calories }} kcal
+                  · {{ food.protein }}g protein
+                  · {{ food.carbs }}g carbs
+                </span>
+
+              </div>
+
+              <span class="arrow">
+                →
+              </span>
+
+            </button>
+
+          }
+
+        </div>
+
+      </section>
+
+    }
+
+
+    <!-- ==================================================
+         SELECTED FOOD
+    ================================================== -->
+
+    @if (selectedFood) {
+
+      <section class="nutrition-card">
+
+        <div class="food-header">
+
+          <div>
+
+            <span class="section-eyebrow">
+              NUTRITION INFORMATION
+            </span>
+
+            <h3>
+              {{ selectedFood.name }}
+            </h3>
+
+            <p>
+              Nutrition values are calculated based on
+              {{ servingSize }}g of this food.
+            </p>
+
+          </div>
+
+
+          <button
+            class="change-food"
+            type="button"
+            (click)="clearSearch()"
+          >
+            ← Search another food
+          </button>
+
+        </div>
+
+
+        <!-- SERVING SIZE -->
+
+        <div class="serving-card">
+
+          <div>
+
+            <span class="serving-label">
+              Serving size
+            </span>
+
+            <strong>
+              {{ servingSize }} g
+            </strong>
+
+          </div>
+
+
+          <div class="serving-control">
+
+            <input
+              type="range"
+              min="10"
+              max="1000"
+              step="10"
+              [(ngModel)]="servingSize"
+            />
+
+            <input
+              type="number"
+              min="1"
+              max="5000"
+              [(ngModel)]="servingSize"
+            />
+
+            <span>g</span>
+
+          </div>
+
+        </div>
+
+
+        <!-- CALORIES -->
+
+        <div class="calories-card">
+
+          <div class="calorie-icon">
+            🔥
+          </div>
+
+          <div>
+
+            <span>
+              Calories
+            </span>
+
+            <strong>
+              {{ calculatedCalories }}
+            </strong>
+
+            <small>
+              kcal
+            </small>
+
+          </div>
+
+        </div>
+
+
+        <!-- MACROS -->
+
+        <div class="macro-grid">
+
+          <div class="macro-card protein">
+
+            <div class="macro-icon">
+              💪
+            </div>
+
+            <div>
+
+              <span>
+                Protein
+              </span>
+
+              <strong>
+                {{ calculatedProtein }}g
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="macro-card carbs">
+
+            <div class="macro-icon">
+              🍚
+            </div>
+
+            <div>
+
+              <span>
+                Carbohydrates
+              </span>
+
+              <strong>
+                {{ calculatedCarbs }}g
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="macro-card fat">
+
+            <div class="macro-icon">
+              🥑
+            </div>
+
+            <div>
+
+              <span>
+                Fat
+              </span>
+
+              <strong>
+                {{ calculatedFat }}g
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <div class="macro-card fiber">
+
+            <div class="macro-icon">
+              🌾
+            </div>
+
+            <div>
+
+              <span>
+                Fiber
+              </span>
+
+              <strong>
+                {{ calculatedFiber }}g
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- NOTE -->
+
+        <div class="info-note">
+
+          <span>ⓘ</span>
+
+          <p>
+            This is a nutrition lookup only.
+            Nothing has been added to your Food Diary.
+          </p>
+
+        </div>
+
+      </section>
+
+    }
+
+
+    <!-- ==================================================
+         EMPTY / INTRO
+    ================================================== -->
+
+    @if (
+      !searched &&
+      !selectedFood
+    ) {
+
+      <section class="intro-section">
+
+        <div class="intro-title">
+          <span>✦</span>
+          What would you like to know?
+        </div>
+
+        <div class="intro-grid">
+
+          <div class="intro-card">
+
+            <div class="intro-icon">
+              🔥
+            </div>
+
+            <h4>
+              Calories
+            </h4>
+
+            <p>
+              Find out how many calories
+              are in your food.
+            </p>
+
+          </div>
+
+
+          <div class="intro-card">
+
+            <div class="intro-icon">
+              💪
+            </div>
+
+            <h4>
+              Macros
+            </h4>
+
+            <p>
+              Check protein, carbs and
+              fat instantly.
+            </p>
+
+          </div>
+
+
+          <div class="intro-card">
+
+            <div class="intro-icon">
+              ⚖️
+            </div>
+
+            <h4>
+              Any Serving
+            </h4>
+
+            <p>
+              Adjust the serving size
+              to match what you eat.
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    }
+
+  </main>
+
+</div>

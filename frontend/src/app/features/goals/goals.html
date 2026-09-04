@@ -1,0 +1,168 @@
+<div class="page-layout">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">N</div>
+      <div class="brand-text"><h1>NutriFlow</h1><span>Nutrition & Wellness</span></div>
+    </div>
+    <nav class="navigation">
+      <a class="nav-item" routerLink="/dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+      <a class="nav-item" routerLink="/food-diary"><span class="nav-icon">◷</span><span>Food Diary</span></a>
+      <a class="nav-item" routerLink="/ai-scanner"><span class="nav-icon">⌁</span><span>AI Food Scanner</span></a>
+      <a class="nav-item" routerLink="/recipes"><span class="nav-icon">♡</span><span>Recipes</span></a>
+      <a class="nav-item" routerLink="/meal-planner"><span class="nav-icon">◌</span><span>Meal Planner</span></a>
+      <a class="nav-item" routerLink="/water"><span class="nav-icon">💧</span><span>Water</span></a>
+      <a class="nav-item active" routerLink="/goals"><span class="nav-icon">◎</span><span>Goals</span></a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a class="nav-item" routerLink="/settings"><span class="nav-icon">⚙</span><span>Settings</span></a>
+      <button type="button" class="nav-item logout" (click)="logout()"><span class="nav-icon">↪</span><span>Log out</span></button>
+    </div>
+    <div class="sidebar-decoration">
+      <div class="leaf-decoration">◎</div>
+      <p>Your goals drive your progress.</p>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">YOUR WELLNESS GOALS</p>
+        <h2>Goals & Targets</h2>
+        <p class="subtitle">Your personalized nutrition targets based on your profile.</p>
+      </div>
+      <a routerLink="/settings" class="edit-btn">✎ Edit Profile</a>
+    </header>
+
+    <!-- GOAL STATEMENT -->
+    <div class="goal-card">
+      <div class="goal-icon">🎯</div>
+      <div>
+        <p class="goal-label">YOUR WELLNESS GOAL</p>
+        <p class="goal-text">{{ goal }}</p>
+      </div>
+    </div>
+
+    <!-- DAILY TARGETS -->
+    <div class="targets-grid">
+
+      <div class="target-card calories-card">
+        <div class="target-icon">🔥</div>
+        <div class="target-info">
+          <span class="target-label">Daily Calories</span>
+          <strong class="target-value">{{ calorieTarget }}</strong>
+          <span class="target-unit">kcal / day</span>
+        </div>
+      </div>
+
+      <div class="target-card protein-card">
+        <div class="target-icon">💪</div>
+        <div class="target-info">
+          <span class="target-label">Protein Target</span>
+          <strong class="target-value">{{ proteinTarget }}g</strong>
+          <span class="target-unit">per day</span>
+        </div>
+      </div>
+
+      <div class="target-card carbs-card">
+        <div class="target-icon">🌾</div>
+        <div class="target-info">
+          <span class="target-label">Carbs Target</span>
+          <strong class="target-value">{{ carbsTarget }}g</strong>
+          <span class="target-unit">per day</span>
+        </div>
+      </div>
+
+      <div class="target-card fats-card">
+        <div class="target-icon">🥑</div>
+        <div class="target-info">
+          <span class="target-label">Fat Target</span>
+          <strong class="target-value">{{ fatTarget }}g</strong>
+          <span class="target-unit">per day</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BODY STATS -->
+    <div class="stats-card">
+      <h3>Your Body Stats</h3>
+      <div class="stats-grid">
+
+        <div class="stat-item">
+          <span class="stat-label">Weight</span>
+          <strong class="stat-value">{{ weight }} kg</strong>
+        </div>
+
+        <div class="stat-item">
+          <span class="stat-label">Height</span>
+          <strong class="stat-value">{{ height }} cm</strong>
+        </div>
+
+        <div class="stat-item">
+          <span class="stat-label">Gender</span>
+          <strong class="stat-value">{{ gender | titlecase }}</strong>
+        </div>
+
+        <div class="stat-item">
+          <span class="stat-label">BMI</span>
+          <strong class="stat-value" [style.color]="bmiColor">{{ bmi }}</strong>
+          <span class="stat-sub">{{ bmiCategory }}</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MACRO SPLIT -->
+    <div class="macro-split-card">
+      <h3>Macro Distribution</h3>
+      <div class="macro-bars">
+
+        <div class="macro-bar-item">
+          <div class="macro-bar-label">
+            <span>Protein</span>
+            <span>{{ proteinTarget }}g</span>
+          </div>
+          <div class="macro-bar-track">
+            <div class="macro-bar-fill protein" [style.width.%]="(proteinTarget * 4 / calorieTarget) * 100"></div>
+          </div>
+          <span class="macro-pct">{{ ((proteinTarget * 4 / calorieTarget) * 100).toFixed(0) }}%</span>
+        </div>
+
+        <div class="macro-bar-item">
+          <div class="macro-bar-label">
+            <span>Carbs</span>
+            <span>{{ carbsTarget }}g</span>
+          </div>
+          <div class="macro-bar-track">
+            <div class="macro-bar-fill carbs" [style.width.%]="(carbsTarget * 4 / calorieTarget) * 100"></div>
+          </div>
+          <span class="macro-pct">{{ ((carbsTarget * 4 / calorieTarget) * 100).toFixed(0) }}%</span>
+        </div>
+
+        <div class="macro-bar-item">
+          <div class="macro-bar-label">
+            <span>Fat</span>
+            <span>{{ fatTarget }}g</span>
+          </div>
+          <div class="macro-bar-track">
+            <div class="macro-bar-fill fats" [style.width.%]="(fatTarget * 9 / calorieTarget) * 100"></div>
+          </div>
+          <span class="macro-pct">{{ ((fatTarget * 9 / calorieTarget) * 100).toFixed(0) }}%</span>
+        </div>
+
+      </div>
+    </div>
+
+    <section class="motivation">
+      <div class="motivation-icon">✦</div>
+      <div>
+        <strong>Your targets are uniquely yours.</strong>
+        <p>Calculated from your body stats and personal goal. Update your profile anytime in Settings.</p>
+      </div>
+      <span class="motivation-decoration">✿</span>
+    </section>
+
+  </main>
+</div>

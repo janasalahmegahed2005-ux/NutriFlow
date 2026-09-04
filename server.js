@@ -22,6 +22,8 @@ const errorHandler = require("./middleware/errorMiddleware");
 
 const app = express();
 
+app.use("/uploads", express.static("uploads"));
+
 
 // ==========================================
 // SECURITY
@@ -31,7 +33,7 @@ app.use(helmet());
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "http://localhost:4200",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })

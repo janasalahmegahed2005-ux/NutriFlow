@@ -1,24 +1,28 @@
 const express = require("express");
+const router = express.Router();
 
-const protect = require("../middleware/authMiddleware");
-const {
-  loginLimiter,
-} = require("../middleware/rateLimitMiddleware");
 
-const {
-  registerUser,
+const { loginLimiter,} = require("../middleware/rateLimitMiddleware");
+
+const {registerUser, 
   getCurrentUser,
   loginUser,
 } = require("../controllers/authController");
 
-const router = express.Router();
+
+const protect = require("../middleware/authMiddleware");
+const uploadProfileImage = require("../middleware/uploadMiddleware");
+
 
 
 // ==========================================
 // REGISTER
 // ==========================================
-router.post("/register", registerUser);
-
+router.post(
+  "/register",
+  uploadProfileImage.single("image"),
+  registerUser
+);
 
 // ==========================================
 // GET CURRENT LOGGED-IN USER

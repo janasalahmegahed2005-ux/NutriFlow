@@ -1,0 +1,151 @@
+<div class="page-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon">N</div>
+      <div class="brand-text">
+        <h1>NutriFlow</h1>
+        <span>Nutrition & Wellness</span>
+      </div>
+    </div>
+    <nav class="navigation">
+      <a class="nav-item" routerLink="/dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+      <a class="nav-item" routerLink="/food-diary"><span class="nav-icon">◷</span><span>Food Diary</span></a>
+      <a class="nav-item" routerLink="/ai-scanner"><span class="nav-icon">⌁</span><span>AI Food Scanner</span></a>
+      <a class="nav-item" routerLink="/recipes"><span class="nav-icon">♡</span><span>Recipes</span></a>
+      <a class="nav-item" routerLink="/meal-planner"><span class="nav-icon">◌</span><span>Meal Planner</span></a>
+      <a class="nav-item active" routerLink="/water"><span class="nav-icon">💧</span><span>Water</span></a>
+      <a class="nav-item" routerLink="/goals"><span class="nav-icon">◎</span><span>Goals</span></a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a class="nav-item" routerLink="/settings"><span class="nav-icon">⚙</span><span>Settings</span></a>
+      <button type="button" class="nav-item logout" (click)="logout()"><span class="nav-icon">↪</span><span>Log out</span></button>
+    </div>
+    <div class="sidebar-decoration">
+      <div class="leaf-decoration">💧</div>
+      <p>Stay hydrated, stay healthy.</p>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <header class="page-header">
+      <div>
+        <p class="eyebrow">HYDRATION TRACKER</p>
+        <h2>Water Balance</h2>
+        <p class="subtitle">Track your daily water intake and stay hydrated.</p>
+      </div>
+    </header>
+
+    <!-- PROGRESS CARD -->
+    <div class="water-hero">
+
+      <div class="water-ring-area">
+        <div class="water-ring" [style.--water-pct]="waterPercentage">
+          <div class="water-ring-inner">
+            <strong>{{ (totalWater / 1000).toFixed(1) }}L</strong>
+            <span>of {{ (waterTarget / 1000).toFixed(1) }}L</span>
+          </div>
+        </div>
+        <p class="water-pct-label">{{ waterPercentage }}% of daily goal</p>
+      </div>
+
+      <div class="water-stats">
+        <div class="water-stat consumed">
+          <div class="stat-icon">💧</div>
+          <div>
+            <strong>{{ totalWater }} ml</strong>
+            <span>consumed today</span>
+          </div>
+        </div>
+        <div class="water-stat remaining">
+          <div class="stat-icon">🎯</div>
+          <div>
+            <strong>{{ waterRemaining }} ml</strong>
+            <span>remaining</span>
+          </div>
+        </div>
+        <div class="water-stat target">
+          <div class="stat-icon">⭐</div>
+          <div>
+            <strong>{{ waterTarget }} ml</strong>
+            <span>daily target</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-bar-card">
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" [style.width.%]="waterPercentage"></div>
+      </div>
+      <div class="progress-labels">
+        <span>0 ml</span>
+        <span>{{ waterTarget / 2 }} ml</span>
+        <span>{{ waterTarget }} ml</span>
+      </div>
+    </div>
+
+    <!-- ADD WATER -->
+    <div class="add-water-card">
+
+      <h3>Add Water</h3>
+
+      <div class="quick-buttons">
+        @for (amount of quickAmounts; track amount) {
+          <button type="button" class="quick-btn" (click)="addWater(amount)" [disabled]="saving">
+            +{{ amount }} ml
+          </button>
+        }
+      </div>
+
+      <div class="custom-amount">
+        <label>Custom amount (ml)</label>
+        <div class="custom-input-row">
+          <input
+            type="number"
+            [(ngModel)]="customAmount"
+            min="50"
+            max="2000"
+            placeholder="Enter amount"
+          />
+          <button type="button" class="add-btn" (click)="addCustomWater()" [disabled]="saving">
+            {{ saving ? 'Adding...' : '+ Add' }}
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TODAY'S LOG -->
+    @if (waterLog.length > 0) {
+      <div class="log-card">
+        <h3>Today's Log</h3>
+        <div class="log-list">
+          @for (entry of waterLog; track $index) {
+            <div class="log-item">
+              <span class="log-icon">💧</span>
+              <span class="log-amount">{{ entry.amount }} ml</span>
+              <span class="log-time">{{ entry.createdAt ? (entry.createdAt | date:'h:mm a') : 'Today' }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- MOTIVATION -->
+    <section class="motivation">
+      <div class="motivation-icon">💧</div>
+      <div>
+        <strong>Hydration is the foundation of wellness.</strong>
+        <p>Every sip counts. Keep going, {{ firstName }}!</p>
+      </div>
+      <span class="motivation-decoration">✿</span>
+    </section>
+
+  </main>
+</div>

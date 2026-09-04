@@ -1,0 +1,490 @@
+<div class="food-diary-page">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="brand">
+      <div class="brand-icon">N</div>
+      <div>
+        <h1>NutriFlow</h1>
+        <span>Nutrition & Wellness</span>
+      </div>
+    </div>
+
+    <nav class="navigation">
+
+      <a class="nav-item" routerLink="/dashboard">
+        <span class="nav-icon">⌂</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a class="nav-item active" routerLink="/food-diary">
+        <span class="nav-icon">◷</span>
+        <span>Food Diary</span>
+      </a>
+
+      <a class="nav-item" routerLink="/ai-scanner">
+        <span class="nav-icon">⌁</span>
+        <span>AI Food Scanner</span>
+      </a>
+
+      <a class="nav-item" routerLink="/recipes">
+        <span class="nav-icon">♡</span>
+        <span>Recipes</span>
+      </a>
+
+      <a class="nav-item" routerLink="/meal-planner">
+        <span class="nav-icon">◌</span>
+        <span>Meal Planner</span>
+      </a>
+
+      <a class="nav-item" routerLink="/water">
+        <span class="nav-icon">💧</span>
+        <span>Water</span>
+      </a>
+
+      <a class="nav-item" routerLink="/goals">
+        <span class="nav-icon">◎</span>
+        <span>Goals</span>
+      </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+
+      <a class="nav-item" routerLink="/settings">
+        <span class="nav-icon">⚙</span>
+        <span>Settings</span>
+      </a>
+
+      <button type="button" class="nav-item logout" (click)="logout()">
+        <span class="nav-icon">↪</span>
+        <span>Log out</span>
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- HEADER -->
+    <header class="page-header">
+
+      <div>
+        <p class="eyebrow">YOUR NUTRITION JOURNEY</p>
+        <h2>Food Diary</h2>
+        <p class="subtitle">Keep track of what you eat and stay closer to your goals.</p>
+      </div>
+
+      <div class="header-actions">
+
+        <label class="date-picker">
+          <span>📅</span>
+          <input type="date" [value]="selectedDate" (change)="changeDate($event)" />
+        </label>
+
+        <button class="refresh-button" type="button" (click)="refreshMeals()">
+          ↻ Refresh
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- SUMMARY CARDS -->
+    <section class="summary-grid">
+
+      <div class="summary-card calories">
+        <div class="summary-icon">✦</div>
+        <div>
+          <span>Calories</span>
+          <strong>{{ getTotalCalories() }}</strong>
+          <small>kcal today</small>
+        </div>
+      </div>
+
+      <div class="summary-card protein">
+        <div class="summary-icon">●</div>
+        <div>
+          <span>Protein</span>
+          <strong>{{ getTotalProtein() }}g</strong>
+          <small>consumed today</small>
+        </div>
+      </div>
+
+      <div class="summary-card carbs">
+        <div class="summary-icon">◈</div>
+        <div>
+          <span>Carbs</span>
+          <strong>{{ getTotalCarbs() }}g</strong>
+          <small>consumed today</small>
+        </div>
+      </div>
+
+      <div class="summary-card fats">
+        <div class="summary-icon">◆</div>
+        <div>
+          <span>Fat</span>
+          <strong>{{ getTotalFat() }}g</strong>
+          <small>consumed today</small>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- LOADING -->
+    @if (loading) {
+      <div class="state-card">
+        <div class="loading-icon">◌</div>
+        <h3>Loading your meals...</h3>
+        <p>We're getting your food diary ready.</p>
+      </div>
+    }
+
+    <!-- ERROR -->
+    @if (!loading && errorMessage) {
+      <div class="error-card">
+        <strong>Something went wrong</strong>
+        <p>{{ errorMessage }}</p>
+        <button type="button" (click)="refreshMeals()">Try again</button>
+      </div>
+    }
+
+    <!-- MEALS -->
+    @if (!loading && !errorMessage) {
+
+      <section class="diary-section">
+
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">YOUR DAY</span>
+            <h3>Meals for {{ selectedDate }}</h3>
+          </div>
+          <button class="add-meal-button" type="button" (click)="openModal()">
+            + Add meal
+          </button>
+        </div>
+
+        <!-- BREAKFAST -->
+        <div class="meal-section">
+          <div class="meal-section-header">
+            <div class="meal-title">
+              <div class="meal-type-icon breakfast-icon">☀</div>
+              <div>
+                <h4>Breakfast</h4>
+                <span>{{ getMealsByType('Breakfast').length }} meal(s)</span>
+              </div>
+            </div>
+          </div>
+
+          @if (getMealsByType('Breakfast').length === 0) {
+            <div class="empty-meal">No breakfast logged yet.</div>
+          }
+
+          @for (meal of getMealsByType('Breakfast'); track meal._id) {
+            <div class="meal-row">
+              <div class="meal-info">
+                <div class="meal-food-icon">
+                  <img
+                    [src]="getFoodImage(meal.name)"
+                    [alt]="meal.name"
+                    loading="lazy"
+                    (error)="onImageError($event)"
+                  />
+                </div>
+                <div>
+                  <strong>{{ meal.name }}</strong>
+                  <span>{{ meal.quantity || 1 }}g</span>
+                </div>
+              </div>
+              <div class="nutrition-info">
+                <span><strong>{{ meal.calories }}</strong> kcal</span>
+                <span><strong>{{ meal.protein }}g</strong> protein</span>
+                <button class="delete-button" type="button" (click)="deleteMeal(meal)">×</button>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- LUNCH -->
+        <div class="meal-section">
+          <div class="meal-section-header">
+            <div class="meal-title">
+              <div class="meal-type-icon lunch-icon">◉</div>
+              <div>
+                <h4>Lunch</h4>
+                <span>{{ getMealsByType('Lunch').length }} meal(s)</span>
+              </div>
+            </div>
+          </div>
+
+          @if (getMealsByType('Lunch').length === 0) {
+            <div class="empty-meal">No lunch logged yet.</div>
+          }
+
+          @for (meal of getMealsByType('Lunch'); track meal._id) {
+            <div class="meal-row">
+              <div class="meal-info">
+                <div class="meal-food-icon">
+                  <img
+                    [src]="getFoodImage(meal.name)"
+                    [alt]="meal.name"
+                    loading="lazy"
+                    (error)="onImageError($event)"
+                  />
+                </div>
+                <div>
+                  <strong>{{ meal.name }}</strong>
+                  <span>{{ meal.quantity || 1 }}g</span>
+                </div>
+              </div>
+              <div class="nutrition-info">
+                <span><strong>{{ meal.calories }}</strong> kcal</span>
+                <span><strong>{{ meal.protein }}g</strong> protein</span>
+                <button class="delete-button" type="button" (click)="deleteMeal(meal)">×</button>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- DINNER -->
+        <div class="meal-section">
+          <div class="meal-section-header">
+            <div class="meal-title">
+              <div class="meal-type-icon dinner-icon">◐</div>
+              <div>
+                <h4>Dinner</h4>
+                <span>{{ getMealsByType('Dinner').length }} meal(s)</span>
+              </div>
+            </div>
+          </div>
+
+          @if (getMealsByType('Dinner').length === 0) {
+            <div class="empty-meal">No dinner logged yet.</div>
+          }
+
+          @for (meal of getMealsByType('Dinner'); track meal._id) {
+            <div class="meal-row">
+              <div class="meal-info">
+                <div class="meal-food-icon">
+                  <img
+                    [src]="getFoodImage(meal.name)"
+                    [alt]="meal.name"
+                    loading="lazy"
+                    (error)="onImageError($event)"
+                  />
+                </div>
+                <div>
+                  <strong>{{ meal.name }}</strong>
+                  <span>{{ meal.quantity || 1 }}g</span>
+                </div>
+              </div>
+              <div class="nutrition-info">
+                <span><strong>{{ meal.calories }}</strong> kcal</span>
+                <span><strong>{{ meal.protein }}g</strong> protein</span>
+                <button class="delete-button" type="button" (click)="deleteMeal(meal)">×</button>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- SNACKS -->
+        <div class="meal-section">
+          <div class="meal-section-header">
+            <div class="meal-title">
+              <div class="meal-type-icon snack-icon">♡</div>
+              <div>
+                <h4>Snacks</h4>
+                <span>{{ getMealsByType('Snack').length }} meal(s)</span>
+              </div>
+            </div>
+          </div>
+
+          @if (getMealsByType('Snack').length === 0) {
+            <div class="empty-meal">No snacks logged yet.</div>
+          }
+
+          @for (meal of getMealsByType('Snack'); track meal._id) {
+            <div class="meal-row">
+              <div class="meal-info">
+                <div class="meal-food-icon">
+                  <img
+                    [src]="getFoodImage(meal.name)"
+                    [alt]="meal.name"
+                    loading="lazy"
+                    (error)="onImageError($event)"
+                  />
+                </div>
+                <div>
+                  <strong>{{ meal.name }}</strong>
+                  <span>{{ meal.quantity || 1 }}g</span>
+                </div>
+              </div>
+              <div class="nutrition-info">
+                <span><strong>{{ meal.calories }}</strong> kcal</span>
+                <span><strong>{{ meal.protein }}g</strong> protein</span>
+                <button class="delete-button" type="button" (click)="deleteMeal(meal)">×</button>
+              </div>
+            </div>
+          }
+        </div>
+
+      </section>
+
+    }
+
+
+    <!-- EMPTY DAY -->
+    @if (!loading && !errorMessage && meals.length === 0) {
+      <div class="empty-day">
+        <div class="empty-icon">🍽️</div>
+        <h3>Your diary is empty</h3>
+        <p>Start tracking your meals to see your nutrition progress here.</p>
+        <button class="empty-add-button" type="button" (click)="openModal()">
+          + Add your first meal
+        </button>
+      </div>
+    }
+
+
+    <!-- MOTIVATION -->
+    <section class="motivation">
+      <div class="motivation-icon">✦</div>
+      <div>
+        <strong>Every meal is a step toward your goals.</strong>
+        <p>Keep tracking and keep your wellness flow going.</p>
+      </div>
+      <span class="motivation-decoration">✿</span>
+    </section>
+
+  </main>
+
+
+  <!-- ADD MEAL MODAL -->
+  @if (showModal) {
+
+    <div class="modal-backdrop" (click)="closeModal()">
+
+      <div class="modal" (click)="$event.stopPropagation()">
+
+        <div class="modal-header">
+          <h3>Add a Meal</h3>
+          <button type="button" class="modal-close" (click)="closeModal()">×</button>
+        </div>
+
+        <div class="modal-body">
+
+          <!-- MEAL TYPE -->
+          <div class="modal-field">
+            <label>Meal Type</label>
+            <div class="meal-type-tabs">
+              @for (type of mealTypes; track type) {
+                <button
+                  type="button"
+                  class="meal-tab"
+                  [class.active]="selectedMealType === type"
+                  (click)="selectMealType(type)"
+                >
+                  {{ type }}
+                </button>
+              }
+            </div>
+          </div>
+
+          <!-- FOOD SEARCH -->
+          <div class="modal-field">
+            <label>Search Food</label>
+            <div class="search-wrapper">
+              <input
+                type="text"
+                class="modal-input"
+                placeholder="e.g. chicken breast, banana, oats..."
+                [(ngModel)]="searchQuery"
+                (input)="onSearchInput()"
+              />
+              @if (searchLoading) {
+                <span class="search-spinner">◌</span>
+              }
+            </div>
+
+            @if (searchResults.length > 0) {
+              <div class="search-results">
+                @for (food of searchResults; track food.name) {
+                  <button
+                    type="button"
+                    class="search-result-item"
+                    (click)="selectFood(food)"
+                  >
+                    <span class="result-name">{{ food.name }}</span>
+                    <span class="result-meta">{{ food.calories }} kcal / 100g</span>
+                  </button>
+                }
+              </div>
+            }
+          </div>
+
+          <!-- QUANTITY -->
+          @if (selectedFood) {
+            <div class="modal-field">
+              <label>Quantity (grams)</label>
+              <input
+                type="number"
+                class="modal-input"
+                [(ngModel)]="quantity"
+                min="1"
+                max="2000"
+              />
+            </div>
+
+            <!-- NUTRITION PREVIEW -->
+            <div class="nutrition-preview">
+              <p class="preview-label">
+                Nutrition for {{ quantity }}g of {{ selectedFood.name }}
+              </p>
+              <div class="preview-grid">
+                <div class="preview-item">
+                  <strong>{{ previewCalories }}</strong>
+                  <span>kcal</span>
+                </div>
+                <div class="preview-item">
+                  <strong>{{ previewProtein }}g</strong>
+                  <span>protein</span>
+                </div>
+                <div class="preview-item">
+                  <strong>{{ previewCarbs }}g</strong>
+                  <span>carbs</span>
+                </div>
+                <div class="preview-item">
+                  <strong>{{ previewFat }}g</strong>
+                  <span>fat</span>
+                </div>
+              </div>
+            </div>
+          }
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="cancel-button" (click)="closeModal()">Cancel</button>
+          <button
+            type="button"
+            class="confirm-button"
+            [disabled]="!selectedFood || !quantity || quantity <= 0 || saving"
+            (click)="addMeal()"
+          >
+            {{ saving ? 'Adding...' : '+ Add Meal' }}
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

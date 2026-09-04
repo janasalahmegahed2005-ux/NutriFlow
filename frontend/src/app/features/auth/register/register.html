@@ -1,0 +1,203 @@
+<div class="register-page">
+  <div class="register-card">
+
+    <h1>NutriFlow</h1>
+    <p class="subtitle">Personalized Nutrition & Wellness</p>
+
+    <h2>Create Account</h2>
+    <p class="welcome-text">Start your personalized wellness journey</p>
+
+    <!-- Profile Image -->
+    <div class="profile-section">
+
+      <div class="profile-image">
+        <img [src]="imagePreview" alt="Profile picture">
+      </div>
+
+      <label for="image" class="upload-button">
+        Choose Profile Picture
+      </label>
+
+      <input
+        id="image"
+        type="file"
+        name="image"
+        accept="image/*"
+        hidden
+        (change)="onImageSelected($event)"
+      >
+
+      <p class="image-note">Optional</p>
+
+    </div>
+
+    <!-- Registration Form -->
+    <form (ngSubmit)="onRegister($event)" autocomplete="on">
+
+      <!-- Name Row -->
+      <div class="name-row">
+
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input
+            id="firstName"
+            type="text"
+            placeholder="Enter your first name"
+            [(ngModel)]="firstName"
+            name="firstName"
+            autocomplete="given-name"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input
+            id="familyName"
+            type="text"
+            placeholder="Enter your last name"
+            [(ngModel)]="lastName"
+            name="familyName"
+            autocomplete="family-name"
+            required
+          >
+        </div>
+
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="Enter your email"
+          [(ngModel)]="email"
+          name="email"
+          autocomplete="email"
+          required
+        >
+      </div>
+
+      <!-- Gender + Date of Birth -->
+      <div class="name-row">
+
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <select
+            id="gender"
+            [(ngModel)]="gender"
+            name="gender"
+            required
+          >
+            <option value="" disabled selected>Select gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="dateOfBirth">Date of Birth</label>
+          <input
+            id="dateOfBirth"
+            type="date"
+            [(ngModel)]="dateOfBirth"
+            name="dateOfBirth"
+            autocomplete="bday"
+            required
+          >
+        </div>
+
+      </div>
+
+      <!-- Weight + Height -->
+      <div class="name-row">
+
+        <div class="form-group">
+          <label for="weight">Weight (kg)</label>
+          <input
+            id="weight"
+            type="number"
+            placeholder="e.g. 65"
+            [(ngModel)]="weight"
+            name="weight"
+            min="20"
+            max="300"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="height">Height (cm)</label>
+          <input
+            id="height"
+            type="number"
+            placeholder="e.g. 170"
+            [(ngModel)]="height"
+            name="height"
+            min="100"
+            max="250"
+            required
+          >
+        </div>
+
+      </div>
+
+      <!-- Goal -->
+      <div class="form-group">
+        <label for="goal">Your Wellness Goal</label>
+        <textarea
+          id="goal"
+          placeholder="e.g. I want to lose 10kg, build muscle, eat healthier and feel more energetic..."
+          [(ngModel)]="goal"
+          name="goal"
+          rows="3"
+          required
+        ></textarea>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Create a password"
+          [(ngModel)]="password"
+          name="password"
+          autocomplete="new-password"
+          required
+        >
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          id="confirmPassword"
+          type="password"
+          placeholder="Re-enter your password"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
+          autocomplete="new-password"
+          [class.input-error]="confirmPassword && password !== confirmPassword"
+          required
+        >
+        <p class="field-error" *ngIf="confirmPassword && password !== confirmPassword">
+          Passwords do not match
+        </p>
+      </div>
+
+      <button type="submit">
+        Create Account
+      </button>
+
+    </form>
+
+    <p class="login-link">
+      Already have an account?
+      <a routerLink="/login">Login</a>
+    </p>
+
+  </div>
+</div>
