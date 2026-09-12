@@ -91,31 +91,6 @@
 }
 
 
-/* =========================================================
-   SIDEBAR
-   ========================================================= */
-
-.sidebar {
-  width: 215px;
-  min-height: 100vh;
-
-  background: rgba(255, 255, 255, 0.72);
-
-  border-right: 1px solid var(--border);
-
-  padding: 28px 15px 20px;
-
-  display: flex;
-  flex-direction: column;
-
-  position: fixed;
-
-  left: 0;
-  top: 0;
-  bottom: 0;
-
-  z-index: 10;
-}
 
 
 /* =========================================================
@@ -306,9 +281,13 @@
    ========================================================= */
 
 .main-content {
-  margin-left: 215px;
+  flex: 1 1 auto;
 
-  width: calc(100% - 215px);
+  min-width: 0;
+
+  width: auto;
+
+  margin-left: 0;
 
   min-height: 100vh;
 
@@ -1832,15 +1811,7 @@
 
 @media (max-width: 1100px) {
 
-  .sidebar {
-    width: 210px;
-  }
-
   .main-content {
-    margin-left: 210px;
-
-    width: calc(100% - 210px);
-
     padding: 30px;
   }
 
@@ -1861,44 +1832,8 @@
 
 @media (max-width: 850px) {
 
-  .sidebar {
-    width: 75px;
-
-    padding: 25px 9px;
-  }
-
-  .brand {
-    justify-content: center;
-
-    padding: 0;
-  }
-
-  .brand > div:last-child {
-    display: none;
-  }
-
-  .nav-item {
-    justify-content: center;
-
-    padding: 0;
-  }
-
-  .nav-item > span:last-child {
-    display: none;
-  }
-
-  .nav-icon {
-    font-size: 17px;
-  }
-
-  .sidebar-decoration {
-    display: none;
-  }
-
   .main-content {
-    margin-left: 75px;
-
-    width: calc(100% - 75px);
+    padding: 28px 22px 40px;
   }
 }
 
@@ -1909,15 +1844,7 @@
 
 @media (max-width: 750px) {
 
-  .sidebar {
-    display: none;
-  }
-
   .main-content {
-    margin-left: 0;
-
-    width: 100%;
-
     padding: 22px 16px 35px;
   }
 
@@ -2083,3 +2010,107 @@ img {
 /* =========================================================
    END OF FOOD DIARY CSS
    ========================================================= */
+   /* =========================================================
+   TYPOGRAPHY SIZE UPGRADE
+   Keeps the existing NutriFlow design unchanged.
+   ========================================================= */
+
+.page-header .eyebrow {
+  font-size: 12px;
+}
+
+.page-header h2 {
+  font-size: 34px;
+}
+
+.page-header .subtitle {
+  font-size: 16px;
+}
+
+.date-control,
+.refresh-button {
+  font-size: 14px;
+}
+
+.summary-card .label,
+.summary-card .subtitle {
+  font-size: 13px;
+}
+
+.summary-card .value {
+  font-size: 25px;
+}
+
+.diary-section h3 {
+  font-size: 22px;
+}
+
+.diary-section {
+  font-size: 15px;
+}
+
+.meal-name {
+  font-size: 15px;
+}
+
+.meal-meta {
+  font-size: 13px;
+}
+
+.nutrition-info > span {
+  font-size: 14px;
+}
+
+.nutrition-info strong {
+  font-size: 15px;
+}
+
+.empty-meal {
+  font-size: 14px;
+}
+
+.empty-day h3 {
+  font-size: 24px;
+}
+
+.empty-day p {
+  font-size: 15px;
+}
+
+.empty-add-button {
+  font-size: 15px;
+}
+
+.motivation strong {
+  font-size: 16px;
+}
+
+.motivation p {
+  font-size: 14px;
+}
+
+/* Modal */
+.modal-header h3 {
+  font-size: 22px;
+}
+
+.form-field label {
+  font-size: 13px;
+}
+
+.form-input,
+.form-field input,
+.form-field select {
+  font-size: 14px;
+}
+
+.meal-type-tab,
+.meal-tab {
+  font-size: 13px;
+}
+
+.cancel-button,
+.save-button,
+.add-meal-button {
+  font-size: 14px;
+}

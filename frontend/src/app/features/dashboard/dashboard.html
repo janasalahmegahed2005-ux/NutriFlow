@@ -4,197 +4,7 @@
        SIDEBAR
   ========================================== -->
 
-  <aside class="sidebar">
-
-    <div class="brand">
-
-      <div class="brand-icon">
-        N
-      </div>
-
-      <div class="brand-text">
-
-        <h1>
-          NutriFlow
-        </h1>
-
-        <span>
-          Nutrition & Wellness
-        </span>
-
-      </div>
-
-    </div>
-
-
-    <nav class="navigation">
-
-      <a
-        class="nav-item active"
-        routerLink="/dashboard"
-      >
-        <span class="nav-icon">
-          ⌂
-        </span>
-
-        <span>
-          Dashboard
-        </span>
-      </a>
-
-
-      <a
-        class="nav-item"
-        routerLink="/food-diary"
-      >
-        <span class="nav-icon">
-          ◷
-        </span>
-
-        <span>
-          Food Diary
-        </span>
-      </a>
-
-
-      <a
-        class="nav-item"
-        routerLink="/ai-scanner"
-      >
-        <span class="nav-icon">
-          ⌁
-        </span>
-
-        <span>
-          AI Food Scanner
-        </span>
-      </a>
-
-
-      <a
-        class="nav-item"
-        routerLink="/recipes"
-      >
-        <span class="nav-icon">
-          ♡
-        </span>
-
-        <span>
-          Recipes
-        </span>
-      </a>
-
-
-      <a
-        class="nav-item"
-        routerLink="/nutrition-lookup"
-      >
-        <span class="nav-icon">
-          ⌕
-        </span>
-
-        <span>
-          Nutrition Lookup
-        </span>
-      </a>
-
-
-      <a
-        class="nav-item"
-        routerLink="/meal-planner"
-      >
-        <span class="nav-icon">
-          ◌
-        </span>
-
-        <span>
-          Meal Planner
-        </span>
-      </a>
-
-
-      <a
-        class="nav-item"
-        routerLink="/water"
-      >
-        <span class="nav-icon">
-          💧
-        </span>
-
-        <span>
-          Water
-        </span>
-      </a>
-
-
-      <a
-        class="nav-item"
-        routerLink="/goals"
-      >
-        <span class="nav-icon">
-          ◎
-        </span>
-
-        <span>
-          Goals
-        </span>
-      </a>
-
-    </nav>
-
-
-    <div class="sidebar-bottom">
-
-      <a
-        class="nav-item"
-        routerLink="/settings"
-      >
-        <span class="nav-icon">
-          ⚙
-        </span>
-
-        <span>
-          Settings
-        </span>
-      </a>
-
-
-      <button
-        type="button"
-        class="nav-item logout"
-        (click)="logout()"
-      >
-
-        <span class="nav-icon">
-          ↪
-        </span>
-
-        <span>
-          Log out
-        </span>
-
-      </button>
-
-    </div>
-
-
-    <!-- SIDEBAR DECORATION -->
-
-    <div class="sidebar-decoration">
-
-      <div class="leaf-decoration">
-        ✦
-      </div>
-
-      <p>
-        Small choices create
-        big changes.
-      </p>
-
-    </div>
-
-  </aside>
-
+  <app-sidebar></app-sidebar>
 
 
   <!-- ==========================================
@@ -253,24 +63,33 @@
         </button>
 
 
-        <div class="avatar">
+        <!-- CLICKABLE PROFILE -->
 
-          {{ firstName.charAt(0).toUpperCase() }}
+        <a
+          class="profile-link"
+          routerLink="/profile"
+        >
 
-        </div>
+          <div class="avatar">
+
+            {{ firstName.charAt(0).toUpperCase() }}
+
+          </div>
 
 
-        <div class="profile-info">
+          <div class="profile-info">
 
-          <strong>
-            {{ firstName }}
-          </strong>
+            <strong>
+              {{ firstName }}
+            </strong>
 
-          <small>
-            My profile
-          </small>
+            <small>
+              My profile
+            </small>
 
-        </div>
+          </div>
+
+        </a>
 
       </div>
 
@@ -849,6 +668,7 @@
                   @if (meal.date) {
 
                     ·
+
                     {{ formatMealTime(meal.date) }}
 
                   }
@@ -942,9 +762,11 @@
           You're almost there!
 
           Just
+
           <strong>
             400 ml
           </strong>
+
           left today.
 
         </p>

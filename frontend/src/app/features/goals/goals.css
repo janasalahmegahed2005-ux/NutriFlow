@@ -89,3 +89,80 @@
 .motivation strong { font-family: Georgia, serif; color: var(--green-dark); font-size: 13px; }
 .motivation p { margin: 3px 0 0; font-size: 8px; color: #85847f; }
 .motivation-decoration { margin-left: auto; color: #c59caf; font-size: 25px; }
+/* =========================================================
+   GOALS — TYPOGRAPHY SIZE UPGRADE
+   Keeps the existing design unchanged.
+   ========================================================= */
+
+.eyebrow {
+  font-size: 12px;
+}
+
+.page-header h2 {
+  font-size: 36px;
+}
+
+.subtitle {
+  font-size: 15px;
+}
+
+.edit-btn {
+  font-size: 14px;
+}
+
+.goal-label {
+  font-size: 11px;
+}
+
+.goal-text {
+  font-size: 15px;
+}
+
+.target-label {
+  font-size: 11px;
+}
+
+.target-value {
+  font-size: 26px;
+}
+
+.target-unit {
+  font-size: 11px;
+}
+
+.stats-card h3,
+.macro-split-card h3 {
+  font-size: 20px;
+}
+
+.stat-label {
+  font-size: 11px;
+}
+
+.stat-value {
+  font-size: 24px;
+}
+
+.stat-sub {
+  font-size: 12px;
+}
+
+.macro-bar-label {
+  font-size: 13px;
+}
+
+.macro-pct {
+  font-size: 12px;
+}
+
+.motivation strong {
+  font-size: 14px;
+}
+
+.motivation p {
+  font-size: 12px;
+}
+
+.motivation-decoration {
+  font-size: 26px;
+}

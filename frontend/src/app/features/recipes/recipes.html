@@ -1,94 +1,46 @@
 <div class="page-layout">
 
   <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="brand">
-      <div class="brand-icon">N</div>
-      <div class="brand-text">
-        <h1>NutriFlow</h1>
-        <span>Nutrition & Wellness</span>
-      </div>
-    </div>
-
-    <nav class="navigation">
-      <a class="nav-item" routerLink="/dashboard">
-        <span class="nav-icon">⌂</span>
-        <span>Dashboard</span>
-      </a>
-
-      <a class="nav-item" routerLink="/food-diary">
-        <span class="nav-icon">◷</span>
-        <span>Food Diary</span>
-      </a>
-
-      <a class="nav-item" routerLink="/ai-scanner">
-        <span class="nav-icon">⌁</span>
-        <span>AI Food Scanner</span>
-      </a>
-
-      <a class="nav-item active" routerLink="/recipes">
-        <span class="nav-icon">♡</span>
-        <span>Recipes</span>
-      </a>
-
-      <a class="nav-item" routerLink="/meal-planner">
-        <span class="nav-icon">◌</span>
-        <span>Meal Planner</span>
-      </a>
-
-      <a class="nav-item" routerLink="/water">
-        <span class="nav-icon">💧</span>
-        <span>Water</span>
-      </a>
-
-      <a class="nav-item" routerLink="/goals">
-        <span class="nav-icon">◎</span>
-        <span>Goals</span>
-      </a>
-    </nav>
-
-    <div class="sidebar-bottom">
-      <a class="nav-item" routerLink="/settings">
-        <span class="nav-icon">⚙</span>
-        <span>Settings</span>
-      </a>
-
-      <button type="button" class="nav-item logout" (click)="logout()">
-        <span class="nav-icon">↪</span>
-        <span>Log out</span>
-      </button>
-    </div>
-
-    <div class="sidebar-decoration">
-      <div class="leaf-decoration">♡</div>
-      <p>Cook with what you have.</p>
-    </div>
-  </aside>
+  <app-sidebar></app-sidebar>
 
 
-  <!-- MAIN -->
+  <!-- MAIN CONTENT -->
   <main class="main-content">
 
-    <!-- HEADER -->
+
+    <!-- PAGE HEADER -->
     <header class="page-header">
+
       <div>
-        <p class="eyebrow">WHAT CAN I MAKE?</p>
-        <h2>Recipe Finder</h2>
+
+        <p class="eyebrow">
+          WHAT CAN I MAKE?
+        </p>
+
+        <h2>
+          Recipe Finder
+        </h2>
+
         <p class="subtitle">
           Enter the ingredients you have and we'll find the best recipes for you.
         </p>
+
       </div>
+
     </header>
 
 
     <!-- INGREDIENT INPUT -->
     <div class="input-card">
 
-      <h3>What ingredients do you have?</h3>
+      <h3>
+        What ingredients do you have?
+      </h3>
 
       <p class="input-hint">
         Type an ingredient and press Enter or comma to add it.
       </p>
+
 
       <div class="input-row">
 
@@ -99,6 +51,7 @@
           [(ngModel)]="ingredientInput"
           (keydown)="onInputKeydown($event)"
         />
+
 
         <button
           type="button"
@@ -111,16 +64,24 @@
       </div>
 
 
-      <!-- TAGS -->
-      @if (ingredientsList.length > 0) {
+      <!-- INGREDIENT TAGS -->
+      @if (
+        ingredientsList.length > 0
+      ) {
 
         <div class="tags">
 
-          @for (ingredient of ingredientsList; track ingredient) {
+          @for (
+            ingredient of ingredientsList;
+            track ingredient
+          ) {
 
             <div class="tag">
 
-              <span>{{ ingredient }}</span>
+              <span>
+                {{ ingredient }}
+              </span>
+
 
               <button
                 type="button"
@@ -145,19 +106,28 @@
           type="button"
           class="search-btn"
           (click)="searchRecipes()"
-          [disabled]="ingredientsList.length === 0 || loading"
+          [disabled]="
+            ingredientsList.length === 0 ||
+            loading
+          "
         >
 
           @if (loading) {
+
             Searching...
+
           } @else {
+
             🔍 Find Recipes
+
           }
 
         </button>
 
 
-        @if (ingredientsList.length > 0) {
+        @if (
+          ingredientsList.length > 0
+        ) {
 
           <button
             type="button"
@@ -174,12 +144,44 @@
     </div>
 
 
+    <!-- SUCCESS MESSAGE -->
+    @if (
+      successMessage &&
+      !selectedSuggestion
+    ) {
+
+      <div class="success-message">
+
+        {{ successMessage }}
+
+      </div>
+
+    }
+
+
+    <!-- ERROR MESSAGE -->
+    @if (
+      errorMessage &&
+      !selectedSuggestion
+    ) {
+
+      <div class="error-message">
+
+        {{ errorMessage }}
+
+      </div>
+
+    }
+
+
     <!-- LOADING -->
     @if (loading) {
 
       <div class="state-card">
 
-        <div class="loading-icon">◌</div>
+        <div class="loading-icon">
+          ◌
+        </div>
 
         <p>
           Finding the best recipes for your ingredients...
@@ -190,33 +192,23 @@
     }
 
 
-    <!-- ERROR -->
-    @if (!loading && errorMessage) {
-
-      <div class="error-card">
-
-        <p>{{ errorMessage }}</p>
-
-        <button
-          type="button"
-          (click)="searchRecipes()"
-        >
-          Try again
-        </button>
-
-      </div>
-
-    }
-
-
     <!-- NO RESULTS -->
-    @if (!loading && searched && !errorMessage && suggestions.length === 0) {
+    @if (
+      !loading &&
+      searched &&
+      !errorMessage &&
+      suggestions.length === 0
+    ) {
 
       <div class="empty-card">
 
-        <div class="empty-icon">♡</div>
+        <div class="empty-icon">
+          ♡
+        </div>
 
-        <h3>No recipes found</h3>
+        <h3>
+          No recipes found
+        </h3>
 
         <p>
           Try adding more ingredients or different ones.
@@ -229,23 +221,34 @@
 
 
     <!-- RESULTS -->
-    @if (!loading && suggestions.length > 0) {
+    @if (
+      !loading &&
+      suggestions.length > 0
+    ) {
 
       <div class="results-header">
 
         <h3>
-          Found {{ suggestions.length }}
+
+          Found
+          {{ suggestions.length }}
           recipe{{ suggestions.length > 1 ? 's' : '' }}
+
         </h3>
 
-        <p>Sorted by best ingredient match</p>
+        <p>
+          Sorted by best ingredient match
+        </p>
 
       </div>
 
 
       <div class="recipes-grid">
 
-        @for (suggestion of suggestions; track suggestion.recipe._id) {
+        @for (
+          suggestion of suggestions;
+          track suggestion.recipe._id
+        ) {
 
           <div
             class="recipe-card"
@@ -253,9 +256,9 @@
           >
 
 
+            <!-- RECIPE IMAGE -->
             <div class="recipe-image">
 
-              <!-- CHANGED: use the actual recipe object -->
               <img
                 [src]="getRecipeImage(suggestion.recipe)"
                 [alt]="suggestion.recipe.name"
@@ -265,23 +268,34 @@
 
               <div class="meal-badge">
 
-                {{ getMealTypeIcon(suggestion.recipe.mealType) }}
+                {{ getMealTypeIcon(
+                  suggestion.recipe.mealType
+                ) }}
 
-                {{ getMealTypeLabel(suggestion.recipe.mealType) }}
+                {{ getMealTypeLabel(
+                  suggestion.recipe.mealType
+                ) }}
 
               </div>
 
 
               <div
                 class="match-badge"
-                [style.background]="getMatchColor(suggestion.matchPercentage)"
+                [style.background]="
+                  getMatchColor(
+                    suggestion.matchPercentage
+                  )
+                "
               >
+
                 {{ suggestion.matchPercentage }}% match
+
               </div>
 
             </div>
 
 
+            <!-- RECIPE BODY -->
             <div class="recipe-body">
 
               <h3>
@@ -289,7 +303,9 @@
               </h3>
 
 
-              @if (suggestion.recipe.description) {
+              @if (
+                suggestion.recipe.description
+              ) {
 
                 <p class="recipe-desc">
                   {{ suggestion.recipe.description }}
@@ -301,13 +317,18 @@
               <!-- MATCH INFO -->
               <div class="match-info">
 
-                @if (suggestion.matchedIngredients.length > 0) {
+
+                <!-- YOU HAVE -->
+                @if (
+                  suggestion.matchedIngredients.length > 0
+                ) {
 
                   <div class="match-section">
 
                     <span class="match-label have">
                       ✓ You have
                     </span>
+
 
                     <div class="match-tags">
 
@@ -329,13 +350,17 @@
                 }
 
 
-                @if (suggestion.missingIngredients.length > 0) {
+                <!-- YOU NEED -->
+                @if (
+                  suggestion.missingIngredients.length > 0
+                ) {
 
                   <div class="match-section">
 
                     <span class="match-label missing">
                       ✗ You need
                     </span>
+
 
                     <div class="match-tags">
 
@@ -359,25 +384,16 @@
               </div>
 
 
-              <!-- NUTRITION -->
-              <div class="recipe-nutrition">
-
-                <span class="nutrition-pill calories">
-                  🔥 {{ suggestion.recipe.calories }} kcal
-                </span>
-
-                <span class="nutrition-pill protein">
-                  💪 {{ suggestion.recipe.protein }}g protein
-                </span>
-
-              </div>
-
-
+              <!-- FOOTER -->
               <div class="recipe-footer">
 
                 <span class="ingredients-count">
-                  {{ suggestion.totalIngredients }} ingredients total
+
+                  {{ suggestion.totalIngredients }}
+                  ingredients total
+
                 </span>
+
 
                 <span class="view-btn">
                   View recipe →
@@ -397,17 +413,26 @@
 
 
     <!-- INITIAL STATE -->
-    @if (!loading && !searched) {
+    @if (
+      !loading &&
+      !searched
+    ) {
 
       <div class="intro-card">
 
         <div class="intro-grid">
 
+
+          <!-- ADD INGREDIENTS -->
           <div class="intro-item">
 
-            <div class="intro-icon">📝</div>
+            <div class="intro-icon">
+              📝
+            </div>
 
-            <strong>Add your ingredients</strong>
+            <strong>
+              Add your ingredients
+            </strong>
 
             <p>
               Type what you have in your kitchen
@@ -416,11 +441,16 @@
           </div>
 
 
+          <!-- FIND RECIPES -->
           <div class="intro-item">
 
-            <div class="intro-icon">🔍</div>
+            <div class="intro-icon">
+              🔍
+            </div>
 
-            <strong>Find matching recipes</strong>
+            <strong>
+              Find matching recipes
+            </strong>
 
             <p>
               We match against our recipe database
@@ -429,17 +459,23 @@
           </div>
 
 
+          <!-- KEEP THIS -->
           <div class="intro-item">
 
-            <div class="intro-icon">🍳</div>
+            <div class="intro-icon">
+              🍳
+            </div>
 
-            <strong>Cook & log your meal</strong>
+            <strong>
+              Cook & log your meal
+            </strong>
 
             <p>
               Add it to your Food Diary instantly
             </p>
 
           </div>
+
 
         </div>
 
@@ -451,11 +487,16 @@
     <!-- MOTIVATION -->
     <section class="motivation">
 
-      <div class="motivation-icon">✦</div>
+      <div class="motivation-icon">
+        ✦
+      </div>
+
 
       <div>
 
-        <strong>Cook with what you have.</strong>
+        <strong>
+          Cook with what you have.
+        </strong>
 
         <p>
           Great meals don't need many ingredients —
@@ -464,17 +505,23 @@
 
       </div>
 
-      <span class="motivation-decoration">✿</span>
+
+      <span class="motivation-decoration">
+        ✿
+      </span>
 
     </section>
+
 
   </main>
 
 </div>
 
 
+<!-- ==========================================
+     RECIPE DETAIL MODAL
+     ========================================== -->
 
-<!-- RECIPE DETAIL MODAL -->
 @if (selectedSuggestion) {
 
   <div
@@ -488,11 +535,13 @@
     >
 
 
+      <!-- RECIPE IMAGE -->
       <div class="modal-image">
 
-        <!-- CHANGED: use the actual recipe object -->
         <img
-          [src]="getRecipeImage(selectedSuggestion.recipe)"
+          [src]="getRecipeImage(
+            selectedSuggestion.recipe
+          )"
           [alt]="selectedSuggestion.recipe.name"
           (error)="onImageError($event)"
         />
@@ -509,31 +558,47 @@
 
         <div class="modal-meal-badge">
 
-          {{ getMealTypeIcon(selectedSuggestion.recipe.mealType) }}
+          {{ getMealTypeIcon(
+            selectedSuggestion.recipe.mealType
+          ) }}
 
-          {{ getMealTypeLabel(selectedSuggestion.recipe.mealType) }}
+          {{ getMealTypeLabel(
+            selectedSuggestion.recipe.mealType
+          ) }}
 
         </div>
 
 
         <div
           class="modal-match-badge"
-          [style.background]="getMatchColor(selectedSuggestion.matchPercentage)"
+          [style.background]="
+            getMatchColor(
+              selectedSuggestion.matchPercentage
+            )
+          "
         >
+
           {{ selectedSuggestion.matchPercentage }}% match
+
         </div>
 
       </div>
 
 
+      <!-- MODAL BODY -->
       <div class="modal-body">
 
+
+        <!-- TITLE -->
         <h2>
           {{ selectedSuggestion.recipe.name }}
         </h2>
 
 
-        @if (selectedSuggestion.recipe.description) {
+        <!-- DESCRIPTION -->
+        @if (
+          selectedSuggestion.recipe.description
+        ) {
 
           <p class="modal-desc">
             {{ selectedSuggestion.recipe.description }}
@@ -544,6 +609,7 @@
 
         <!-- MATCH SUMMARY -->
         <div class="modal-match">
+
 
           <div class="modal-match-item have">
 
@@ -583,77 +649,21 @@
 
           </div>
 
-        </div>
-
-
-        <!-- NUTRITION -->
-        <div class="modal-nutrition">
-
-          <div class="modal-nutrition-item">
-
-            <strong>
-              {{ selectedSuggestion.recipe.calories }}
-            </strong>
-
-            <span>kcal</span>
-
-          </div>
-
-
-          <div class="modal-nutrition-item">
-
-            <strong>
-              {{ selectedSuggestion.recipe.protein }}g
-            </strong>
-
-            <span>protein</span>
-
-          </div>
-
-
-          <div class="modal-nutrition-item">
-
-            <strong>
-              {{ selectedSuggestion.recipe.carbs }}g
-            </strong>
-
-            <span>carbs</span>
-
-          </div>
-
-
-          <div class="modal-nutrition-item">
-
-            <strong>
-              {{ selectedSuggestion.recipe.fat }}g
-            </strong>
-
-            <span>fat</span>
-
-          </div>
-
-
-          <div class="modal-nutrition-item">
-
-            <strong>
-              {{ selectedSuggestion.recipe.fiber }}g
-            </strong>
-
-            <span>fiber</span>
-
-          </div>
 
         </div>
 
 
         <!-- INGREDIENTS YOU HAVE -->
-        @if (selectedSuggestion.matchedIngredients.length > 0) {
+        @if (
+          selectedSuggestion.matchedIngredients.length > 0
+        ) {
 
           <div class="modal-section">
 
             <h4>
               ✓ Ingredients you have
             </h4>
+
 
             <div class="modal-tags">
 
@@ -676,13 +686,16 @@
 
 
         <!-- INGREDIENTS YOU NEED -->
-        @if (selectedSuggestion.missingIngredients.length > 0) {
+        @if (
+          selectedSuggestion.missingIngredients.length > 0
+        ) {
 
           <div class="modal-section">
 
             <h4>
               ✗ Ingredients you still need
             </h4>
+
 
             <div class="modal-tags">
 
@@ -704,14 +717,17 @@
         }
 
 
-        <!-- INSTRUCTIONS -->
-        @if (selectedSuggestion.recipe.instructions) {
+        <!-- HOW TO COOK -->
+        @if (
+          selectedSuggestion.recipe.instructions
+        ) {
 
           <div class="modal-section">
 
             <h4>
-              Instructions
+              How to cook
             </h4>
+
 
             <p class="instructions-text">
               {{ selectedSuggestion.recipe.instructions }}
@@ -722,13 +738,66 @@
         }
 
 
-        <button
-          type="button"
-          class="close-btn"
-          (click)="closeRecipe()"
-        >
-          Close
-        </button>
+        <!-- SUCCESS -->
+        @if (successMessage) {
+
+          <div class="success-message">
+
+            {{ successMessage }}
+
+          </div>
+
+        }
+
+
+        <!-- ERROR -->
+        @if (errorMessage) {
+
+          <div class="error-message">
+
+            {{ errorMessage }}
+
+          </div>
+
+        }
+
+
+        <!-- ACTIONS -->
+        <div class="modal-actions">
+
+
+          <!-- KEEP THIS EXACT BUTTON -->
+          <button
+            type="button"
+            class="cook-log-btn"
+            (click)="addRecipeToDiary()"
+            [disabled]="loggingMeal"
+          >
+
+            @if (loggingMeal) {
+
+              Adding...
+
+            } @else {
+
+              🍳 Cook & log your meal
+
+            }
+
+          </button>
+
+
+          <button
+            type="button"
+            class="close-btn"
+            (click)="closeRecipe()"
+          >
+            Close
+          </button>
+
+
+        </div>
+
 
       </div>
 

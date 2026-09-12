@@ -17,42 +17,17 @@
 
 .page-layout {
   min-height: 100vh;
-  display: flex;
   background: var(--cream);
   color: var(--text);
   font-family: Inter, -apple-system, sans-serif;
 }
 
-.sidebar {
-  width: 215px;
+.main-content {
+  margin-left: 190px;
+  width: calc(100% - 190px);
   min-height: 100vh;
-  background: rgba(255,255,255,.72);
-  border-right: 1px solid var(--border);
-  padding: 28px 15px 20px;
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  left: 0; top: 0; bottom: 0;
-  z-index: 10;
+  padding: 34px 40px 45px;
 }
-
-.brand { display: flex; align-items: center; gap: 11px; padding: 0 10px; margin-bottom: 38px; }
-.brand-icon { width: 38px; height: 38px; border-radius: 12px; background: var(--green); color: white; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; }
-.brand-text h1 { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -.4px; }
-.brand-text span { display: block; font-size: 8px; color: var(--text-soft); margin-top: 2px; }
-
-.navigation { display: flex; flex-direction: column; gap: 5px; }
-.nav-item { height: 39px; padding: 0 12px; border-radius: 12px; display: flex; align-items: center; gap: 13px; color: #687067; text-decoration: none; font-size: 12px; transition: background .25s, color .25s, transform .25s; border: none; background: transparent; width: 100%; cursor: pointer; font-family: inherit; }
-.nav-item:hover { background: var(--green-soft); color: var(--green-dark); transform: translateX(3px); }
-.nav-item.active { background: var(--green-soft); color: var(--green-dark); font-weight: 600; }
-.nav-icon { width: 18px; text-align: center; font-size: 14px; }
-.sidebar-bottom { margin-top: auto; border-top: 1px solid var(--border); padding-top: 16px; }
-.logout { color: #8b6f68; }
-.sidebar-decoration { margin: 20px 5px 0; padding: 16px; border-radius: 18px; background: var(--blue-soft); min-height: 90px; }
-.sidebar-decoration p { margin: 8px 0 0; font-family: Georgia, serif; font-size: 12px; line-height: 1.5; color: var(--green-dark); }
-.leaf-decoration { color: var(--blue); font-size: 19px; }
-
-.main-content { margin-left: 215px; width: calc(100% - 215px); min-height: 100vh; padding: 34px 40px 45px; }
 
 .page-header { margin-bottom: 28px; }
 .eyebrow { text-transform: uppercase; letter-spacing: 1.5px; font-size: 9px; color: #718078; font-weight: 600; margin: 0 0 7px; display: block; }
@@ -248,3 +223,105 @@
 .motivation strong { font-family: Georgia, serif; color: var(--green-dark); font-size: 13px; }
 .motivation p { margin: 3px 0 0; font-size: 8px; color: #85847f; }
 .motivation-decoration { margin-left: auto; color: #91b9c9; font-size: 25px; }
+
+@media (max-width: 900px) {
+  .main-content {
+    margin-left: 170px;
+    width: calc(100% - 170px);
+    padding: 28px;
+  }
+}
+
+@media (max-width: 700px) {
+  .main-content {
+    margin-left: 70px;
+    width: calc(100% - 70px);
+    padding: 22px 15px;
+  }
+
+  .water-hero {
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+/* =========================================================
+   WATER — TYPOGRAPHY SIZE UPGRADE
+   Keeps the existing design unchanged.
+   ========================================================= */
+
+.eyebrow {
+  font-size: 12px;
+}
+
+.page-header h2 {
+  font-size: 36px;
+}
+
+.subtitle {
+  font-size: 15px;
+}
+
+.water-ring-inner strong {
+  font-size: 28px;
+}
+
+.water-ring-inner span {
+  font-size: 12px;
+}
+
+.water-pct-label {
+  font-size: 12px;
+}
+
+.water-stat strong {
+  font-size: 19px;
+}
+
+.water-stat span {
+  font-size: 12px;
+}
+
+.progress-labels {
+  font-size: 12px;
+}
+
+.add-water-card h3,
+.log-card h3 {
+  font-size: 20px;
+}
+
+.quick-btn {
+  font-size: 14px;
+}
+
+.custom-amount label {
+  font-size: 13px;
+}
+
+.custom-input-row input {
+  font-size: 15px;
+}
+
+.add-btn {
+  font-size: 15px;
+}
+
+.log-amount {
+  font-size: 14px;
+}
+
+.log-time {
+  font-size: 12px;
+}
+
+.motivation strong {
+  font-size: 14px;
+}
+
+.motivation p {
+  font-size: 12px;
+}
+
+.motivation-decoration {
+  font-size: 26px;
+}

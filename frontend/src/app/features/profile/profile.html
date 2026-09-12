@@ -1,0 +1,380 @@
+<app-sidebar></app-sidebar>
+
+<main class="profile-page">
+
+  <!-- ==========================================
+       LOADING
+  =========================================== -->
+  @if (loading) {
+
+    <div class="loading-container">
+      <div class="loader"></div>
+      <p>Loading your profile...</p>
+    </div>
+
+  }
+
+  <!-- ==========================================
+       ERROR
+  =========================================== -->
+  @else if (errorMessage) {
+
+    <div class="error-container">
+
+      <div class="error-icon">
+        !
+      </div>
+
+      <h2>Something went wrong</h2>
+
+      <p>
+        {{ errorMessage }}
+      </p>
+
+      <button
+        class="retry-button"
+        (click)="loadProfile()">
+        Try Again
+      </button>
+
+    </div>
+
+  }
+
+  <!-- ==========================================
+       PROFILE
+  =========================================== -->
+  @else if (user) {
+
+    <!-- HEADER -->
+    <section class="profile-header">
+
+      <button
+        class="back-button"
+        (click)="goToDashboard()">
+
+        <span>←</span>
+        Back to Dashboard
+
+      </button>
+
+      <div class="header-content">
+
+        <div>
+          <p class="page-label">
+            ACCOUNT
+          </p>
+
+          <h1>
+            My Profile
+          </h1>
+
+          <p class="page-subtitle">
+            Manage and view your personal information.
+          </p>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ==========================================
+         PROFILE CARD
+    =========================================== -->
+    <section class="profile-card">
+
+      <!-- PROFILE TOP -->
+      <div class="profile-top">
+
+        <div class="profile-image-wrapper">
+
+          <img
+            [src]="profileImage"
+            [alt]="fullName + ' profile picture'"
+            (error)="onImageError($event)"
+            class="profile-image"
+          />
+
+        </div>
+
+        <div class="profile-main-info">
+
+          <h2>
+            {{ fullName }}
+          </h2>
+
+          <p class="username">
+            @{{ user.username || 'username' }}
+          </p>
+
+          <p class="email">
+            {{ user.email || 'Email not provided' }}
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- ==========================================
+           PERSONAL INFORMATION
+      =========================================== -->
+      <div class="section">
+
+        <div class="section-title">
+
+          <div class="section-icon">
+            ♡
+          </div>
+
+          <div>
+            <h3>Personal Information</h3>
+
+            <p>
+              Your basic account information
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="information-grid">
+
+          <!-- FIRST NAME -->
+          <div class="information-item">
+
+            <span class="information-label">
+              First Name
+            </span>
+
+            <span class="information-value">
+              {{ user.firstName || 'Not provided' }}
+            </span>
+
+          </div>
+
+
+          <!-- LAST NAME -->
+          <div class="information-item">
+
+            <span class="information-label">
+              Last Name
+            </span>
+
+            <span class="information-value">
+              {{ user.lastName || 'Not provided' }}
+            </span>
+
+          </div>
+
+
+          <!-- USERNAME -->
+          <div class="information-item">
+
+            <span class="information-label">
+              Username
+            </span>
+
+            <span class="information-value">
+              {{ user.username || 'Not provided' }}
+            </span>
+
+          </div>
+
+
+          <!-- EMAIL -->
+          <div class="information-item">
+
+            <span class="information-label">
+              Email
+            </span>
+
+            <span class="information-value">
+              {{ user.email || 'Not provided' }}
+            </span>
+
+          </div>
+
+
+          <!-- GENDER -->
+          <div class="information-item">
+
+            <span class="information-label">
+              Gender
+            </span>
+
+            <span class="information-value">
+              {{ user.gender || 'Not provided' }}
+            </span>
+
+          </div>
+
+
+          <!-- DATE OF BIRTH -->
+          <div class="information-item">
+
+            <span class="information-label">
+              Date of Birth
+            </span>
+
+            <span class="information-value">
+              {{ formattedDateOfBirth }}
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ==========================================
+           BODY & WELLNESS
+      =========================================== -->
+      <div class="section">
+
+        <div class="section-title">
+
+          <div class="section-icon">
+            ✦
+          </div>
+
+          <div>
+            <h3>Body & Wellness</h3>
+
+            <p>
+              Your current health information
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="wellness-grid">
+
+          <!-- WEIGHT -->
+          <div class="wellness-card">
+
+            <div class="wellness-icon">
+              ⚖
+            </div>
+
+            <div>
+
+              <span class="wellness-label">
+                Weight
+              </span>
+
+              <strong>
+                {{ user.weight || '—' }}
+                <small *ngIf="user.weight">kg</small>
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <!-- HEIGHT -->
+          <div class="wellness-card">
+
+            <div class="wellness-icon">
+              ↕
+            </div>
+
+            <div>
+
+              <span class="wellness-label">
+                Height
+              </span>
+
+              <strong>
+                {{ user.height || '—' }}
+                <small *ngIf="user.height">cm</small>
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <!-- GOAL -->
+          <div class="wellness-card goal-card">
+
+            <div class="wellness-icon">
+              ◎
+            </div>
+
+            <div>
+
+              <span class="wellness-label">
+                Wellness Goal
+              </span>
+
+              <strong>
+                {{ user.goal || 'Not provided' }}
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ==========================================
+           ACCOUNT INFORMATION
+      =========================================== -->
+      <div class="section last-section">
+
+        <div class="section-title">
+
+          <div class="section-icon">
+            ✓
+          </div>
+
+          <div>
+            <h3>Account Information</h3>
+
+            <p>
+              Information about your NutriFlow account
+            </p>
+          </div>
+
+        </div>
+
+
+        <div class="account-row">
+
+          <span class="information-label">
+            Member Since
+          </span>
+
+          <span class="information-value">
+            {{ formattedCreatedAt }}
+          </span>
+
+        </div>
+
+        <div class="account-row">
+
+          <span class="information-label">
+            Account Status
+          </span>
+
+          <span class="status-badge">
+            Active
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  }
+
+</main>

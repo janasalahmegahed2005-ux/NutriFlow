@@ -1,212 +1,144 @@
-<div class="sidebar-wrapper">
-
-  <!-- ==========================================
-       BRAND
-       ========================================== -->
+<aside class="sidebar">
 
   <div class="brand">
+
     <div class="brand-icon">
       N
     </div>
 
     <div class="brand-text">
-      <h1>NutriFlow</h1>
-      <span>Nutrition &amp; Wellness</span>
+
+      <h1>
+        NutriFlow
+      </h1>
+
+      <span>
+        Nutrition & Wellness
+      </span>
+
     </div>
+
   </div>
 
 
-  <!-- ==========================================
-       MAIN NAVIGATION
-       ========================================== -->
-
   <nav class="navigation">
 
-    <!-- DASHBOARD -->
     <a
       class="nav-item"
       routerLink="/dashboard"
       routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
     >
-      <span class="nav-icon">
-        ⌂
-      </span>
-
-      <span>
-        Dashboard
-      </span>
+      <span class="nav-icon">⌂</span>
+      <span>Dashboard</span>
     </a>
 
 
-    <!-- FOOD DIARY -->
     <a
       class="nav-item"
       routerLink="/food-diary"
       routerLinkActive="active"
     >
-      <span class="nav-icon">
-        ◷
-      </span>
-
-      <span>
-        Food Diary
-      </span>
+      <span class="nav-icon">◷</span>
+      <span>Food Diary</span>
     </a>
 
 
-    <!-- AI FOOD SCANNER -->
     <a
       class="nav-item"
       routerLink="/ai-scanner"
       routerLinkActive="active"
     >
-      <span class="nav-icon">
-        ⌁
-      </span>
-
-      <span>
-        AI Food Scanner
-      </span>
+      <span class="nav-icon">⌁</span>
+      <span>AI Food Scanner</span>
     </a>
 
 
-    <!-- RECIPES -->
     <a
       class="nav-item"
       routerLink="/recipes"
       routerLinkActive="active"
     >
-      <span class="nav-icon">
-        ♡
-      </span>
-
-      <span>
-        Recipes
-      </span>
+      <span class="nav-icon">♡</span>
+      <span>Recipes</span>
     </a>
 
 
-    <!-- NUTRITION LOOKUP -->
     <a
       class="nav-item"
       routerLink="/nutrition-lookup"
       routerLinkActive="active"
     >
-      <span class="nav-icon">
-        ⌕
-      </span>
-
-      <span>
-        Nutrition Lookup
-      </span>
+      <span class="nav-icon">⌕</span>
+      <span>Nutrition Lookup</span>
     </a>
 
 
-    <!-- MEAL PLANNER -->
     <a
       class="nav-item"
       routerLink="/meal-planner"
       routerLinkActive="active"
     >
-      <span class="nav-icon">
-        ◌
-      </span>
-
-      <span>
-        Meal Planner
-      </span>
+      <span class="nav-icon">◌</span>
+      <span>Meal Planner</span>
     </a>
 
 
-    <!-- WATER -->
     <a
       class="nav-item"
       routerLink="/water"
       routerLinkActive="active"
     >
-      <span class="nav-icon">
-        💧
-      </span>
-
-      <span>
-        Water
-      </span>
+      <span class="nav-icon">💧</span>
+      <span>Water</span>
     </a>
 
 
-    <!-- GOALS -->
     <a
       class="nav-item"
       routerLink="/goals"
       routerLinkActive="active"
     >
-      <span class="nav-icon">
-        ◎
-      </span>
-
-      <span>
-        Goals
-      </span>
+      <span class="nav-icon">◎</span>
+      <span>Goals</span>
     </a>
 
   </nav>
 
 
-  <!-- ==========================================
-       BOTTOM NAVIGATION
-       ========================================== -->
-
   <div class="sidebar-bottom">
 
-    <!-- SETTINGS -->
     <a
       class="nav-item"
       routerLink="/settings"
       routerLinkActive="active"
     >
-      <span class="nav-icon">
-        ⚙
-      </span>
-
-      <span>
-        Settings
-      </span>
+      <span class="nav-icon">⚙</span>
+      <span>Settings</span>
     </a>
 
 
-    <!-- LOG OUT -->
     <button
       type="button"
       class="nav-item logout"
       (click)="logout()"
     >
-      <span class="nav-icon">
-        ↪
-      </span>
-
-      <span>
-        Log out
-      </span>
+      <span class="nav-icon">↪</span>
+      <span>Log out</span>
     </button>
 
   </div>
 
 
-  <!-- ==========================================
-       DECORATION
-       ========================================== -->
-
   <div class="sidebar-decoration">
 
     <div class="leaf-decoration">
-      ♡
+      ✦
     </div>
 
     <p>
-      Cook with what you have.
+      Small choices create big changes.
     </p>
 
   </div>
 
-</div>
+</aside>

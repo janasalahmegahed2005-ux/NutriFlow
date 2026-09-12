@@ -20,6 +20,18 @@ const userSchema = new mongoose.Schema(
       match: /^[A-Za-z]+$/,
     },
 
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      sparse: true,
+      lowercase: true,
+      trim: true,
+      minlength: 3,
+      maxlength: 30,
+      match: /^(?=.*[A-Za-z]).+$/,
+    },
+
     email: {
       type: String,
       required: true,
@@ -77,6 +89,7 @@ const userSchema = new mongoose.Schema(
       default: "/uploads/users/default-user.png",
     },
   },
+
   {
     timestamps: true,
   }

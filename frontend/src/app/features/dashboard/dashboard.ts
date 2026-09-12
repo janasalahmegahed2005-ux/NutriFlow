@@ -1,13 +1,14 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+import { SidebarComponent } from '../../shared/sidebar';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, DecimalPipe],
+  imports: [RouterLink, DecimalPipe, SidebarComponent],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css'
 })
@@ -15,7 +16,6 @@ export class Dashboard implements OnInit {
 
   user: any = null;
 
-  // Nutrition data
   calories = 0;
   calorieTarget = 2000;
   protein = 0;
@@ -25,16 +25,13 @@ export class Dashboard implements OnInit {
   fat = 0;
   fatTarget = 65;
 
-  // Meals
   meals: any[] = [];
 
-  // State
   loading = false;
   errorMessage = '';
 
   constructor(
     private authService: AuthService,
-    private router: Router,
     private http: HttpClient,
     private cdr: ChangeDetectorRef
   ) {
@@ -49,13 +46,7 @@ export class Dashboard implements OnInit {
     this.loadDashboardData();
   }
 
-  // ==========================================
-  // GETTERS
-  // ==========================================
-
-  get firstName(): string {
-    return this.user?.firstName || 'User';
-  }
+  get firstName(): string { return this.user?.firstName || 'User'; }
 
   get fullName(): string {
     if (!this.user) return 'User';
@@ -105,20 +96,13 @@ export class Dashboard implements OnInit {
     if (!date) return '';
     const mealDate = new Date(date);
     if (isNaN(mealDate.getTime())) return '';
-    return mealDate.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit'
-    });
+    return mealDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
   }
 
   onImageError(event: Event): void {
     const img = event.target as HTMLImageElement;
     img.style.display = 'none';
   }
-
-  // ==========================================
-  // LOAD DASHBOARD DATA
-  // ==========================================
 
   loadDashboardData(): void {
     this.loading = true;
@@ -134,56 +118,27 @@ export class Dashboard implements OnInit {
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
     const today = this.getTodayDate();
 
-    this.http.get<any>(
-      `http://localhost:5000/api/meals?date=${today}`,
-      { headers }
-    ).subscribe({
+    this.http.get<any>(`http://localhost:5000/api/meals?date=${today}`, { headers }).subscribe({
       next: (response: any) => {
         const meals = response.meals || [];
         this.meals = meals;
-
-        this.calories = meals.reduce(
-          (sum: number, m: any) => sum + (m.calories || 0), 0
-        );
-        this.protein = Math.round(
-          meals.reduce((sum: number, m: any) => sum + (m.protein || 0), 0) * 10
-        ) / 10;
-        this.carbs = Math.round(
-          meals.reduce((sum: number, m: any) => sum + (m.carbs || 0), 0) * 10
-        ) / 10;
-        this.fat = Math.round(
-          meals.reduce((sum: number, m: any) => sum + (m.fat || 0), 0) * 10
-        ) / 10;
-
+        this.calories = meals.reduce((sum: number, m: any) => sum + (m.calories || 0), 0);
+        this.protein = Math.round(meals.reduce((sum: number, m: any) => sum + (m.protein || 0), 0) * 10) / 10;
+        this.carbs = Math.round(meals.reduce((sum: number, m: any) => sum + (m.carbs || 0), 0) * 10) / 10;
+        this.fat = Math.round(meals.reduce((sum: number, m: any) => sum + (m.fat || 0), 0) * 10) / 10;
         this.loading = false;
         this.cdr.detectChanges();
       },
-
       error: (error: any) => {
-        console.error('Dashboard load error:', error);
-        this.errorMessage =
-          error?.error?.message ||
-          'Failed to load your data. Please try again.';
+        this.errorMessage = error?.error?.message || 'Failed to load your data. Please try again.';
         this.loading = false;
         this.cdr.detectChanges();
       }
     });
   }
 
-  // ==========================================
-  // HELPERS
-  // ==========================================
-
   private getTodayDate(): string {
     const today = new Date();
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  }
-
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
+    return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   }
 }

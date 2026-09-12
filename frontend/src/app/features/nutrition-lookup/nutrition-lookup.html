@@ -1,124 +1,12 @@
 <div class="nutrition-page">
 
-  <!-- ==================================================
-       SIDEBAR
-  ================================================== -->
+  <!-- SHARED SIDEBAR -->
+  <app-sidebar></app-sidebar>
 
-  <aside class="sidebar">
-
-    <div class="brand">
-
-      <div class="brand-icon">
-        N
-      </div>
-
-      <div class="brand-text">
-        <h1>NutriFlow</h1>
-        <span>Nutrition & Wellness</span>
-      </div>
-
-    </div>
-
-
-    <nav class="navigation">
-
-      <a
-        class="nav-item"
-        routerLink="/dashboard"
-      >
-        <span class="nav-icon">⌂</span>
-        <span>Dashboard</span>
-      </a>
-
-
-      <a
-        class="nav-item"
-        routerLink="/food-diary"
-      >
-        <span class="nav-icon">◷</span>
-        <span>Food Diary</span>
-      </a>
-
-
-      <a
-        class="nav-item"
-        routerLink="/ai-scanner"
-      >
-        <span class="nav-icon">⌁</span>
-        <span>AI Food Scanner</span>
-      </a>
-
-
-      <a
-        class="nav-item"
-        routerLink="/recipes"
-      >
-        <span class="nav-icon">♡</span>
-        <span>Recipes</span>
-      </a>
-
-
-      <!-- NEW FEATURE -->
-
-      <a
-        class="nav-item active"
-        routerLink="/nutrition-lookup"
-      >
-        <span class="nav-icon">⌕</span>
-        <span>Nutrition Lookup</span>
-      </a>
-
-
-      <a
-        class="nav-item"
-        routerLink="/meal-planner"
-      >
-        <span class="nav-icon">◌</span>
-        <span>Meal Planner</span>
-      </a>
-
-
-      <a
-        class="nav-item"
-        routerLink="/water"
-      >
-        <span class="nav-icon">💧</span>
-        <span>Water</span>
-      </a>
-
-
-      <a
-        class="nav-item"
-        routerLink="/goals"
-      >
-        <span class="nav-icon">◎</span>
-        <span>Goals</span>
-      </a>
-
-    </nav>
-
-
-    <div class="sidebar-bottom">
-
-      <a
-        class="nav-item"
-        routerLink="/settings"
-      >
-        <span class="nav-icon">⚙</span>
-        <span>Settings</span>
-      </a>
-
-    </div>
-
-  </aside>
-
-
-  <!-- ==================================================
-       MAIN CONTENT
-  ================================================== -->
-
+  <!-- MAIN CONTENT -->
   <main class="main-content">
 
+    <!-- HERO -->
     <section class="hero">
 
       <div class="eyebrow">
@@ -130,17 +18,13 @@
       </h2>
 
       <p>
-        Search any food to instantly see its calories,
-        macros and fiber.
+        Search any food to instantly see its calories, macros and fiber.
       </p>
 
     </section>
 
 
-    <!-- ==================================================
-         SEARCH
-    ================================================== -->
-
+    <!-- SEARCH -->
     <section class="search-card">
 
       <div class="search-label">
@@ -164,22 +48,18 @@
 
         </div>
 
-
         <button
           class="search-button"
           type="button"
           (click)="searchFoods()"
           [disabled]="loading"
         >
-
           @if (loading) {
             Searching...
           } @else {
             Search
           }
-
         </button>
-
 
         @if (searched) {
 
@@ -197,10 +77,11 @@
 
 
       <!-- QUICK SEARCH -->
-
       <div class="quick-search">
 
-        <span>Popular:</span>
+        <span>
+          Popular:
+        </span>
 
         <button
           type="button"
@@ -242,10 +123,7 @@
     </section>
 
 
-    <!-- ==================================================
-         ERROR
-    ================================================== -->
-
+    <!-- ERROR -->
     @if (errorMessage) {
 
       <div class="error-message">
@@ -255,20 +133,15 @@
     }
 
 
-    <!-- ==================================================
-         SEARCH RESULTS
-    ================================================== -->
-
-    @if (
-      !selectedFood &&
-      searchResults.length > 0
-    ) {
+    <!-- SEARCH RESULTS -->
+    @if (!selectedFood && searchResults.length > 0) {
 
       <section class="results-section">
 
         <div class="section-heading">
 
           <div>
+
             <span class="section-eyebrow">
               SEARCH RESULTS
             </span>
@@ -276,6 +149,7 @@
             <h3>
               Choose a food
             </h3>
+
           </div>
 
           <span class="result-count">
@@ -309,9 +183,9 @@
                 </strong>
 
                 <span>
-                  {{ food.calories }} kcal
-                  · {{ food.protein }}g protein
-                  · {{ food.carbs }}g carbs
+                  {{ food.calories }} kcal ·
+                  {{ food.protein }}g protein ·
+                  {{ food.carbs }}g carbs
                 </span>
 
               </div>
@@ -331,14 +205,12 @@
     }
 
 
-    <!-- ==================================================
-         SELECTED FOOD
-    ================================================== -->
-
+    <!-- SELECTED FOOD -->
     @if (selectedFood) {
 
       <section class="nutrition-card">
 
+        <!-- FOOD HEADER -->
         <div class="food-header">
 
           <div>
@@ -358,7 +230,6 @@
 
           </div>
 
-
           <button
             class="change-food"
             type="button"
@@ -370,8 +241,7 @@
         </div>
 
 
-        <!-- SERVING SIZE -->
-
+        <!-- SERVING -->
         <div class="serving-card">
 
           <div>
@@ -385,7 +255,6 @@
             </strong>
 
           </div>
-
 
           <div class="serving-control">
 
@@ -404,7 +273,9 @@
               [(ngModel)]="servingSize"
             />
 
-            <span>g</span>
+            <span>
+              g
+            </span>
 
           </div>
 
@@ -412,7 +283,6 @@
 
 
         <!-- CALORIES -->
-
         <div class="calories-card">
 
           <div class="calorie-icon">
@@ -439,7 +309,6 @@
 
 
         <!-- MACROS -->
-
         <div class="macro-grid">
 
           <div class="macro-card protein">
@@ -528,11 +397,12 @@
         </div>
 
 
-        <!-- NOTE -->
-
+        <!-- INFORMATION NOTE -->
         <div class="info-note">
 
-          <span>ⓘ</span>
+          <span>
+            ⓘ
+          </span>
 
           <p>
             This is a nutrition lookup only.
@@ -546,21 +416,21 @@
     }
 
 
-    <!-- ==================================================
-         EMPTY / INTRO
-    ================================================== -->
-
-    @if (
-      !searched &&
-      !selectedFood
-    ) {
+    <!-- INTRO -->
+    @if (!searched && !selectedFood) {
 
       <section class="intro-section">
 
         <div class="intro-title">
-          <span>✦</span>
+
+          <span>
+            ✦
+          </span>
+
           What would you like to know?
+
         </div>
+
 
         <div class="intro-grid">
 
@@ -575,8 +445,7 @@
             </h4>
 
             <p>
-              Find out how many calories
-              are in your food.
+              Find out how many calories are in your food.
             </p>
 
           </div>
@@ -593,8 +462,7 @@
             </h4>
 
             <p>
-              Check protein, carbs and
-              fat instantly.
+              Check protein, carbs and fat instantly.
             </p>
 
           </div>
@@ -611,8 +479,7 @@
             </h4>
 
             <p>
-              Adjust the serving size
-              to match what you eat.
+              Adjust the serving size to match what you eat.
             </p>
 
           </div>

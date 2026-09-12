@@ -4,6 +4,7 @@ const protect = require("../middleware/authMiddleware");
 
 const {
   validateNutritionProfile,
+  validateNutritionProfileUpdate,
   handleValidationErrors,
 } = require("../middleware/validationMiddleware");
 
@@ -16,11 +17,7 @@ const {
 
 const router = express.Router();
 
-
-// ==========================================
 // CREATE NUTRITION PROFILE
-// Protected + Validated
-// ==========================================
 router.post(
   "/",
   protect,
@@ -29,40 +26,27 @@ router.post(
   createNutritionProfile
 );
 
-
-// ==========================================
 // GET MY NUTRITION PROFILE
-// Protected route
-// ==========================================
 router.get(
   "/",
   protect,
   getNutritionProfile
 );
 
-
-// ==========================================
 // UPDATE MY NUTRITION PROFILE
-// Protected + Validated
-// ==========================================
 router.put(
   "/",
   protect,
-  ...validateNutritionProfile,
+  ...validateNutritionProfileUpdate,
   handleValidationErrors,
   updateNutritionProfile
 );
 
-
-// ==========================================
 // DELETE MY NUTRITION PROFILE
-// Protected route
-// ==========================================
 router.delete(
   "/",
   protect,
   deleteNutritionProfile
 );
-
 
 module.exports = router;

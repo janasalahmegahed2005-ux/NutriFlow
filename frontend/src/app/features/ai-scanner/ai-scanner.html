@@ -1,30 +1,237 @@
 <div class="page-layout">
-  <aside class="sidebar">
-    <div class="brand"><div class="brand-icon">N</div><div class="brand-text"><h1>NutriFlow</h1><span>Nutrition & Wellness</span></div></div>
-    <nav class="navigation">
-      <a class="nav-item" routerLink="/dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
-      <a class="nav-item" routerLink="/food-diary"><span class="nav-icon">◷</span><span>Food Diary</span></a>
-      <a class="nav-item active" routerLink="/ai-scanner"><span class="nav-icon">⌁</span><span>AI Food Scanner</span></a>
-      <a class="nav-item" routerLink="/recipes"><span class="nav-icon">♡</span><span>Recipes</span></a>
-      <a class="nav-item" routerLink="/meal-planner"><span class="nav-icon">◌</span><span>Meal Planner</span></a>
-      <a class="nav-item" routerLink="/water"><span class="nav-icon">💧</span><span>Water</span></a>
-      <a class="nav-item" routerLink="/goals"><span class="nav-icon">◎</span><span>Goals</span></a>
-    </nav>
-    <div class="sidebar-bottom">
-      <a class="nav-item" routerLink="/settings"><span class="nav-icon">⚙</span><span>Settings</span></a>
-      <button type="button" class="nav-item logout" (click)="logout()"><span class="nav-icon">↪</span><span>Log out</span></button>
-    </div>
-  </aside>
+
+  <app-sidebar></app-sidebar>
+
   <main class="main-content">
+
     <header class="page-header">
       <p class="eyebrow">AI POWERED</p>
+
       <h2>AI Food Scanner</h2>
-      <p class="subtitle">Take a photo of your meal and let AI identify the nutrition instantly.</p>
+
+      <p class="subtitle">
+        Take a photo of your meal and let AI identify the nutrition instantly.
+      </p>
     </header>
-    <div class="coming-soon">
-      <div class="coming-icon">⌁</div>
-      <h3>AI Scanner Coming Soon</h3>
-      <p>Snap a photo of any meal and our AI will instantly calculate calories, protein, carbs, and fat. Coming very soon!</p>
-    </div>
+
+
+    <!-- Scanner Card -->
+    <section class="scanner-card">
+
+      <div class="scanner-intro">
+        <div class="scanner-icon">✦</div>
+
+        <h3>Scan Your Meal</h3>
+
+        <p>
+          Upload a photo of your food and our AI will identify the meal
+          and estimate its nutritional values.
+        </p>
+      </div>
+
+
+      <!-- No image selected -->
+      <div
+        class="upload-area"
+        *ngIf="!imagePreview"
+      >
+
+        <div class="upload-icon">📷</div>
+
+        <h4>Upload a food photo</h4>
+
+        <p>
+          Choose a JPG, PNG, or WEBP image
+        </p>
+
+        <label class="upload-button">
+          Choose Photo
+          <input
+            type="file"
+            accept="image/jpeg,image/jpg,image/png,image/webp"
+            (change)="onImageSelected($event)"
+            hidden
+          />
+        </label>
+
+      </div>
+
+
+      <!-- Image preview -->
+      <div
+        class="preview-section"
+        *ngIf="imagePreview"
+      >
+
+        <div class="image-wrapper">
+
+          <img
+            [src]="imagePreview"
+            alt="Selected food"
+            class="food-preview"
+          />
+
+        </div>
+
+
+        <div class="preview-actions">
+
+          <label class="secondary-button">
+            Choose Another Photo
+
+            <input
+              type="file"
+              accept="image/jpeg,image/jpg,image/png,image/webp"
+              (change)="onImageSelected($event)"
+              hidden
+            />
+          </label>
+
+          <button
+            type="button"
+            class="remove-button"
+            (click)="removeImage()"
+            [disabled]="isAnalyzing"
+          >
+            Remove
+          </button>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="analyze-button"
+          (click)="analyzeImage()"
+          [disabled]="isAnalyzing"
+        >
+
+          <span *ngIf="!isAnalyzing">
+            ✦ Analyze My Meal
+          </span>
+
+          <span *ngIf="isAnalyzing">
+            Analyzing your meal...
+          </span>
+
+        </button>
+
+      </div>
+
+
+      <!-- Loading -->
+      <div
+        class="loading-box"
+        *ngIf="isAnalyzing"
+      >
+
+        <div class="spinner"></div>
+
+        <h4>AI is analyzing your meal</h4>
+
+        <p>
+          Please wait while NutriFlow identifies the food and estimates
+          its nutrition.
+        </p>
+
+      </div>
+
+
+      <!-- Error -->
+      <div
+        class="error-message"
+        *ngIf="errorMessage"
+      >
+        {{ errorMessage }}
+      </div>
+
+
+      <!-- Result -->
+      <div
+        class="result-card"
+        *ngIf="result && !isAnalyzing"
+      >
+
+        <div class="result-header">
+
+          <div>
+            <p class="result-label">AI RESULT</p>
+
+            <h3>{{ result.foodName }}</h3>
+
+            <p class="result-description">
+              {{ result.description }}
+            </p>
+          </div>
+
+          <div class="confidence">
+
+            <span>Confidence</span>
+
+            <strong>
+              {{ result.confidence }}%
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <div class="serving-info">
+
+          <span>Estimated serving</span>
+
+          <strong>
+            {{ result.estimatedServingGrams }} g
+          </strong>
+
+        </div>
+
+
+        <div class="nutrition-grid">
+
+          <div class="nutrition-item calories">
+            <span>Calories</span>
+            <strong>{{ result.calories }}</strong>
+            <small>kcal</small>
+          </div>
+
+          <div class="nutrition-item">
+            <span>Protein</span>
+            <strong>{{ result.protein }}</strong>
+            <small>g</small>
+          </div>
+
+          <div class="nutrition-item">
+            <span>Carbs</span>
+            <strong>{{ result.carbs }}</strong>
+            <small>g</small>
+          </div>
+
+          <div class="nutrition-item">
+            <span>Fat</span>
+            <strong>{{ result.fat }}</strong>
+            <small>g</small>
+          </div>
+
+          <div class="nutrition-item">
+            <span>Fiber</span>
+            <strong>{{ result.fiber }}</strong>
+            <small>g</small>
+          </div>
+
+        </div>
+
+
+        <div class="result-note">
+          <span>ⓘ</span>
+          Nutrition values are AI estimates and may not be exact.
+        </div>
+
+      </div>
+
+    </section>
+
   </main>
+
 </div>

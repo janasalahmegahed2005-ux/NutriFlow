@@ -1,0 +1,763 @@
+/* ==========================================
+   NUTRIFLOW PROFILE
+   ========================================== */
+
+:host {
+  display: block;
+  min-height: 100vh;
+
+  --cream: #f8f7f3;
+  --green-dark: #223d19;
+  --green: #405c36;
+  --green-soft: #dce8d7;
+
+  --rose: #d7a6ad;
+  --rose-soft: #f1dfe1;
+
+  --blue-soft: #dceaf0;
+  --peach-soft: #f5e1d4;
+
+  --text: #292b27;
+  --text-soft: #73766f;
+
+  --border: #e2dfd6;
+  --white: #ffffff;
+}
+
+
+/* ==========================================
+   PAGE
+   ========================================== */
+
+.profile-page {
+  width: calc(100% - 215px);
+  min-height: 100vh;
+
+  margin-left: 215px;
+
+  padding: 42px 48px 50px;
+
+  box-sizing: border-box;
+
+  background:
+    radial-gradient(
+      circle at 85% 5%,
+      rgba(218, 193, 197, 0.25),
+      transparent 30%
+    ),
+    #f8f5ef;
+
+  color: var(--text);
+}
+
+
+/* ==========================================
+   HEADER
+   ========================================== */
+
+.profile-header {
+  max-width: 1100px;
+  margin: 0 auto 28px;
+}
+
+
+/* ==========================================
+   BACK BUTTON
+   ========================================== */
+
+.back-button {
+  border: none;
+  background: transparent;
+
+  color: #687067;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  padding: 0;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.back-button span {
+  font-size: 19px;
+  line-height: 1;
+}
+
+.back-button:hover {
+  color: var(--green);
+  transform: translateX(-3px);
+}
+
+
+/* ==========================================
+   HEADER TEXT
+   ========================================== */
+
+.header-content {
+  margin-top: 24px;
+}
+
+.page-label {
+  margin: 0 0 7px;
+
+  color: #7d857b;
+
+  font-size: 11px;
+  font-weight: 600;
+
+  letter-spacing: 2px;
+}
+
+.header-content h1 {
+  margin: 0;
+
+  color: var(--green-dark);
+
+  font-family: Georgia, serif;
+
+  font-size: clamp(38px, 4vw, 54px);
+
+  font-weight: 400;
+
+  letter-spacing: -1.5px;
+
+  line-height: 1.05;
+}
+
+.page-subtitle {
+  margin: 10px 0 0;
+
+  color: var(--text-soft);
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+
+/* ==========================================
+   MAIN PROFILE CARD
+   ========================================== */
+
+.profile-card {
+  max-width: 1100px;
+  margin: 0 auto;
+
+  background: rgba(255, 255, 255, 0.82);
+
+  border: 1px solid var(--border);
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 12px 35px rgba(42, 50, 40, 0.06);
+
+  overflow: hidden;
+}
+
+
+/* ==========================================
+   PROFILE TOP
+   ========================================== */
+
+.profile-top {
+  padding: 34px 38px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 25px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(220, 232, 215, 0.75),
+      rgba(255, 255, 255, 0.7)
+    );
+
+  border-bottom: 1px solid var(--border);
+}
+
+
+/* ==========================================
+   PROFILE IMAGE
+   ========================================== */
+
+.profile-image-wrapper {
+  width: 112px;
+  height: 112px;
+
+  flex-shrink: 0;
+
+  padding: 4px;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  border: 1px solid #d9e2d5;
+
+  box-shadow:
+    0 6px 18px rgba(52, 73, 48, 0.10);
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+}
+
+
+/* ==========================================
+   PROFILE MAIN INFO
+   ========================================== */
+
+.profile-main-info h2 {
+  margin: 0;
+
+  color: var(--green-dark);
+
+  font-family: Georgia, serif;
+
+  font-size: 30px;
+
+  font-weight: 500;
+
+  letter-spacing: -0.5px;
+}
+
+.username {
+  margin: 6px 0 4px;
+
+  color: var(--green);
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.email {
+  margin: 0;
+
+  color: var(--text-soft);
+
+  font-size: 13px;
+}
+
+
+/* ==========================================
+   SECTIONS
+   ========================================== */
+
+.section {
+  padding: 32px 38px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.last-section {
+  border-bottom: none;
+}
+
+
+/* ==========================================
+   SECTION TITLE
+   ========================================== */
+
+.section-title {
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  margin-bottom: 23px;
+}
+
+.section-icon {
+  width: 38px;
+  height: 38px;
+
+  flex-shrink: 0;
+
+  border-radius: 11px;
+
+  background: var(--green-soft);
+
+  color: var(--green);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+}
+
+.section-title h3 {
+  margin: 0;
+
+  color: var(--green-dark);
+
+  font-family: Georgia, serif;
+
+  font-size: 20px;
+
+  font-weight: 500;
+}
+
+.section-title p {
+  margin: 3px 0 0;
+
+  color: var(--text-soft);
+
+  font-size: 12px;
+}
+
+
+/* ==========================================
+   PERSONAL INFORMATION GRID
+   ========================================== */
+
+.information-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 13px;
+}
+
+.information-item {
+  min-height: 72px;
+
+  padding: 16px 18px;
+
+  background: #fbfaf7;
+
+  border: 1px solid #ebe8df;
+
+  border-radius: 13px;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+
+  gap: 6px;
+}
+
+.information-label {
+  color: #898d85;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+}
+
+.information-value {
+  color: var(--text);
+
+  font-size: 14px;
+
+  font-weight: 500;
+
+  word-break: break-word;
+}
+
+
+/* ==========================================
+   WELLNESS GRID
+   ========================================== */
+
+.wellness-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 14px;
+}
+
+.wellness-card {
+  min-height: 105px;
+
+  padding: 20px;
+
+  border-radius: 15px;
+
+  background: var(--green-soft);
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  border: 1px solid #d3e2ce;
+}
+
+.wellness-card:nth-child(2) {
+  background: var(--blue-soft);
+  border-color: #d0e2e9;
+}
+
+.wellness-card:nth-child(3) {
+  background: var(--rose-soft);
+  border-color: #ead3d7;
+}
+
+.wellness-icon {
+  width: 42px;
+  height: 42px;
+
+  flex-shrink: 0;
+
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.65);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--green);
+
+  font-size: 19px;
+}
+
+.wellness-label {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #70776e;
+
+  font-size: 10px;
+
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.9px;
+}
+
+.wellness-card strong {
+  display: block;
+
+  color: var(--green-dark);
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  line-height: 1.35;
+}
+
+.wellness-card small {
+  font-size: 11px;
+
+  color: #70776e;
+
+  font-weight: 500;
+}
+
+.goal-card strong {
+  font-size: 14px;
+}
+
+
+/* ==========================================
+   ACCOUNT ROW
+   ========================================== */
+
+.account-row {
+  min-height: 55px;
+
+  padding: 0 3px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom: 1px solid #eeeae2;
+}
+
+.account-row:last-child {
+  border-bottom: none;
+}
+
+
+/* ==========================================
+   STATUS
+   ========================================== */
+
+.status-badge {
+  padding: 6px 12px;
+
+  border-radius: 20px;
+
+  background: var(--green-soft);
+
+  color: #3d6338;
+
+  font-size: 11px;
+
+  font-weight: 600;
+}
+
+
+/* ==========================================
+   LOADING
+   ========================================== */
+
+.loading-container {
+  min-height: 70vh;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  color: var(--text-soft);
+
+  font-size: 13px;
+}
+
+.loader {
+  width: 34px;
+  height: 34px;
+
+  margin-bottom: 14px;
+
+  border: 3px solid #dce8d7;
+
+  border-top-color: var(--green);
+
+  border-radius: 50%;
+
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* ==========================================
+   ERROR
+   ========================================== */
+
+.error-container {
+  max-width: 520px;
+
+  min-height: 60vh;
+
+  margin: auto;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.error-icon {
+  width: 52px;
+  height: 52px;
+
+  border-radius: 50%;
+
+  background: var(--rose-soft);
+
+  color: #9a5d66;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 24px;
+  font-weight: 600;
+
+  margin-bottom: 16px;
+}
+
+.error-container h2 {
+  margin: 0;
+
+  color: var(--green-dark);
+
+  font-family: Georgia, serif;
+
+  font-size: 25px;
+
+  font-weight: 500;
+}
+
+.error-container p {
+  margin: 9px 0 20px;
+
+  color: var(--text-soft);
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+.retry-button {
+  border: none;
+
+  background: var(--green);
+
+  color: white;
+
+  border-radius: 10px;
+
+  padding: 10px 19px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.retry-button:hover {
+  background: var(--green-dark);
+
+  transform: translateY(-1px);
+}
+
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 900px) {
+
+  .profile-page {
+    padding: 30px 28px 50px;
+  }
+
+  .wellness-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .goal-card {
+    grid-column: 1 / -1;
+  }
+}
+
+
+@media (max-width: 650px) {
+
+  .profile-page {
+    padding: 24px 18px 40px;
+  }
+
+  .profile-top {
+    padding: 26px 22px;
+
+    flex-direction: column;
+
+    text-align: center;
+  }
+
+  .profile-main-info h2 {
+    font-size: 26px;
+  }
+
+  .section {
+    padding: 26px 22px;
+  }
+
+  .information-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wellness-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .goal-card {
+    grid-column: auto;
+  }
+
+  .account-row {
+    gap: 15px;
+  }
+}
+
+
+@media (max-width: 430px) {
+
+  .profile-page {
+    padding: 20px 14px 35px;
+  }
+
+  .profile-header {
+    margin-bottom: 22px;
+  }
+
+  .header-content h1 {
+    font-size: 36px;
+  }
+
+  .profile-card {
+    border-radius: 18px;
+  }
+
+  .profile-image-wrapper {
+    width: 95px;
+    height: 95px;
+  }
+}
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+  .profile-page {
+    width: calc(100% - 215px);
+    margin-left: 215px;
+    padding: 30px;
+  }
+
+}
+
+
+@media (max-width: 750px) {
+
+  .profile-page {
+    width: 100%;
+    margin-left: 0;
+    padding: 22px 16px 35px;
+  }
+
+}

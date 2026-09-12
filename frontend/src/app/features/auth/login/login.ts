@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class Login {
 
-  email: string = '';
+  identifier: string = '';
   password: string = '';
   isLoading: boolean = false;
 
@@ -24,15 +25,21 @@ export class Login {
 
   onLogin(): void {
 
-    if (!this.email || !this.password) {
-      alert('Please enter your email and password.');
+    if (!this.identifier || !this.password) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Missing Information',
+        text: 'Please enter your email/username and password.',
+        confirmButtonText: 'OK'
+      });
+
       return;
     }
 
     this.isLoading = true;
 
     const loginData = {
-      email: this.email,
+      identifier: this.identifier,
       password: this.password
     };
 
@@ -46,7 +53,10 @@ export class Login {
         console.log('Login successful:', response);
 
         if (response.token && response.user) {
-          this.authService.saveAuth(response.token, response.user);
+          this.authService.saveAuth(
+            response.token,
+            response.user
+          );
         }
 
         this.router.navigate(['/dashboard']);
@@ -60,12 +70,18 @@ export class Login {
 
         const message =
           error?.error?.message ||
-          'Invalid email or password.';
+          'Invalid email/username or password.';
 
-        alert(message);
+        Swal.fire({
+          icon: 'error',
+          title: 'Login Failed',
+          text: message,
+          confirmButtonText: 'Try Again'
+        });
 
         this.isLoading = false;
       }
+
     });
   }
 }

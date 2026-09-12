@@ -1,30 +1,1070 @@
 <div class="page-layout">
-  <aside class="sidebar">
-    <div class="brand"><div class="brand-icon">N</div><div class="brand-text"><h1>NutriFlow</h1><span>Nutrition & Wellness</span></div></div>
-    <nav class="navigation">
-      <a class="nav-item" routerLink="/dashboard"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
-      <a class="nav-item" routerLink="/food-diary"><span class="nav-icon">◷</span><span>Food Diary</span></a>
-      <a class="nav-item" routerLink="/ai-scanner"><span class="nav-icon">⌁</span><span>AI Food Scanner</span></a>
-      <a class="nav-item" routerLink="/recipes"><span class="nav-icon">♡</span><span>Recipes</span></a>
-      <a class="nav-item active" routerLink="/meal-planner"><span class="nav-icon">◌</span><span>Meal Planner</span></a>
-      <a class="nav-item" routerLink="/water"><span class="nav-icon">💧</span><span>Water</span></a>
-      <a class="nav-item" routerLink="/goals"><span class="nav-icon">◎</span><span>Goals</span></a>
-    </nav>
-    <div class="sidebar-bottom">
-      <a class="nav-item" routerLink="/settings"><span class="nav-icon">⚙</span><span>Settings</span></a>
-      <button type="button" class="nav-item logout" (click)="logout()"><span class="nav-icon">↪</span><span>Log out</span></button>
-    </div>
-  </aside>
+
+  <app-sidebar></app-sidebar>
+
   <main class="main-content">
+
+    <!-- HEADER -->
     <header class="page-header">
-      <p class="eyebrow">PLAN YOUR MEALS</p>
-      <h2>Meal Planner</h2>
-      <p class="subtitle">Plan your meals ahead of time to stay on track with your goals.</p>
+      <div>
+        <p class="eyebrow">PLAN YOUR MEALS</p>
+
+        <h2>Meal Planner</h2>
+
+        <p class="subtitle">
+          Organize your meals ahead of time and stay consistent with your nutrition goals.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="add-button"
+        (click)="openAddForm()"
+      >
+        + Plan a meal
+      </button>
     </header>
-    <div class="coming-soon">
-      <div class="coming-icon">◌</div>
-      <h3>Meal Planner Coming Soon</h3>
-      <p>Plan your weekly meals, set targets, and stay consistent. This feature is on its way!</p>
-    </div>
+
+
+    <!-- MESSAGES -->
+    @if (successMessage) {
+      <div class="success-message">
+        {{ successMessage }}
+      </div>
+    }
+
+    @if (errorMessage) {
+      <div class="error-message">
+        {{ errorMessage }}
+      </div>
+    }
+
+
+    <!-- WEEK NAVIGATION -->
+    <section class="week-card">
+
+      <div class="week-top">
+
+        <div>
+          <p class="section-label">YOUR WEEK</p>
+
+          <h3>
+            {{ getWeekRange() }}
+          </h3>
+        </div>
+
+        <div class="week-actions">
+
+          <button
+            type="button"
+            class="today-button"
+            (click)="goToToday()"
+          >
+            Today
+          </button>
+
+          <button
+            type="button"
+            class="week-arrow"
+            (click)="previousWeek()"
+            aria-label="Previous week"
+          >
+            ‹
+          </button>
+
+          <button
+            type="button"
+            class="week-arrow"
+            (click)="nextWeek()"
+            aria-label="Next week"
+          >
+            ›
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- DAYS -->
+      <div class="days-grid">
+
+        @for (day of weekDays; track day.getTime()) {
+
+          <button
+            type="button"
+            class="day-card"
+            [class.selected]="isSelectedDate(day)"
+            [class.today]="isToday(day)"
+            (click)="selectDate(day)"
+          >
+
+            <span class="day-name">
+              {{ day | date:'EEE' }}
+            </span>
+
+            <strong class="day-number">
+              {{ day | date:'d' }}
+            </strong>
+
+            <span class="day-month">
+              {{ day | date:'MMM' }}
+            </span>
+
+          </button>
+
+        }
+
+      </div>
+
+    </section>
+
+
+    <!-- SELECTED DAY -->
+    <section class="day-section">
+
+      <div class="day-header">
+
+        <div>
+          <p class="section-label">SELECTED DAY</p>
+
+          <h3>
+            {{ selectedDate | date:'EEEE, MMMM d' }}
+          </h3>
+        </div>
+
+        <button
+          type="button"
+          class="small-add-button"
+          (click)="openAddForm()"
+        >
+          + Add meal
+        </button>
+
+      </div>
+
+
+      <!-- LOADING -->
+      @if (loading) {
+
+        <div class="loading-card">
+
+          <div class="loading-spinner">
+            ◌
+          </div>
+
+          <p>
+            Loading your meal plan...
+          </p>
+
+        </div>
+
+      }
+
+
+      @if (!loading) {
+
+        <!-- DAILY NUTRITION SUMMARY -->
+        <div class="nutrition-summary">
+
+          <!-- CALORIES -->
+          <div class="summary-item">
+
+            <span class="summary-icon">
+              🔥
+            </span>
+
+            <div>
+              <strong>
+                {{ getDailyCalories() }}
+              </strong>
+
+              <span>
+                kcal
+              </span>
+            </div>
+
+          </div>
+
+
+          <!-- PROTEIN -->
+          <div class="summary-item">
+
+            <span class="summary-icon">
+              🥩
+            </span>
+
+            <div>
+              <strong>
+                {{ getDailyProtein() | number:'1.0-1' }}g
+              </strong>
+
+              <span>
+                protein
+              </span>
+            </div>
+
+          </div>
+
+
+          <!-- CARBS -->
+          <div class="summary-item">
+
+            <span class="summary-icon">
+              🍞
+            </span>
+
+            <div>
+              <strong>
+                {{ getDailyCarbs() | number:'1.0-1' }}g
+              </strong>
+
+              <span>
+                carbs
+              </span>
+            </div>
+
+          </div>
+
+
+          <!-- FAT -->
+          <div class="summary-item">
+
+            <span class="summary-icon">
+              🥑
+            </span>
+
+            <div>
+              <strong>
+                {{ getDailyFat() | number:'1.0-1' }}g
+              </strong>
+
+              <span>
+                fat
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             BREAKFAST
+             ================================================= -->
+
+        <div class="meal-section">
+
+          <div class="meal-section-header">
+
+            <div class="meal-title">
+
+              <div class="meal-icon breakfast">
+                ☀️
+              </div>
+
+              <div>
+
+                <h4>
+                  Breakfast
+                </h4>
+
+                <span>
+                  {{ getMealsByType('breakfast').length }} planned
+                </span>
+
+              </div>
+
+            </div>
+
+            <button
+              type="button"
+              class="section-add"
+              (click)="openAddForm()"
+            >
+              +
+            </button>
+
+          </div>
+
+
+          @if (getMealsByType('breakfast').length === 0) {
+
+            <div class="empty-meal">
+              No breakfast planned yet.
+            </div>
+
+          }
+
+
+          @for (meal of getMealsByType('breakfast'); track meal._id) {
+
+            <div class="meal-row">
+
+              <div class="meal-info">
+
+                <div class="food-placeholder">
+                  {{ getMealTypeIcon(meal.mealType) }}
+                </div>
+
+                <div>
+
+                  <strong>
+                    {{ meal.name }}
+                  </strong>
+
+                  @if (meal.quantity) {
+                    <span>
+                      {{ meal.quantity }}g
+                    </span>
+                  }
+
+                </div>
+
+              </div>
+
+
+              <div class="meal-nutrition">
+
+                <span>
+                  <strong>
+                    {{ meal.calories }}
+                  </strong>
+                  kcal
+                </span>
+
+                <span>
+                  <strong>
+                    {{ meal.protein }}g
+                  </strong>
+                  protein
+                </span>
+
+                <button
+                  type="button"
+                  class="edit-button"
+                  (click)="openEditForm(meal)"
+                >
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  class="delete-button"
+                  (click)="deleteMeal(meal)"
+                >
+                  ×
+                </button>
+
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+
+        <!-- =================================================
+             LUNCH
+             ================================================= -->
+
+        <div class="meal-section">
+
+          <div class="meal-section-header">
+
+            <div class="meal-title">
+
+              <div class="meal-icon lunch">
+                🥗
+              </div>
+
+              <div>
+
+                <h4>
+                  Lunch
+                </h4>
+
+                <span>
+                  {{ getMealsByType('lunch').length }} planned
+                </span>
+
+              </div>
+
+            </div>
+
+            <button
+              type="button"
+              class="section-add"
+              (click)="openAddForm()"
+            >
+              +
+            </button>
+
+          </div>
+
+
+          @if (getMealsByType('lunch').length === 0) {
+
+            <div class="empty-meal">
+              No lunch planned yet.
+            </div>
+
+          }
+
+
+          @for (meal of getMealsByType('lunch'); track meal._id) {
+
+            <div class="meal-row">
+
+              <div class="meal-info">
+
+                <div class="food-placeholder">
+                  {{ getMealTypeIcon(meal.mealType) }}
+                </div>
+
+                <div>
+
+                  <strong>
+                    {{ meal.name }}
+                  </strong>
+
+                  @if (meal.quantity) {
+                    <span>
+                      {{ meal.quantity }}g
+                    </span>
+                  }
+
+                </div>
+
+              </div>
+
+
+              <div class="meal-nutrition">
+
+                <span>
+                  <strong>
+                    {{ meal.calories }}
+                  </strong>
+                  kcal
+                </span>
+
+                <span>
+                  <strong>
+                    {{ meal.protein }}g
+                  </strong>
+                  protein
+                </span>
+
+                <button
+                  type="button"
+                  class="edit-button"
+                  (click)="openEditForm(meal)"
+                >
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  class="delete-button"
+                  (click)="deleteMeal(meal)"
+                >
+                  ×
+                </button>
+
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+
+        <!-- =================================================
+             DINNER
+             ================================================= -->
+
+        <div class="meal-section">
+
+          <div class="meal-section-header">
+
+            <div class="meal-title">
+
+              <div class="meal-icon dinner">
+                🍽️
+              </div>
+
+              <div>
+
+                <h4>
+                  Dinner
+                </h4>
+
+                <span>
+                  {{ getMealsByType('dinner').length }} planned
+                </span>
+
+              </div>
+
+            </div>
+
+            <button
+              type="button"
+              class="section-add"
+              (click)="openAddForm()"
+            >
+              +
+            </button>
+
+          </div>
+
+
+          @if (getMealsByType('dinner').length === 0) {
+
+            <div class="empty-meal">
+              No dinner planned yet.
+            </div>
+
+          }
+
+
+          @for (meal of getMealsByType('dinner'); track meal._id) {
+
+            <div class="meal-row">
+
+              <div class="meal-info">
+
+                <div class="food-placeholder">
+                  {{ getMealTypeIcon(meal.mealType) }}
+                </div>
+
+                <div>
+
+                  <strong>
+                    {{ meal.name }}
+                  </strong>
+
+                  @if (meal.quantity) {
+                    <span>
+                      {{ meal.quantity }}g
+                    </span>
+                  }
+
+                </div>
+
+              </div>
+
+
+              <div class="meal-nutrition">
+
+                <span>
+                  <strong>
+                    {{ meal.calories }}
+                  </strong>
+                  kcal
+                </span>
+
+                <span>
+                  <strong>
+                    {{ meal.protein }}g
+                  </strong>
+                  protein
+                </span>
+
+                <button
+                  type="button"
+                  class="edit-button"
+                  (click)="openEditForm(meal)"
+                >
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  class="delete-button"
+                  (click)="deleteMeal(meal)"
+                >
+                  ×
+                </button>
+
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+
+        <!-- =================================================
+             SNACK
+             ================================================= -->
+
+        <div class="meal-section">
+
+          <div class="meal-section-header">
+
+            <div class="meal-title">
+
+              <div class="meal-icon snack">
+                🍎
+              </div>
+
+              <div>
+
+                <h4>
+                  Snack
+                </h4>
+
+                <span>
+                  {{ getMealsByType('snack').length }} planned
+                </span>
+
+              </div>
+
+            </div>
+
+            <button
+              type="button"
+              class="section-add"
+              (click)="openAddForm()"
+            >
+              +
+            </button>
+
+          </div>
+
+
+          @if (getMealsByType('snack').length === 0) {
+
+            <div class="empty-meal">
+              No snacks planned yet.
+            </div>
+
+          }
+
+
+          @for (meal of getMealsByType('snack'); track meal._id) {
+
+            <div class="meal-row">
+
+              <div class="meal-info">
+
+                <div class="food-placeholder">
+                  {{ getMealTypeIcon(meal.mealType) }}
+                </div>
+
+                <div>
+
+                  <strong>
+                    {{ meal.name }}
+                  </strong>
+
+                  @if (meal.quantity) {
+                    <span>
+                      {{ meal.quantity }}g
+                    </span>
+                  }
+
+                </div>
+
+              </div>
+
+
+              <div class="meal-nutrition">
+
+                <span>
+                  <strong>
+                    {{ meal.calories }}
+                  </strong>
+                  kcal
+                </span>
+
+                <span>
+                  <strong>
+                    {{ meal.protein }}g
+                  </strong>
+                  protein
+                </span>
+
+                <button
+                  type="button"
+                  class="edit-button"
+                  (click)="openEditForm(meal)"
+                >
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  class="delete-button"
+                  (click)="deleteMeal(meal)"
+                >
+                  ×
+                </button>
+
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+
+        <!-- =================================================
+             EMPTY DAY
+             ================================================= -->
+
+        @if (getMealsForSelectedDay().length === 0) {
+
+          <div class="empty-day">
+
+            <div class="empty-day-icon">
+              ◌
+            </div>
+
+            <h3>
+              Nothing planned yet
+            </h3>
+
+            <p>
+              Start planning your meals for this day.
+            </p>
+
+            <button
+              type="button"
+              class="empty-add-button"
+              (click)="openAddForm()"
+            >
+              + Plan your first meal
+            </button>
+
+          </div>
+
+        }
+
+      }
+
+    </section>
+
+
+    <!-- MOTIVATION -->
+    <section class="motivation">
+
+      <div class="motivation-icon">
+        ✦
+      </div>
+
+      <div>
+
+        <strong>
+          Plan today. Feel better tomorrow.
+        </strong>
+
+        <p>
+          Preparing your meals ahead of time makes staying on track easier.
+        </p>
+
+      </div>
+
+      <span class="motivation-decoration">
+        ✿
+      </span>
+
+    </section>
+
   </main>
+
+
+  <!-- =====================================================
+       ADD / EDIT MEAL MODAL
+       ===================================================== -->
+
+  @if (showForm) {
+
+    <div
+      class="modal-backdrop"
+      (click)="closeForm()"
+    >
+
+      <div
+        class="modal"
+        (click)="$event.stopPropagation()"
+      >
+
+        <!-- MODAL HEADER -->
+        <div class="modal-header">
+
+          <div>
+
+            <p class="section-label">
+              MEAL PLAN
+            </p>
+
+            <h3>
+              {{ editingMealId ? 'Edit planned meal' : 'Plan a meal' }}
+            </h3>
+
+          </div>
+
+          <button
+            type="button"
+            class="modal-close"
+            (click)="closeForm()"
+          >
+            ×
+          </button>
+
+        </div>
+
+
+        <!-- MODAL BODY -->
+        <div class="modal-body">
+
+          <!-- MEAL TYPE -->
+          <div class="form-field">
+
+            <label>
+              Meal type
+            </label>
+
+            <div class="meal-type-tabs">
+
+              <button
+                type="button"
+                [class.active]="mealForm.mealType === 'breakfast'"
+                (click)="mealForm.mealType = 'breakfast'"
+              >
+                ☀️ Breakfast
+              </button>
+
+              <button
+                type="button"
+                [class.active]="mealForm.mealType === 'lunch'"
+                (click)="mealForm.mealType = 'lunch'"
+              >
+                🥗 Lunch
+              </button>
+
+              <button
+                type="button"
+                [class.active]="mealForm.mealType === 'dinner'"
+                (click)="mealForm.mealType = 'dinner'"
+              >
+                🍽️ Dinner
+              </button>
+
+              <button
+                type="button"
+                [class.active]="mealForm.mealType === 'snack'"
+                (click)="mealForm.mealType = 'snack'"
+              >
+                🍎 Snack
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <!-- MEAL NAME -->
+          <div class="form-field">
+
+            <label for="meal-name">
+              Meal name
+            </label>
+
+            <input
+              id="meal-name"
+              type="text"
+              class="form-input"
+              placeholder="e.g. Grilled chicken with rice"
+              [(ngModel)]="mealForm.name"
+            />
+
+          </div>
+
+
+          <!-- DATE -->
+          <div class="form-field">
+
+            <label for="meal-date">
+              Date
+            </label>
+
+            <input
+              id="meal-date"
+              type="date"
+              class="form-input"
+              [(ngModel)]="mealForm.date"
+            />
+
+          </div>
+
+
+          <!-- QUANTITY -->
+          <div class="form-field">
+
+            <label for="meal-quantity">
+              Quantity (g)
+            </label>
+
+            <input
+              id="meal-quantity"
+              type="number"
+              min="0"
+              class="form-input"
+              [(ngModel)]="mealForm.quantity"
+            />
+
+          </div>
+
+
+          <!-- NUTRITION -->
+          <div class="nutrition-form">
+
+            <!-- CALORIES -->
+            <div class="form-field">
+
+              <label for="meal-calories">
+                Calories
+              </label>
+
+              <input
+                id="meal-calories"
+                type="number"
+                min="0"
+                class="form-input"
+                [(ngModel)]="mealForm.calories"
+              />
+
+            </div>
+
+
+            <!-- PROTEIN -->
+            <div class="form-field">
+
+              <label for="meal-protein">
+                Protein (g)
+              </label>
+
+              <input
+                id="meal-protein"
+                type="number"
+                min="0"
+                class="form-input"
+                [(ngModel)]="mealForm.protein"
+              />
+
+            </div>
+
+
+            <!-- CARBS -->
+            <div class="form-field">
+
+              <label for="meal-carbs">
+                Carbs (g)
+              </label>
+
+              <input
+                id="meal-carbs"
+                type="number"
+                min="0"
+                class="form-input"
+                [(ngModel)]="mealForm.carbs"
+              />
+
+            </div>
+
+
+            <!-- FAT -->
+            <div class="form-field">
+
+              <label for="meal-fat">
+                Fat (g)
+              </label>
+
+              <input
+                id="meal-fat"
+                type="number"
+                min="0"
+                class="form-input"
+                [(ngModel)]="mealForm.fat"
+              />
+
+            </div>
+
+
+            <!-- FIBER -->
+            <div class="form-field">
+
+              <label for="meal-fiber">
+                Fiber (g)
+              </label>
+
+              <input
+                id="meal-fiber"
+                type="number"
+                min="0"
+                class="form-input"
+                [(ngModel)]="mealForm.fiber"
+              />
+
+            </div>
+
+          </div>
+
+
+          @if (errorMessage) {
+
+            <div class="form-error">
+              {{ errorMessage }}
+            </div>
+
+          }
+
+        </div>
+
+
+        <!-- MODAL FOOTER -->
+        <div class="modal-footer">
+
+          <button
+            type="button"
+            class="cancel-button"
+            (click)="closeForm()"
+            [disabled]="saving"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="button"
+            class="save-button"
+            (click)="saveMeal()"
+            [disabled]="saving"
+          >
+
+            @if (saving) {
+
+              Saving...
+
+            } @else {
+
+              {{ editingMealId ? 'Save changes' : 'Plan meal' }}
+
+            }
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
 </div>

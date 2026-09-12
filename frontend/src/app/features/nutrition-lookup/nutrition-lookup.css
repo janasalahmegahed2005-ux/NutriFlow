@@ -1,125 +1,24 @@
 /* ======================================================
-   PAGE
+   NUTRIFLOW - NUTRITION LOOKUP
+====================================================== */
+
+/* ======================================================
+   PAGE LAYOUT
 ====================================================== */
 
 .nutrition-page {
   min-height: 100vh;
-  display: flex;
-  background: #f8f6f0;
-  color: #263b2b;
-  font-family: Arial, sans-serif;
+  background: #f8f7f2;
 }
-
 
 /* ======================================================
-   SIDEBAR
-====================================================== */
-
-.sidebar {
-  width: 220px;
-  min-height: 100vh;
-  background: #fffefa;
-  border-right: 1px solid #e5e2d9;
-  padding: 26px 18px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-}
-
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  padding: 0 8px 30px;
-}
-
-
-.brand-icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  background: #41623d;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 17px;
-}
-
-
-.brand-text h1 {
-  margin: 0;
-  font-family: Georgia, serif;
-  font-size: 16px;
-}
-
-
-.brand-text span {
-  display: block;
-  font-size: 8px;
-  color: #9a9a91;
-  margin-top: 2px;
-}
-
-
-.navigation {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  height: 43px;
-  padding: 0 12px;
-  border-radius: 11px;
-  color: #667064;
-  text-decoration: none;
-  font-size: 12px;
-  transition: 0.2s ease;
-}
-
-
-.nav-item:hover {
-  background: #f1f3eb;
-}
-
-
-.nav-item.active {
-  background: #dce9d6;
-  color: #31512e;
-  font-weight: 600;
-}
-
-
-.nav-icon {
-  width: 17px;
-  text-align: center;
-  font-size: 14px;
-}
-
-
-.sidebar-bottom {
-  margin-top: auto;
-  border-top: 1px solid #e7e4dc;
-  padding-top: 18px;
-}
-
-
-/* ======================================================
-   MAIN
+   MAIN CONTENT
 ====================================================== */
 
 .main-content {
-  flex: 1;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 55px 65px 70px;
+  margin-left: 230px;
+  min-height: 100vh;
+  padding: 30px 27px;
   box-sizing: border-box;
 }
 
@@ -129,203 +28,215 @@
 ====================================================== */
 
 .hero {
-  margin-bottom: 32px;
+  max-width: 900px;
+  margin: 0 auto 30px;
 }
 
-
-.eyebrow,
-.section-eyebrow {
-  font-size: 10px;
+.eyebrow {
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 1.6px;
-  color: #8b927f;
+  letter-spacing: 2px;
+  color: #6d8b6a;
+  margin-bottom: 8px;
 }
-
 
 .hero h2 {
-  margin: 8px 0 8px;
-  font-family: Georgia, serif;
-  font-size: 38px;
-  color: #29442d;
+  margin: 0;
+  color: #294d2b;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 42px;
+  line-height: 1.15;
+  font-weight: 700;
 }
-
 
 .hero p {
-  margin: 0;
-  color: #7a8077;
-  font-size: 14px;
+  margin: 10px 0 0;
+  color: #77766f;
+  font-size: 15px;
+  line-height: 1.6;
 }
-
 
 /* ======================================================
    SEARCH CARD
 ====================================================== */
 
 .search-card {
-  background: #fffefa;
-  border: 1px solid #e7e3da;
-  border-radius: 20px;
-  padding: 25px;
-  box-shadow: 0 8px 25px rgba(50, 60, 45, 0.04);
+  max-width: 900px;
+  margin: 0 auto 30px;
+  padding: 26px;
+  background: #ffffff;
+  border: 1px solid #e5e1d7;
+  border-radius: 18px;
+  box-sizing: border-box;
 }
-
 
 .search-label {
-  font-size: 12px;
-  font-weight: 700;
-  color: #4b584a;
   margin-bottom: 10px;
+  color: #334d35;
+  font-size: 13px;
+  font-weight: 700;
 }
-
 
 .search-row {
   display: flex;
+  align-items: center;
   gap: 10px;
 }
 
-
 .search-box {
-  flex: 1;
-  height: 50px;
-  border: 1px solid #d9ddd2;
-  background: #fafbf7;
-  border-radius: 13px;
   display: flex;
   align-items: center;
-  padding: 0 15px;
+  flex: 1;
+  min-width: 0;
+  height: 44px;
+  padding: 0 14px;
+  background: #fafbf8;
+  border: 1px solid #d9ded5;
+  border-radius: 12px;
+  box-sizing: border-box;
 }
-
 
 .search-icon {
-  font-size: 21px;
-  color: #87937e;
   margin-right: 9px;
+  color: #6d8b6a;
+  font-size: 20px;
+  line-height: 1;
 }
-
 
 .search-box input {
   width: 100%;
   border: none;
   outline: none;
   background: transparent;
+  color: #304332;
+  font-family: inherit;
   font-size: 14px;
-  color: #344332;
 }
-
 
 .search-box input::placeholder {
-  color: #a5aaa0;
+  color: #a1a59e;
 }
 
-
-.search-button {
-  border: none;
-  border-radius: 13px;
-  padding: 0 27px;
-  background: #41623d;
-  color: white;
+.search-button,
+.clear-button {
+  height: 44px;
+  padding: 0 22px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 13px;
   font-weight: 700;
   cursor: pointer;
+  transition: 0.2s ease;
 }
 
+.search-button {
+  border: 1px solid #426b3e;
+  background: #426b3e;
+  color: white;
+}
 
 .search-button:hover {
-  background: #355431;
+  background: #355a32;
 }
-
 
 .search-button:disabled {
-  opacity: 0.6;
-  cursor: wait;
+  opacity: 0.65;
+  cursor: not-allowed;
 }
-
 
 .clear-button {
-  border: 1px solid #d8ddd2;
-  background: white;
-  color: #65705f;
-  border-radius: 13px;
-  padding: 0 18px;
-  cursor: pointer;
+  border: 1px solid #d8ddd4;
+  background: #ffffff;
+  color: #526051;
 }
 
+.clear-button:hover {
+  background: #f4f6f1;
+}
 
 .quick-search {
   display: flex;
   align-items: center;
-  gap: 7px;
-  margin-top: 16px;
   flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
 }
 
-
-.quick-search span {
-  font-size: 11px;
-  color: #92988e;
+.quick-search > span {
   margin-right: 3px;
-}
-
-
-.quick-search button {
-  border: 1px solid #dce2d7;
-  background: #f1f5ec;
-  color: #52634f;
-  border-radius: 20px;
-  padding: 6px 12px;
-  font-size: 11px;
-  cursor: pointer;
-}
-
-
-.quick-search button:hover {
-  background: #e1ebdc;
-}
-
-
-/* ======================================================
-   ERROR
-====================================================== */
-
-.error-message {
-  margin-top: 18px;
-  background: #fff0ed;
-  color: #a34f43;
-  border: 1px solid #f0d2cc;
-  padding: 13px 16px;
-  border-radius: 12px;
+  color: #85877f;
   font-size: 12px;
 }
 
+.quick-search button {
+  padding: 6px 13px;
+  border: 1px solid #d9dfd4;
+  border-radius: 20px;
+  background: #f5f7f2;
+  color: #52624f;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.quick-search button:hover {
+  background: #e8eee4;
+}
 
 /* ======================================================
-   RESULTS
+   ERROR MESSAGE
+====================================================== */
+
+.error-message {
+  max-width: 900px;
+  margin: 0 auto 24px;
+  padding: 13px 16px;
+  border: 1px solid #ebcfcf;
+  border-radius: 12px;
+  background: #fff4f3;
+  color: #9a4c48;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+/* ======================================================
+   SEARCH RESULTS
 ====================================================== */
 
 .results-section {
-  margin-top: 34px;
+  max-width: 900px;
+  margin: 0 auto 30px;
 }
-
 
 .section-heading {
   display: flex;
-  align-items: end;
+  align-items: flex-end;
   justify-content: space-between;
+  gap: 20px;
   margin-bottom: 15px;
 }
 
+.section-eyebrow {
+  display: block;
+  margin-bottom: 5px;
+  color: #759071;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.7px;
+}
 
 .section-heading h3 {
-  margin: 5px 0 0;
-  font-family: Georgia, serif;
+  margin: 0;
+  color: #294d2b;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 25px;
 }
 
-
 .result-count {
-  font-size: 11px;
-  color: #8d9489;
+  color: #898b84;
+  font-size: 12px;
 }
-
 
 .food-results {
   display: grid;
@@ -333,426 +244,654 @@
   gap: 12px;
 }
 
-
 .food-result {
-  width: 100%;
-  min-height: 78px;
   display: flex;
   align-items: center;
+  width: 100%;
+  min-height: 76px;
+  padding: 14px;
+  border: 1px solid #e3e1d8;
+  border-radius: 14px;
+  background: #ffffff;
   text-align: left;
-  gap: 13px;
-  padding: 15px;
-  background: #fffefa;
-  border: 1px solid #e5e3db;
-  border-radius: 15px;
   cursor: pointer;
   transition: 0.2s ease;
+  box-sizing: border-box;
 }
-
 
 .food-result:hover {
-  transform: translateY(-2px);
-  border-color: #b9c9b2;
-  box-shadow: 0 8px 20px rgba(50, 70, 45, 0.06);
+  border-color: #bfd0b9;
+  transform: translateY(-1px);
 }
 
-
 .food-result-icon {
-  width: 42px;
-  height: 42px;
-  flex-shrink: 0;
-  border-radius: 12px;
-  background: #edf2e8;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 19px;
+  width: 42px;
+  height: 42px;
+  margin-right: 12px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: #eef4eb;
+  font-size: 20px;
 }
 
-
 .food-result-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
   flex: 1;
 }
 
-
 .food-result-info strong {
-  display: block;
-  color: #344832;
-  font-size: 13px;
-  margin-bottom: 5px;
+  overflow: hidden;
+  color: #304b32;
+  font-size: 14px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-
 
 .food-result-info span {
-  font-size: 10px;
-  color: #92988e;
+  overflow: hidden;
+  color: #898d86;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-
 
 .arrow {
-  color: #6d8068;
+  margin-left: 10px;
+  color: #63815e;
   font-size: 18px;
 }
-
 
 /* ======================================================
    NUTRITION CARD
 ====================================================== */
 
 .nutrition-card {
-  margin-top: 34px;
-  background: #fffefa;
-  border: 1px solid #e4e1d8;
-  border-radius: 22px;
-  padding: 30px;
-  box-shadow: 0 10px 30px rgba(50, 60, 45, 0.05);
+  max-width: 900px;
+  margin: 0 auto 30px;
+  padding: 28px;
+  border: 1px solid #e4e1d7;
+  border-radius: 18px;
+  background: #ffffff;
+  box-sizing: border-box;
 }
-
 
 .food-header {
   display: flex;
-  justify-content: space-between;
-  gap: 20px;
   align-items: flex-start;
+  justify-content: space-between;
+  gap: 25px;
+  margin-bottom: 24px;
 }
-
 
 .food-header h3 {
-  margin: 7px 0;
-  font-family: Georgia, serif;
-  font-size: 30px;
-  color: #29442d;
+  margin: 0;
+  color: #294d2b;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 27px;
+  line-height: 1.25;
 }
-
 
 .food-header p {
-  margin: 0;
+  margin: 8px 0 0;
+  color: #858880;
   font-size: 12px;
-  color: #858b82;
+  line-height: 1.5;
 }
 
-
 .change-food {
-  border: none;
-  background: transparent;
-  color: #567052;
-  font-size: 11px;
-  font-weight: 600;
+  flex-shrink: 0;
+  padding: 9px 14px;
+  border: 1px solid #d8dfd4;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #4d6849;
+  font-family: inherit;
+  font-size: 12px;
   cursor: pointer;
 }
 
+.change-food:hover {
+  background: #f4f7f2;
+}
 
 /* ======================================================
-   SERVING
+   SERVING CARD
 ====================================================== */
 
 .serving-card {
-  margin-top: 27px;
-  padding: 18px 20px;
-  background: #f4f6ef;
-  border-radius: 15px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  margin-bottom: 16px;
+  padding: 18px;
+  border-radius: 14px;
+  background: #f6f8f4;
 }
-
 
 .serving-label {
   display: block;
-  font-size: 10px;
-  color: #899183;
   margin-bottom: 4px;
+  color: #7d827b;
+  font-size: 11px;
 }
-
 
 .serving-card strong {
-  font-size: 17px;
-  color: #3a4f36;
+  color: #314b32;
+  font-size: 18px;
 }
-
 
 .serving-control {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex: 1;
+  max-width: 430px;
 }
-
 
 .serving-control input[type="range"] {
-  width: 180px;
+  flex: 1;
+  accent-color: #426b3e;
+  cursor: pointer;
 }
-
 
 .serving-control input[type="number"] {
-  width: 70px;
-  padding: 9px;
-  border: 1px solid #d6ddd0;
+  width: 80px;
+  height: 38px;
+  padding: 0 9px;
+  border: 1px solid #d8ded4;
   border-radius: 9px;
-  background: white;
-  text-align: center;
+  background: #ffffff;
+  color: #354b37;
+  font-family: inherit;
+  font-size: 13px;
+  box-sizing: border-box;
 }
-
 
 .serving-control span {
-  font-size: 11px;
-  color: #7e8779;
+  color: #777c74;
+  font-size: 12px;
 }
-
 
 /* ======================================================
    CALORIES
 ====================================================== */
 
 .calories-card {
-  margin-top: 20px;
-  padding: 23px;
-  border-radius: 17px;
-  background: #fff2dd;
   display: flex;
   align-items: center;
   gap: 15px;
+  margin-bottom: 16px;
+  padding: 20px;
+  border-radius: 14px;
+  background: #edf5e9;
 }
 
-
 .calorie-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  background: #ffe4bd;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  width: 48px;
+  height: 48px;
+  border-radius: 13px;
+  background: #ffffff;
+  font-size: 23px;
 }
-
 
 .calories-card span {
   display: block;
-  font-size: 11px;
-  color: #917858;
+  margin-bottom: 3px;
+  color: #6f796c;
+  font-size: 12px;
 }
-
 
 .calories-card strong {
-  font-family: Georgia, serif;
-  font-size: 31px;
-  color: #664b29;
   margin-right: 5px;
+  color: #294d2b;
+  font-size: 28px;
 }
-
 
 .calories-card small {
+  color: #737b70;
   font-size: 12px;
-  color: #917858;
 }
-
 
 /* ======================================================
    MACROS
 ====================================================== */
 
 .macro-grid {
-  margin-top: 14px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
 }
 
-
 .macro-card {
-  padding: 18px;
-  border-radius: 15px;
   display: flex;
-  gap: 11px;
   align-items: center;
+  gap: 11px;
+  min-width: 0;
+  padding: 16px;
+  border-radius: 14px;
+  box-sizing: border-box;
 }
-
 
 .macro-card.protein {
-  background: #eaf2ec;
+  background: #e8f1f5;
 }
-
 
 .macro-card.carbs {
-  background: #edf3f6;
+  background: #eee8f5;
 }
-
 
 .macro-card.fat {
-  background: #f8eee5;
+  background: #f8e8db;
 }
-
 
 .macro-card.fiber {
-  background: #eeeef6;
+  background: #edf0df;
 }
-
 
 .macro-icon {
-  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.75);
+  font-size: 17px;
 }
-
 
 .macro-card span {
   display: block;
-  font-size: 10px;
-  color: #7c837a;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
+  color: #6f746d;
+  font-size: 11px;
 }
-
 
 .macro-card strong {
+  color: #344d35;
   font-size: 17px;
-  color: #344632;
 }
 
-
 /* ======================================================
-   INFO NOTE
+   INFORMATION NOTE
 ====================================================== */
 
 .info-note {
-  margin-top: 18px;
-  padding: 13px 15px;
-  background: #f8f7f2;
-  border-radius: 11px;
   display: flex;
-  gap: 9px;
-  align-items: center;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #f8f5ec;
 }
 
-
-.info-note span {
-  color: #71816c;
+.info-note > span {
+  color: #7b8e71;
+  font-size: 16px;
 }
-
 
 .info-note p {
   margin: 0;
-  font-size: 10px;
-  color: #858b82;
+  color: #777a72;
+  font-size: 11px;
+  line-height: 1.5;
 }
 
-
 /* ======================================================
-   INTRO
+   INTRO SECTION
 ====================================================== */
 
 .intro-section {
-  margin-top: 45px;
+  max-width: 900px;
+  margin: 34px auto 0;
 }
-
 
 .intro-title {
-  font-family: Georgia, serif;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 15px;
+  color: #345438;
+  font-family: Georgia, "Times New Roman", serif;
   font-size: 21px;
-  color: #3a4f36;
-  margin-bottom: 17px;
 }
-
 
 .intro-title span {
-  color: #c9989c;
-  margin-right: 5px;
+  color: #c58eaa;
+  font-size: 17px;
 }
-
 
 .intro-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
 }
-
 
 .intro-card {
-  padding: 22px;
-  background: #fffefa;
-  border: 1px solid #e7e3da;
-  border-radius: 17px;
+  padding: 20px;
+  border: 1px solid #e4e1d8;
+  border-radius: 15px;
+  background: #ffffff;
+  box-sizing: border-box;
 }
-
 
 .intro-icon {
-  font-size: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
   margin-bottom: 13px;
+  border-radius: 11px;
+  background: #f3f5ef;
+  font-size: 20px;
 }
-
 
 .intro-card h4 {
   margin: 0 0 7px;
-  color: #40533d;
+  color: #334d35;
   font-size: 14px;
 }
 
-
 .intro-card p {
   margin: 0;
-  color: #8a9088;
+  color: #858880;
   font-size: 11px;
-  line-height: 1.6;
+  line-height: 1.55;
 }
-
 
 /* ======================================================
    RESPONSIVE
 ====================================================== */
 
-@media (max-width: 900px) {
-
-  .sidebar {
-    width: 190px;
-  }
-
-  .main-content {
-    padding: 40px 30px;
-  }
-
+@media (max-width: 1100px) {
   .macro-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-
 }
 
+@media (max-width: 900px) {
+  .main-content {
+    margin-left: 170px;
+  }
+}
 
-@media (max-width: 700px) {
-
-  .sidebar {
-    display: none;
+@media (max-width: 800px) {
+  .main-content {
+    padding: 30px 22px;
   }
 
-  .main-content {
-    padding: 25px 18px;
+  .hero h2 {
+    font-size: 36px;
   }
 
   .search-row {
-    flex-direction: column;
+    flex-wrap: wrap;
   }
 
-  .search-button,
-  .clear-button {
-    height: 45px;
+  .search-box {
+    flex-basis: 100%;
   }
 
   .food-results {
     grid-template-columns: 1fr;
   }
 
+  .intro-grid {
+    grid-template-columns: 1fr;
+  }
+
   .serving-card {
     flex-direction: column;
     align-items: flex-start;
-    gap: 15px;
+  }
+
+  .serving-control {
+    width: 100%;
+    max-width: none;
   }
 
   .food-header {
     flex-direction: column;
+  }
+}
+
+@media (max-width: 700px) {
+  .main-content {
+    margin-left: 70px;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-content {
+    padding: 25px 16px;
+  }
+
+  .hero h2 {
+    font-size: 31px;
+  }
+
+  .hero p {
+    font-size: 13px;
+  }
+
+  .search-card,
+  .nutrition-card {
+    padding: 20px;
+    border-radius: 15px;
+  }
+
+  .search-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .search-button,
+  .clear-button {
+    width: 100%;
   }
 
   .macro-grid {
     grid-template-columns: 1fr 1fr;
   }
 
-  .intro-grid {
+  .macro-card {
+    padding: 13px;
+  }
+
+  .macro-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+
+  .macro-card strong {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 420px) {
+  .macro-grid {
     grid-template-columns: 1fr;
   }
 
+  .serving-control {
+    flex-wrap: wrap;
+  }
+
+  .serving-control input[type="range"] {
+    flex-basis: 100%;
+  }
+}
+/* =========================================================
+   TYPOGRAPHY SIZE UPGRADE
+   Keeps the existing NutriFlow design unchanged.
+   ========================================================= */
+
+.eyebrow {
+  font-size: 12px;
+}
+
+.hero h2 {
+  font-size: 42px;
+}
+
+.hero p {
+  font-size: 16px;
+}
+
+.search-label {
+  font-size: 14px;
+}
+
+.search-box input {
+  font-size: 15px;
+}
+
+.search-button,
+.clear-button {
+  font-size: 14px;
+}
+
+.quick-search > span {
+  font-size: 13px;
+}
+
+.quick-search button {
+  font-size: 13px;
+}
+
+.error-message {
+  font-size: 14px;
+}
+
+.section-eyebrow {
+  font-size: 11px;
+}
+
+.section-heading h3 {
+  font-size: 27px;
+}
+
+.result-count {
+  font-size: 13px;
+}
+
+.food-result-info strong {
+  font-size: 15px;
+}
+
+.food-result-info span {
+  font-size: 12px;
+}
+
+.arrow {
+  font-size: 19px;
+}
+
+.food-header h3 {
+  font-size: 29px;
+}
+
+.food-header p {
+  font-size: 13px;
+}
+
+.change-food {
+  font-size: 13px;
+}
+
+.serving-label {
+  font-size: 12px;
+}
+
+.serving-card strong {
+  font-size: 19px;
+}
+
+.serving-control input[type="number"] {
+  font-size: 14px;
+}
+
+.serving-control span {
+  font-size: 13px;
+}
+
+.calories-card span {
+  font-size: 13px;
+}
+
+.calories-card strong {
+  font-size: 30px;
+}
+
+.calories-card small {
+  font-size: 13px;
+}
+
+.macro-card span {
+  font-size: 12px;
+}
+
+.macro-card strong {
+  font-size: 18px;
+}
+
+.info-note p {
+  font-size: 12px;
+}
+
+.intro-title {
+  font-size: 23px;
+}
+
+.intro-card h4 {
+  font-size: 15px;
+}
+
+.intro-card p {
+  font-size: 12px;
+} 
+
+
+/* =========================================================
+   SIDEBAR + CONTENT RESPONSIVE ALIGNMENT
+   Matches the shared sidebar breakpoints.
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .main-content {
+    margin-left: 200px;
+    width: calc(100% - 200px);
+  }
+}
+
+@media (max-width: 700px) {
+  .main-content {
+    margin-left: 70px;
+    width: calc(100% - 70px);
+  }
+}
+
+@media (max-width: 500px) {
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+  }
 }

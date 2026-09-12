@@ -2247,3 +2247,186 @@
   }
 
 }
+/* =========================================
+   TYPOGRAPHY REFINEMENT
+   ========================================= */
+
+.welcome .eyebrow {
+  font-size: 12px;
+}
+
+.welcome h2 {
+  font-size: 34px;
+}
+
+.header-subtitle {
+  font-size: 14px;
+}
+
+.profile-info strong {
+  font-size: 13px;
+}
+
+.profile-info small {
+  font-size: 11px;
+}
+
+/* Card headings */
+
+.card-label {
+  font-size: 11px;
+}
+
+.card-heading h3 {
+  font-size: 26px;
+}
+
+.card-heading h3 small {
+  font-size: 12px;
+}
+
+.section-title h3,
+.section-header h3 {
+  font-size: 21px;
+}
+
+/* Calories */
+
+.ring-inner strong {
+  font-size: 21px;
+}
+
+.ring-inner span {
+  font-size: 10px;
+}
+
+.detail-row strong {
+  font-size: 13px;
+}
+
+.detail-row small {
+  font-size: 10px;
+}
+
+/* Macros */
+
+.macro-top {
+  font-size: 12px;
+}
+
+.macro-top strong {
+  font-size: 11px;
+}
+
+/* Quick actions */
+
+.action-content strong {
+  font-size: 13px;
+}
+
+.action-content span {
+  font-size: 10px;
+}
+
+/* Meals */
+
+.text-button {
+  font-size: 11px;
+}
+
+.meal-info span {
+  font-size: 10px;
+}
+
+.meal-info strong {
+  font-size: 13px;
+}
+
+.meal-info small {
+  font-size: 10px;
+}
+
+/* Dashboard states */
+
+.dashboard-state p {
+  font-size: 12px;
+}
+
+.dashboard-empty strong,
+.dashboard-error strong {
+  font-size: 13px;
+}
+
+.dashboard-empty span,
+.dashboard-error p {
+  font-size: 10px;
+}
+
+.dashboard-error button {
+  font-size: 11px;
+}
+
+/* Water */
+
+.water-amount strong {
+  font-size: 33px;
+}
+
+.water-amount span {
+  font-size: 12px;
+}
+
+.water-card p {
+  font-size: 11px;
+}
+
+/* Recipe */
+
+.recipe-badge {
+  font-size: 9px;
+}
+
+.recipe-content h3 {
+  font-size: 20px;
+}
+
+.recipe-content p {
+  font-size: 11px;
+}
+
+.recipe-stats span {
+  font-size: 9px;
+}
+
+/* Motivation */
+
+.motivation strong {
+  font-size: 15px;
+}
+
+.motivation p {
+  font-size: 10px;
+}
+
+/* Buttons */
+
+.primary-button,
+.recipe-button,
+.water-button {
+  font-size: 13px;
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  text-decoration: none;
+  color: inherit;
+
+  cursor: pointer;
+}
+
+.profile-link:hover {
+  text-decoration: none;
+}

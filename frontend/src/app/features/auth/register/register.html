@@ -1,20 +1,43 @@
 <div class="register-page">
+
+  <!-- =====================================================
+       REGISTER CARD
+       ===================================================== -->
+
   <div class="register-card">
 
     <h1>NutriFlow</h1>
-    <p class="subtitle">Personalized Nutrition & Wellness</p>
+
+    <p class="subtitle">
+      Personalized Nutrition & Wellness
+    </p>
 
     <h2>Create Account</h2>
-    <p class="welcome-text">Start your personalized wellness journey</p>
 
-    <!-- Profile Image -->
+    <p class="welcome-text">
+      Start your personalized wellness journey
+    </p>
+
+
+    <!-- =====================================================
+         PROFILE IMAGE
+         ===================================================== -->
+
     <div class="profile-section">
 
       <div class="profile-image">
-        <img [src]="imagePreview" alt="Profile picture">
+
+        <img
+          [src]="imagePreview"
+          alt="Profile picture"
+        >
+
       </div>
 
-      <label for="image" class="upload-button">
+      <label
+        for="image"
+        class="upload-button"
+      >
         Choose Profile Picture
       </label>
 
@@ -27,18 +50,36 @@
         (change)="onImageSelected($event)"
       >
 
-      <p class="image-note">Optional</p>
+      <p class="image-note">
+        Optional
+      </p>
 
     </div>
 
-    <!-- Registration Form -->
-    <form (ngSubmit)="onRegister($event)" autocomplete="on">
 
-      <!-- Name Row -->
+    <!-- =====================================================
+         REGISTRATION FORM
+         ===================================================== -->
+
+    <form
+      (ngSubmit)="onRegister($event)"
+      autocomplete="on"
+      novalidate
+    >
+
+
+      <!-- ===================================================
+           FIRST NAME + LAST NAME
+           =================================================== -->
+
       <div class="name-row">
 
         <div class="form-group">
-          <label for="firstName">First Name</label>
+
+          <label for="firstName">
+            First Name
+          </label>
+
           <input
             id="firstName"
             type="text"
@@ -48,10 +89,16 @@
             autocomplete="given-name"
             required
           >
+
         </div>
 
+
         <div class="form-group">
-          <label for="lastName">Last Name</label>
+
+          <label for="lastName">
+            Last Name
+          </label>
+
           <input
             id="familyName"
             type="text"
@@ -61,13 +108,47 @@
             autocomplete="family-name"
             required
           >
+
         </div>
 
       </div>
 
-      <!-- Email -->
+
+      <!-- ===================================================
+           USERNAME
+           =================================================== -->
+
       <div class="form-group">
-        <label for="email">Email</label>
+
+        <label for="username">
+          Username
+        </label>
+
+        <input
+          id="username"
+          type="text"
+          placeholder="Choose a username"
+          [(ngModel)]="username"
+          name="username"
+          autocomplete="username"
+          minlength="3"
+          maxlength="30"
+          required
+        >
+
+      </div>
+
+
+      <!-- ===================================================
+           EMAIL
+           =================================================== -->
+
+      <div class="form-group">
+
+        <label for="email">
+          Email
+        </label>
+
         <input
           id="email"
           type="email"
@@ -77,27 +158,55 @@
           autocomplete="email"
           required
         >
+
       </div>
 
-      <!-- Gender + Date of Birth -->
+
+      <!-- ===================================================
+           GENDER + DATE OF BIRTH
+           =================================================== -->
+
       <div class="name-row">
 
         <div class="form-group">
-          <label for="gender">Gender</label>
+
+          <label for="gender">
+            Gender
+          </label>
+
           <select
             id="gender"
             [(ngModel)]="gender"
             name="gender"
             required
           >
-            <option value="" disabled selected>Select gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
+
+            <option
+              value=""
+              disabled
+            >
+              Select gender
+            </option>
+
+            <option value="male">
+              Male
+            </option>
+
+            <option value="female">
+              Female
+            </option>
+
           </select>
+
         </div>
 
+
         <div class="form-group">
-          <label for="dateOfBirth">Date of Birth</label>
+
+          <label for="dateOfBirth">
+            Date of Birth
+          </label>
+
           <input
             id="dateOfBirth"
             type="date"
@@ -106,15 +215,24 @@
             autocomplete="bday"
             required
           >
+
         </div>
 
       </div>
 
-      <!-- Weight + Height -->
+
+      <!-- ===================================================
+           WEIGHT + HEIGHT
+           =================================================== -->
+
       <div class="name-row">
 
         <div class="form-group">
-          <label for="weight">Weight (kg)</label>
+
+          <label for="weight">
+            Weight (kg)
+          </label>
+
           <input
             id="weight"
             type="number"
@@ -125,10 +243,16 @@
             max="300"
             required
           >
+
         </div>
 
+
         <div class="form-group">
-          <label for="height">Height (cm)</label>
+
+          <label for="height">
+            Height (cm)
+          </label>
+
           <input
             id="height"
             type="number"
@@ -139,13 +263,22 @@
             max="250"
             required
           >
+
         </div>
 
       </div>
 
-      <!-- Goal -->
+
+      <!-- ===================================================
+           WELLNESS GOAL
+           =================================================== -->
+
       <div class="form-group">
-        <label for="goal">Your Wellness Goal</label>
+
+        <label for="goal">
+          Your Wellness Goal
+        </label>
+
         <textarea
           id="goal"
           placeholder="e.g. I want to lose 10kg, build muscle, eat healthier and feel more energetic..."
@@ -154,39 +287,99 @@
           rows="3"
           required
         ></textarea>
+
       </div>
 
-      <!-- Password -->
+
+      <!-- ===================================================
+           PASSWORD
+           =================================================== -->
+
       <div class="form-group">
-        <label for="password">Password</label>
-        <input
-          id="password"
-          type="password"
-          placeholder="Create a password"
-          [(ngModel)]="password"
-          name="password"
-          autocomplete="new-password"
-          required
-        >
+
+        <label for="password">
+          Password
+        </label>
+
+        <div class="password-wrapper">
+
+          <input
+            id="password"
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="Create a password"
+            [(ngModel)]="password"
+            name="password"
+            autocomplete="new-password"
+            required
+          >
+
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePassword()"
+            [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+          >
+            {{ showPassword ? '🙈' : '👁' }}
+          </button>
+
+        </div>
+
       </div>
 
-      <!-- Confirm Password -->
+
+      <!-- ===================================================
+           CONFIRM PASSWORD
+           =================================================== -->
+
       <div class="form-group">
-        <label for="confirmPassword">Confirm Password</label>
-        <input
-          id="confirmPassword"
-          type="password"
-          placeholder="Re-enter your password"
-          [(ngModel)]="confirmPassword"
-          name="confirmPassword"
-          autocomplete="new-password"
-          [class.input-error]="confirmPassword && password !== confirmPassword"
-          required
+
+        <label for="confirmPassword">
+          Confirm Password
+        </label>
+
+        <div class="password-wrapper">
+
+          <input
+            id="confirmPassword"
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            placeholder="Re-enter your password"
+            [(ngModel)]="confirmPassword"
+            name="confirmPassword"
+            autocomplete="new-password"
+            [class.input-error]="
+              confirmPassword &&
+              password !== confirmPassword
+            "
+            required
+          >
+
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="toggleConfirmPassword()"
+            [attr.aria-label]="showConfirmPassword ? 'Hide password' : 'Show password'"
+          >
+            {{ showConfirmPassword ? '🙈' : '👁' }}
+          </button>
+
+        </div>
+
+        <p
+          class="field-error"
+          *ngIf="
+            confirmPassword &&
+            password !== confirmPassword
+          "
         >
-        <p class="field-error" *ngIf="confirmPassword && password !== confirmPassword">
           Passwords do not match
         </p>
+
       </div>
+
+
+      <!-- ===================================================
+           CREATE ACCOUNT
+           =================================================== -->
 
       <button type="submit">
         Create Account
@@ -194,10 +387,21 @@
 
     </form>
 
+
+    <!-- =====================================================
+         LOGIN
+         ===================================================== -->
+
     <p class="login-link">
+
       Already have an account?
-      <a routerLink="/login">Login</a>
+
+      <a routerLink="/login">
+        Login
+      </a>
+
     </p>
 
   </div>
+
 </div>

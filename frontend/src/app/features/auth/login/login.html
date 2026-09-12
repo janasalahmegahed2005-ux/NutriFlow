@@ -1,37 +1,62 @@
 <div class="login-page">
 
+  <!-- =====================================================
+       LOGIN CARD
+       ===================================================== -->
+
   <div class="login-card">
 
     <div class="brand">
+
       <h1>NutriFlow</h1>
-      <p>Personalized Nutrition & Wellness</p>
+
+      <p>
+        Personalized Nutrition & Wellness
+      </p>
+
     </div>
 
-    <h2>Welcome Back</h2>
+
+    <h2>
+      Welcome Back
+    </h2>
+
+
     <p class="subtitle">
       Login to continue your wellness journey
     </p>
 
+
     <form (ngSubmit)="onLogin()">
 
-      <!-- Email -->
+      <!-- Email OR Username -->
+
       <div class="form-group">
-        <label for="email">Email</label>
+
+        <label for="identifier">
+          Email or Username
+        </label>
 
         <input
-          id="email"
-          type="email"
-          placeholder="Enter your email"
-          [(ngModel)]="email"
-          name="email"
-          autocomplete="email"
+          id="identifier"
+          type="text"
+          placeholder="Enter your email or username"
+          [(ngModel)]="identifier"
+          name="identifier"
+          autocomplete="username"
           required
         />
+
       </div>
 
+
       <!-- Password -->
+
       <div class="form-group">
-        <label for="password">Password</label>
+
+        <label for="password">
+          Password
+        </label>
 
         <input
           id="password"
@@ -42,20 +67,34 @@
           autocomplete="current-password"
           required
         />
+
       </div>
+
+
+      <!-- Login Button -->
 
       <button
         type="submit"
         [disabled]="isLoading"
       >
+
         {{ isLoading ? 'Logging in...' : 'Login' }}
+
       </button>
 
     </form>
 
+
+    <!-- Register Link -->
+
     <p class="register-link">
+
       Don't have an account?
-      <a routerLink="/register">Create an account</a>
+
+      <a routerLink="/register">
+        Create an account
+      </a>
+
     </p>
 
   </div>

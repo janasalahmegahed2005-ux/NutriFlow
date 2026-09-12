@@ -7,6 +7,7 @@ require("dotenv").config();
 const foodRoutes = require("./routes/foodRoutes");
 const authRoutes = require("./routes/authRoutes");
 const mealRoutes = require("./routes/mealRoutes");
+const mealPlanRoutes = require("./routes/mealPlanRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const nutritionRoutes = require("./routes/nutritionRoutes");
 const goalRoutes = require("./routes/goalRoutes");
@@ -17,6 +18,8 @@ const waterRoutes = require("./routes/waterRoutes");
 const lifestyleRoutes = require("./routes/lifestyleRoutes");
 const insightRoutes = require("./routes/insightRoutes");
 const balanceRoutes = require("./routes/balanceRoutes");
+const aiScannerRoutes = require("./routes/aiScannerRoutes");
+
 
 const errorHandler = require("./middleware/errorMiddleware");
 
@@ -53,10 +56,15 @@ app.use(express.json({ limit: "10kb" }));
 // API ROUTES
 // ==========================================
 
+
 app.use("/api/foods", foodRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/meals", mealRoutes);
-app.use("/api/profile", profileRoutes);
+app.use("/api/meal-plans", mealPlanRoutes);
+app.use("/api/profile", (req, res, next) => {
+  console.log("🔥 PROFILE ROUTE HIT:", req.method, req.originalUrl);
+  next();
+}, profileRoutes);
 app.use("/api/nutrition", nutritionRoutes);
 app.use("/api/goals", goalRoutes);
 app.use("/api/progress", progressRoutes);
@@ -66,6 +74,7 @@ app.use("/api/water", waterRoutes);
 app.use("/api/lifestyle", lifestyleRoutes);
 app.use("/api/insights", insightRoutes);
 app.use("/api/balance", balanceRoutes);
+app.use("/api/ai-scanner", aiScannerRoutes);
 
 
 

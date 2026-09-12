@@ -1,84 +1,315 @@
+/* =========================================================
+   LOGIN PAGE
+   ========================================================= */
+
 .login-page {
+
   min-height: 100vh;
+
   display: flex;
+
   justify-content: center;
+
   align-items: center;
+
   padding: 30px;
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  background: #f8f7f3;
+
 }
+
+
+/* =========================================================
+   LOGIN CARD
+   ========================================================= */
 
 .login-card {
+
   width: 100%;
+
   max-width: 450px;
+
   padding: 40px;
+
   background: white;
+
   border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.08);
+
+  box-sizing: border-box;
+
+  position: relative;
+
+  z-index: 2;
+
+  opacity: 1;
+
+  transform: none;
+
 }
+
+
+/* =========================================================
+   BRAND
+   ========================================================= */
 
 .brand {
+
   text-align: center;
+
   margin-bottom: 30px;
+
 }
+
 
 .brand h1 {
+
   font-size: 38px;
+
   margin-bottom: 8px;
+
 }
+
 
 .brand p {
+
   font-size: 15px;
+
   margin: 0;
+
 }
+
 
 .login-card h2 {
+
   text-align: center;
+
   font-size: 28px;
+
   margin-bottom: 8px;
+
 }
+
 
 .subtitle {
+
   text-align: center;
+
   margin-bottom: 28px;
+
 }
+
+
+/* =========================================================
+   FORM
+   ========================================================= */
 
 .form-group {
+
   margin-bottom: 20px;
+
 }
+
 
 .form-group label {
+
   display: block;
+
   margin-bottom: 8px;
+
   font-weight: 600;
+
 }
+
 
 .form-group input {
+
   width: 100%;
+
   padding: 13px 14px;
+
   border: 1px solid #d5ddd7;
+
   border-radius: 8px;
+
   outline: none;
+
+  box-sizing: border-box;
+
 }
+
 
 .form-group input:focus {
+
   border-color: #6b8e6b;
+
 }
+
+
+/* =========================================================
+   LOGIN BUTTON
+   ========================================================= */
 
 button {
+
   width: 100%;
+
   padding: 14px;
+
   border: none;
+
   border-radius: 8px;
+
   background: #496b4d;
+
   color: white;
+
   font-weight: 600;
+
   font-size: 16px;
+
+  box-sizing: border-box;
+
+  cursor: pointer;
+
 }
+
+
+button:hover:not(:disabled) {
+
+  background: #3f6244;
+
+}
+
+
+button:disabled {
+
+  opacity: 0.7;
+
+  cursor: not-allowed;
+
+}
+
+
+/* =========================================================
+   REGISTER LINK
+   ========================================================= */
 
 .register-link {
+
   text-align: center;
+
   margin-top: 22px;
+
 }
 
+
 .register-link a {
+
   font-weight: 600;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .login-page {
+
+    padding: 20px;
+
+  }
+
+
+  .login-card {
+
+    padding: 28px 22px;
+
+  }
+
+
+  .brand h1 {
+
+    font-size: 32px;
+
+  }
+
+
+  .login-card h2 {
+
+    font-size: 24px;
+
+  }
+
+}
+
+
+@media (max-width: 400px) {
+
+  .login-page {
+
+    padding: 12px;
+
+  }
+
+
+  .login-card {
+
+    padding: 24px 18px;
+
+    border-radius: 14px;
+
+  }
+
+
+  .brand {
+
+    margin-bottom: 24px;
+
+  }
+
+
+  .brand h1 {
+
+    font-size: 28px;
+
+  }
+
+
+  .brand p {
+
+    font-size: 13px;
+
+  }
+
+
+  .login-card h2 {
+
+    font-size: 22px;
+
+  }
+
+
+  .subtitle {
+
+    margin-bottom: 22px;
+
+  }
+
+
+  .form-group {
+
+    margin-bottom: 16px;
+
+  }
+
 }

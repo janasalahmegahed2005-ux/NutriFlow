@@ -264,12 +264,96 @@ const validateMeal = [
     .withMessage("Date must be a valid date")
     .toDate(),
 ];
+// ==========================================
+// NUTRITION PROFILE UPDATE VALIDATION
+// Fields are optional because existing values
+// can be kept when the user does not change them.
+// ==========================================
 
+const validateNutritionProfileUpdate = [
+  body("age")
+    .optional()
+    .isInt({ min: 13, max: 120 })
+    .withMessage("Age must be between 13 and 120")
+    .toInt(),
+
+  body("gender")
+    .optional()
+    .isIn(["male", "female"])
+    .withMessage("Gender must be male or female"),
+
+  body("height")
+    .optional()
+    .isFloat({ min: 100, max: 250 })
+    .withMessage("Height must be between 100 and 250 cm")
+    .toFloat(),
+
+  body("weight")
+    .optional()
+    .isFloat({ min: 20, max: 300 })
+    .withMessage("Weight must be between 20 and 300 kg")
+    .toFloat(),
+
+  body("activityLevel")
+    .optional()
+    .isIn([
+      "sedentary",
+      "light",
+      "moderate",
+      "active",
+      "very_active",
+    ])
+    .withMessage("Invalid activity level"),
+
+  // This is the nutrition goal used for calorie/macro calculations
+  body("nutritionGoal")
+    .optional()
+    .isIn([
+      "lose_weight",
+      "maintain_weight",
+      "gain_weight",
+    ])
+    .withMessage("Invalid nutrition goal"),
+
+  // This is the user's free-text personal goal
+  body("goal")
+    .optional()
+    .trim()
+    .isLength({ max: 500 })
+    .withMessage("Goal must be 500 characters or less"),
+
+  body("firstName")
+    .optional()
+    .trim()
+    .isLength({ min: 2, max: 50 })
+    .withMessage("First name must be between 2 and 50 characters")
+    .matches(/^[A-Za-z]+$/)
+    .withMessage("First name can contain letters only"),
+
+  body("lastName")
+    .optional()
+    .trim()
+    .isLength({ min: 2, max: 50 })
+    .withMessage("Last name must be between 2 and 50 characters")
+    .matches(/^[A-Za-z]+$/)
+    .withMessage("Last name can contain letters only"),
+
+  body("dateOfBirth")
+    .optional()
+    .isISO8601()
+    .withMessage("Date of birth must be a valid date"),
+];
+
+
+// ==========================================
+// EXPORT VALIDATION RULES
+// ==========================================
 
 module.exports = {
   validateFood,
   validateFoodUpdate,
   validateNutritionProfile,
+  validateNutritionProfileUpdate,
   validateMeal,
   handleValidationErrors,
 };

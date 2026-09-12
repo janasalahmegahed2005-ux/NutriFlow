@@ -1,6 +1,6 @@
 /* ==========================================
    NutriFlow - Global Styles
-   ========================================== */
+========================================== */
 
 * {
   box-sizing: border-box;
@@ -33,4 +33,221 @@ button {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+
+app-sidebar {
+  display: block;
+  width: 230px;
+  min-width: 230px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  z-index: 1000;
+}
+
+app-sidebar .sidebar-wrapper {
+  height: 100vh !important;
+  min-height: 100vh !important;
+}
+
+/* =========================================================
+   NUTRIFLOW GLOBAL SIDEBAR + PAGE LAYOUT
+   ========================================================= */
+
+/*
+   Every page that contains the shared <app-sidebar>
+   gets a proper two-column layout.
+
+   Column 1 = sidebar
+   Column 2 = page content
+*/
+
+.page-layout:has(> app-sidebar),
+.food-diary-page:has(> app-sidebar),
+.dashboard:has(> app-sidebar),
+.recipes-page:has(> app-sidebar),
+.nutrition-lookup-page:has(> app-sidebar),
+.meal-planner-page:has(> app-sidebar),
+.water-page:has(> app-sidebar),
+.goals-page:has(> app-sidebar),
+.settings-page:has(> app-sidebar) {
+  display: grid !important;
+  grid-template-columns: 230px minmax(0, 1fr) !important;
+  width: 100%;
+  min-height: 100vh;
+}
+
+
+/*
+   Shared sidebar occupies column 1.
+*/
+
+.page-layout:has(> app-sidebar) > app-sidebar,
+.food-diary-page:has(> app-sidebar) > app-sidebar,
+.dashboard:has(> app-sidebar) > app-sidebar,
+.recipes-page:has(> app-sidebar) > app-sidebar,
+.nutrition-lookup-page:has(> app-sidebar) > app-sidebar,
+.meal-planner-page:has(> app-sidebar) > app-sidebar,
+.water-page:has(> app-sidebar) > app-sidebar,
+.goals-page:has(> app-sidebar) > app-sidebar,
+.settings-page:has(> app-sidebar) > app-sidebar {
+  grid-column: 1;
+  width: 230px;
+  min-width: 230px;
+}
+
+
+/*
+   Main content occupies column 2.
+
+   IMPORTANT:
+   This removes the old fixed-sidebar offsets that
+   caused the overlap.
+*/
+
+.page-layout:has(> app-sidebar) > .main-content,
+.food-diary-page:has(> app-sidebar) > .main-content,
+.dashboard:has(> app-sidebar) > .main-content,
+.recipes-page:has(> app-sidebar) > .main-content,
+.nutrition-lookup-page:has(> app-sidebar) > .main-content,
+.meal-planner-page:has(> app-sidebar) > .main-content,
+.water-page:has(> app-sidebar) > .main-content,
+.goals-page:has(> app-sidebar) > .main-content,
+.settings-page:has(> app-sidebar) > .main-content {
+  grid-column: 2;
+
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+
+  width: auto !important;
+  max-width: none;
+
+  min-width: 0;
+}
+
+
+/* =========================================================
+   MEDIUM SCREEN
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .page-layout:has(> app-sidebar),
+  .food-diary-page:has(> app-sidebar),
+  .dashboard:has(> app-sidebar),
+  .recipes-page:has(> app-sidebar),
+  .nutrition-lookup-page:has(> app-sidebar),
+  .meal-planner-page:has(> app-sidebar),
+  .water-page:has(> app-sidebar),
+  .goals-page:has(> app-sidebar),
+  .settings-page:has(> app-sidebar) {
+    grid-template-columns: 200px minmax(0, 1fr) !important;
+  }
+
+  .page-layout:has(> app-sidebar) > app-sidebar,
+  .food-diary-page:has(> app-sidebar) > app-sidebar,
+  .dashboard:has(> app-sidebar) > app-sidebar,
+  .recipes-page:has(> app-sidebar) > app-sidebar,
+  .nutrition-lookup-page:has(> app-sidebar) > app-sidebar,
+  .meal-planner-page:has(> app-sidebar) > app-sidebar,
+  .water-page:has(> app-sidebar) > app-sidebar,
+  .goals-page:has(> app-sidebar) > app-sidebar,
+  .settings-page:has(> app-sidebar) > app-sidebar {
+    width: 200px;
+    min-width: 200px;
+  }
+}
+
+
+/* =========================================================
+   SMALL SCREEN
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .page-layout:has(> app-sidebar),
+  .food-diary-page:has(> app-sidebar),
+  .dashboard:has(> app-sidebar),
+  .recipes-page:has(> app-sidebar),
+  .nutrition-lookup-page:has(> app-sidebar),
+  .meal-planner-page:has(> app-sidebar),
+  .water-page:has(> app-sidebar),
+  .goals-page:has(> app-sidebar),
+  .settings-page:has(> app-sidebar) {
+    grid-template-columns: 70px minmax(0, 1fr) !important;
+  }
+
+  .page-layout:has(> app-sidebar) > app-sidebar,
+  .food-diary-page:has(> app-sidebar) > app-sidebar,
+  .dashboard:has(> app-sidebar) > app-sidebar,
+  .recipes-page:has(> app-sidebar) > app-sidebar,
+  .nutrition-lookup-page:has(> app-sidebar) > app-sidebar,
+  .meal-planner-page:has(> app-sidebar) > app-sidebar,
+  .water-page:has(> app-sidebar) > app-sidebar,
+  .goals-page:has(> app-sidebar) > app-sidebar,
+  .settings-page:has(> app-sidebar) > app-sidebar {
+    width: 70px;
+    min-width: 70px;
+  }
+
+  .page-layout:has(> app-sidebar) > .main-content,
+  .food-diary-page:has(> app-sidebar) > .main-content,
+  .dashboard:has(> app-sidebar) > .main-content,
+  .recipes-page:has(> app-sidebar) > .main-content,
+  .nutrition-lookup-page:has(> app-sidebar) > .main-content,
+  .meal-planner-page:has(> app-sidebar) > .main-content,
+  .water-page:has(> app-sidebar) > .main-content,
+  .goals-page:has(> app-sidebar) > .main-content,
+  .settings-page:has(> app-sidebar) > .main-content {
+    width: auto !important;
+    margin-left: 0 !important;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL SCREEN
+   ========================================================= */
+
+@media (max-width: 500px) {
+
+  .page-layout:has(> app-sidebar),
+  .food-diary-page:has(> app-sidebar),
+  .dashboard:has(> app-sidebar),
+  .recipes-page:has(> app-sidebar),
+  .nutrition-lookup-page:has(> app-sidebar),
+  .meal-planner-page:has(> app-sidebar),
+  .water-page:has(> app-sidebar),
+  .goals-page:has(> app-sidebar),
+  .settings-page:has(> app-sidebar) {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .page-layout:has(> app-sidebar) > app-sidebar,
+  .food-diary-page:has(> app-sidebar) > app-sidebar,
+  .dashboard:has(> app-sidebar) > app-sidebar,
+  .recipes-page:has(> app-sidebar) > app-sidebar,
+  .nutrition-lookup-page:has(> app-sidebar) > app-sidebar,
+  .meal-planner-page:has(> app-sidebar) > app-sidebar,
+  .water-page:has(> app-sidebar) > app-sidebar,
+  .goals-page:has(> app-sidebar) > app-sidebar,
+  .settings-page:has(> app-sidebar) > app-sidebar {
+    display: none !important;
+  }
+
+  .page-layout:has(> app-sidebar) > .main-content,
+  .food-diary-page:has(> app-sidebar) > .main-content,
+  .dashboard:has(> app-sidebar) > .main-content,
+  .recipes-page:has(> app-sidebar) > .main-content,
+  .nutrition-lookup-page:has(> app-sidebar) > .main-content,
+  .meal-planner-page:has(> app-sidebar) > .main-content,
+  .water-page:has(> app-sidebar) > .main-content,
+  .goals-page:has(> app-sidebar) > .main-content,
+  .settings-page:has(> app-sidebar) > .main-content {
+    grid-column: 1;
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
 }

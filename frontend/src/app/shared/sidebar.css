@@ -1,23 +1,35 @@
 /* ==========================================
+   SIDEBAR COMPONENT HOST
+   ========================================== */
+
+:host {
+  display: block;
+  width: 230px;
+  min-width: 230px;
+  flex: 0 0 230px;
+}
+
+
+/* ==========================================
    SIDEBAR WRAPPER
    ========================================== */
 
 .sidebar-wrapper {
-  width: 190px;
+  width: 230px;
   height: 100vh;
-
   background: #fffdf8;
-
   display: flex;
   flex-direction: column;
-
-  padding: 22px 14px;
-
+  padding: 50px 18px 22px;
   box-sizing: border-box;
-
   border-right: 1px solid #eee9df;
 
-  position: fixed;
+  /*
+    IMPORTANT:
+    The sidebar now participates in the page layout
+    through the Angular host element above.
+  */
+position: sticky;
   left: 0;
   top: 0;
 
@@ -32,62 +44,42 @@
 .brand {
   display: flex;
   align-items: center;
-
-  gap: 10px;
-
+  gap: 12px;
   padding: 0 8px;
-
-  margin-bottom: 30px;
+  margin-bottom: 36px;
 }
 
-
 .brand-icon {
-  width: 32px;
-  height: 32px;
-
-  border-radius: 9px;
-
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
   background: #477044;
-
   color: white;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-family: Georgia, serif;
-
-  font-size: 17px;
+  font-size: 22px;
   font-weight: 700;
 }
-
 
 .brand-text {
   display: flex;
   flex-direction: column;
 }
 
-
 .brand-text h1 {
   margin: 0;
-
   font-family: Georgia, serif;
-
-  font-size: 16px;
-
+  font-size: 20px;
   color: #24462c;
-
   line-height: 1.1;
 }
 
-
 .brand-text span {
   margin-top: 3px;
-
-  font-size: 7px;
-
+  font-size: 10px;
   color: #9b9a91;
-
   letter-spacing: 0.2px;
 }
 
@@ -99,8 +91,7 @@
 .navigation {
   display: flex;
   flex-direction: column;
-
-  gap: 5px;
+  gap: 6px;
 }
 
 
@@ -110,32 +101,21 @@
 
 .nav-item {
   width: 100%;
-
-  min-height: 38px;
-
+  min-height: 44px;
   box-sizing: border-box;
-
   border: none;
-
   background: transparent;
-
-  border-radius: 9px;
-
-  padding: 0 11px;
+  border-radius: 10px;
+  padding: 0 13px;
 
   display: flex;
   align-items: center;
-
-  gap: 12px;
+  gap: 14px;
 
   color: #5d655d;
-
   text-decoration: none;
-
   font-family: Arial, sans-serif;
-
-  font-size: 11px;
-
+  font-size: 13px;
   cursor: pointer;
 
   transition:
@@ -144,19 +124,14 @@
     transform 0.2s ease;
 }
 
-
 .nav-item:hover {
   background: #f1f5ed;
-
   color: #315b37;
 }
 
-
 .nav-item.active {
   background: #dcebd7;
-
   color: #315b37;
-
   font-weight: 600;
 }
 
@@ -166,21 +141,16 @@
    ========================================== */
 
 .nav-icon {
-  width: 17px;
-
+  width: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-
   flex-shrink: 0;
 
-  font-size: 14px;
-
+  font-size: 17px;
   line-height: 1;
-
   color: #6f796e;
 }
-
 
 .nav-item.active .nav-icon {
   color: #315b37;
@@ -193,15 +163,12 @@
 
 .sidebar-bottom {
   margin-top: auto;
-
   padding-top: 15px;
-
   border-top: 1px solid #eee9df;
 
   display: flex;
   flex-direction: column;
-
-  gap: 5px;
+  gap: 6px;
 }
 
 
@@ -211,7 +178,6 @@
 
 .logout {
   font-family: Arial, sans-serif;
-
   text-align: left;
 }
 
@@ -222,32 +188,22 @@
 
 .sidebar-decoration {
   margin-top: 18px;
-
-  min-height: 75px;
-
+  min-height: 85px;
   border-radius: 13px;
-
   background: #f3dfe0;
-
-  padding: 13px;
-
+  padding: 14px;
   box-sizing: border-box;
 
   display: flex;
   flex-direction: column;
-
   justify-content: center;
-
   gap: 6px;
 }
 
-
 .leaf-decoration {
-  width: 25px;
-  height: 25px;
-
+  width: 28px;
+  height: 28px;
   border-radius: 8px;
-
   background: white;
 
   display: flex;
@@ -255,18 +211,13 @@
   justify-content: center;
 
   color: #c994a1;
-
-  font-size: 13px;
+  font-size: 15px;
 }
-
 
 .sidebar-decoration p {
   margin: 0;
-
   color: #596157;
-
-  font-size: 9px;
-
+  font-size: 11px;
   line-height: 1.3;
 }
 
@@ -277,11 +228,14 @@
 
 @media (max-width: 900px) {
 
-  .sidebar-wrapper {
-    width: 170px;
+  :host {
+    width: 200px;
+    min-width: 200px;
+    flex-basis: 200px;
+  }
 
-    padding-left: 10px;
-    padding-right: 10px;
+  .sidebar-wrapper {
+    width: 200px;
   }
 
   .brand {
@@ -290,61 +244,60 @@
   }
 
   .nav-item {
-    font-size: 10px;
-
-    padding-left: 8px;
-    padding-right: 8px;
-
-    gap: 9px;
+    font-size: 12px;
+    padding-left: 10px;
+    padding-right: 10px;
+    gap: 11px;
   }
-
 }
 
 
 @media (max-width: 700px) {
 
+  :host {
+    width: 70px;
+    min-width: 70px;
+    flex-basis: 70px;
+  }
+
   .sidebar-wrapper {
     width: 70px;
-
     padding: 18px 8px;
   }
 
-
   .brand {
     justify-content: center;
-
     padding: 0;
-
     margin-bottom: 25px;
   }
-
 
   .brand-text {
     display: none;
   }
 
-
   .nav-item {
     justify-content: center;
-
     padding: 0;
-
-    min-height: 40px;
+    min-height: 44px;
   }
-
 
   .nav-item > span:last-child {
     display: none;
   }
 
-
   .nav-icon {
-    font-size: 16px;
+    font-size: 18px;
   }
-
 
   .sidebar-decoration {
     display: none;
   }
+}
 
+
+@media (max-width: 500px) {
+
+  :host {
+    display: none;
+  }
 }

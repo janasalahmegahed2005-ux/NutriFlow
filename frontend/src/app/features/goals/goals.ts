@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { SidebarComponent } from '../../shared/sidebar';
 
 @Component({
   selector: 'app-goals',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, SidebarComponent],
   templateUrl: './goals.html',
   styleUrl: './goals.css'
 })
@@ -14,10 +14,7 @@ export class GoalsComponent {
 
   user: any = null;
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {
+  constructor(private authService: AuthService) {
     this.user = this.authService.getUser();
   }
 
@@ -49,10 +46,5 @@ export class GoalsComponent {
     if (this.bmi < 25) return '#405c36';
     if (this.bmi < 30) return '#e7b08e';
     return '#d7a6ad';
-  }
-
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
   }
 }
