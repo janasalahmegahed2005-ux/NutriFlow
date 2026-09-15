@@ -13,13 +13,11 @@
 
   <main class="main-content">
 
-
     <!-- BACKGROUND SHAPES -->
 
     <div class="background-shape shape-one"></div>
 
     <div class="background-shape shape-two"></div>
-
 
 
     <!-- ==========================================
@@ -53,17 +51,156 @@
 
       <div class="profile">
 
+        <!-- ======================================
+             NOTIFICATION BUTTON
+        ======================================= -->
+
         <button
           type="button"
           class="notification"
+          (click)="toggleNotifications()"
+          aria-label="Notifications"
         >
-          ♧
 
-          <span></span>
+          🔔
+
+          @if (hasUnreadNotifications) {
+            <span></span>
+          }
+
         </button>
 
 
-        <!-- CLICKABLE PROFILE -->
+        <!-- ======================================
+             NOTIFICATION PANEL
+        ======================================= -->
+
+        @if (notificationsOpen) {
+
+          <div class="notification-panel">
+
+            <div class="notification-header">
+
+              <div>
+
+                <span class="notification-label">
+                  NutriFlow
+                </span>
+
+                <h3>
+                  Notifications
+                </h3>
+
+              </div>
+
+
+              <button
+                type="button"
+                class="notification-close"
+                (click)="toggleNotifications()"
+                aria-label="Close notifications"
+              >
+                ×
+              </button>
+
+            </div>
+
+
+            <div class="notification-list">
+
+              <!-- WELCOME -->
+
+              <button
+                type="button"
+                class="notification-item"
+                routerLink="/dashboard"
+                (click)="toggleNotifications()"
+              >
+
+                <div class="notification-icon">
+                  🌿
+                </div>
+
+                <div class="notification-content">
+
+                  <strong>
+                    Welcome to NutriFlow
+                  </strong>
+
+                  <span>
+                    Start your day by logging your first meal.
+                  </span>
+
+                </div>
+
+              </button>
+
+
+              <!-- WATER -->
+
+              <button
+                type="button"
+                class="notification-item"
+                routerLink="/water"
+                (click)="toggleNotifications()"
+              >
+
+                <div class="notification-icon">
+                  💧
+                </div>
+
+                <div class="notification-content">
+
+                  <strong>
+                    Stay hydrated
+                  </strong>
+
+                  <span>
+                    Remember to keep tracking your water intake.
+                  </span>
+
+                </div>
+
+              </button>
+
+
+              <!-- GOALS -->
+
+              <button
+                type="button"
+                class="notification-item"
+                routerLink="/goals"
+                (click)="toggleNotifications()"
+              >
+
+                <div class="notification-icon">
+                  ✨
+                </div>
+
+                <div class="notification-content">
+
+                  <strong>
+                    Keep going!
+                  </strong>
+
+                  <span>
+                    Small choices create big changes.
+                  </span>
+
+                </div>
+
+              </button>
+
+            </div>
+
+          </div>
+
+        }
+
+
+        <!-- ======================================
+             CLICKABLE PROFILE
+        ======================================= -->
 
         <a
           class="profile-link"
@@ -94,7 +231,6 @@
       </div>
 
     </header>
-
 
 
     <!-- ==========================================
@@ -143,7 +279,7 @@
         <div class="progress-area">
 
 
-          <!-- DYNAMIC CALORIE RING -->
+          <!-- CALORIE RING -->
 
           <div
             class="progress-ring"
@@ -168,7 +304,6 @@
           <!-- CALORIE DETAILS -->
 
           <div class="calorie-details">
-
 
             <div class="detail-row">
 
@@ -209,7 +344,6 @@
 
             </div>
 
-
           </div>
 
         </div>
@@ -224,7 +358,6 @@
         </button>
 
       </div>
-
 
 
       <!-- ========================================
@@ -295,7 +428,6 @@
           </div>
 
 
-
           <!-- CARBS -->
 
           <div class="macro">
@@ -332,7 +464,6 @@
             </div>
 
           </div>
-
 
 
           <!-- FATS -->
@@ -378,7 +509,6 @@
       </div>
 
     </section>
-
 
 
     <!-- ==========================================
@@ -438,7 +568,6 @@
         </button>
 
 
-
         <!-- RECIPES -->
 
         <button
@@ -468,7 +597,6 @@
           </span>
 
         </button>
-
 
 
         <!-- WATER -->
@@ -505,7 +633,6 @@
       </div>
 
     </section>
-
 
 
     <!-- ==========================================
@@ -547,7 +674,6 @@
         </div>
 
 
-
         <!-- LOADING -->
 
         @if (loading) {
@@ -565,7 +691,6 @@
           </div>
 
         }
-
 
 
         <!-- ERROR -->
@@ -594,7 +719,6 @@
         }
 
 
-
         <!-- EMPTY -->
 
         @if (!loading && !errorMessage && meals.length === 0) {
@@ -616,7 +740,6 @@
           </div>
 
         }
-
 
 
         <!-- MEALS -->
@@ -645,13 +768,21 @@
                 } @else {
 
                   @if (meal.mealType === 'Breakfast') {
+
                     🥑
+
                   } @else if (meal.mealType === 'Lunch') {
+
                     🥗
+
                   } @else if (meal.mealType === 'Dinner') {
+
                     🍽️
+
                   } @else {
+
                     🍓
+
                   }
 
                 }
@@ -709,7 +840,6 @@
       </div>
 
 
-
       <!-- ========================================
            WATER
       ========================================= -->
@@ -737,66 +867,98 @@
         </div>
 
 
+        <!-- WATER AMOUNT -->
+
         <div class="water-amount">
 
           <strong>
-            2.1
+            {{ waterLiters | number:'1.1-1' }}
           </strong>
 
           <span>
-            / 2.5 L
+            / {{ waterTargetLiters | number:'1.1-1' }} L
           </span>
 
         </div>
 
 
+        <!-- WATER PROGRESS -->
+
         <div class="water-progress">
 
-          <div></div>
+          <div
+            [style.width.%]="waterPercentage"
+          ></div>
 
         </div>
 
 
+        <!-- WATER MESSAGE -->
+
         <p>
 
-          You're almost there!
+          @if (waterConsumed === 0) {
 
-          Just
+            You're just getting started!
 
-          <strong>
-            400 ml
-          </strong>
+            <strong>
+              {{ waterRemainingLiters | number:'1.1-1' }} L
+            </strong>
 
-          left today.
+            left today.
+
+          } @else if (waterRemaining === 0) {
+
+            🎉 You've reached your water goal for today!
+
+          } @else if (waterPercentage >= 80) {
+
+            You're almost there!
+
+            Just
+
+            <strong>
+              {{ waterRemaining | number:'1.0-0' }} ml
+            </strong>
+
+            left today.
+
+          } @else {
+
+            Keep going!
+
+            <strong>
+              {{ waterRemainingLiters | number:'1.1-1' }} L
+            </strong>
+
+            left today.
+
+          }
 
         </p>
 
 
+        <!-- WATER GLASSES -->
+
         <div class="water-glasses">
 
-          <span class="filled">
-            ●
-          </span>
+          @for (glass of [1, 2, 3, 4, 5]; track glass) {
 
-          <span class="filled">
-            ●
-          </span>
+            @if (waterConsumed >= glass * 500) {
 
-          <span class="filled">
-            ●
-          </span>
+              <span class="filled">
+                ●
+              </span>
 
-          <span class="filled">
-            ●
-          </span>
+            } @else {
 
-          <span class="filled">
-            ●
-          </span>
+              <span class="empty">
+                ○
+              </span>
 
-          <span class="empty">
-            ○
-          </span>
+            }
+
+          }
 
         </div>
 
@@ -810,7 +972,6 @@
         </button>
 
       </div>
-
 
 
       <!-- ========================================
@@ -836,7 +997,6 @@
           </div>
 
         </div>
-
 
 
         <div class="recipe-content">
@@ -887,7 +1047,6 @@
       </div>
 
     </section>
-
 
 
     <!-- ==========================================

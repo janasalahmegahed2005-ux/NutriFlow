@@ -5,19 +5,27 @@
   <!-- ==========================================
        LOADING
   =========================================== -->
+
   @if (loading) {
 
     <div class="loading-container">
+
       <div class="loader"></div>
-      <p>Loading your profile...</p>
+
+      <p>
+        Loading your profile...
+      </p>
+
     </div>
 
   }
 
+
   <!-- ==========================================
        ERROR
   =========================================== -->
-  @else if (errorMessage) {
+
+  @else if (errorMessage && !user) {
 
     <div class="error-container">
 
@@ -25,7 +33,9 @@
         !
       </div>
 
-      <h2>Something went wrong</h2>
+      <h2>
+        Something went wrong
+      </h2>
 
       <p>
         {{ errorMessage }}
@@ -34,19 +44,26 @@
       <button
         class="retry-button"
         (click)="loadProfile()">
+
         Try Again
+
       </button>
 
     </div>
 
   }
 
+
   <!-- ==========================================
        PROFILE
   =========================================== -->
+
   @else if (user) {
 
-    <!-- HEADER -->
+    <!-- ========================================
+         HEADER
+    ========================================= -->
+
     <section class="profile-header">
 
       <button
@@ -54,13 +71,16 @@
         (click)="goToDashboard()">
 
         <span>←</span>
+
         Back to Dashboard
 
       </button>
 
+
       <div class="header-content">
 
         <div>
+
           <p class="page-label">
             ACCOUNT
           </p>
@@ -72,7 +92,24 @@
           <p class="page-subtitle">
             Manage and view your personal information.
           </p>
+
         </div>
+
+
+        <!-- EDIT BUTTON -->
+
+        @if (!editMode) {
+
+          <button
+            type="button"
+            class="edit-profile-button"
+            (click)="startEditing()">
+
+            ✎ Edit Profile
+
+          </button>
+
+        }
 
       </div>
 
@@ -80,241 +117,583 @@
 
 
     <!-- ==========================================
-         PROFILE CARD
+         SUCCESS MESSAGE
     =========================================== -->
-    <section class="profile-card">
 
-      <!-- PROFILE TOP -->
-      <div class="profile-top">
+    @if (successMessage) {
 
-        <div class="profile-image-wrapper">
+      <div class="success-message">
 
-          <img
-            [src]="profileImage"
-            [alt]="fullName + ' profile picture'"
-            (error)="onImageError($event)"
-            class="profile-image"
-          />
+        <span>✓</span>
 
-        </div>
-
-        <div class="profile-main-info">
-
-          <h2>
-            {{ fullName }}
-          </h2>
-
-          <p class="username">
-            @{{ user.username || 'username' }}
-          </p>
-
-          <p class="email">
-            {{ user.email || 'Email not provided' }}
-          </p>
-
-        </div>
+        {{ successMessage }}
 
       </div>
 
-
-      <!-- ==========================================
-           PERSONAL INFORMATION
-      =========================================== -->
-      <div class="section">
-
-        <div class="section-title">
-
-          <div class="section-icon">
-            ♡
-          </div>
-
-          <div>
-            <h3>Personal Information</h3>
-
-            <p>
-              Your basic account information
-            </p>
-          </div>
-
-        </div>
+    }
 
 
-        <div class="information-grid">
+    <!-- ==========================================
+         ERROR MESSAGE
+    =========================================== -->
 
-          <!-- FIRST NAME -->
-          <div class="information-item">
+    @if (errorMessage && user) {
 
-            <span class="information-label">
-              First Name
-            </span>
+      <div class="profile-error-message">
 
-            <span class="information-value">
-              {{ user.firstName || 'Not provided' }}
-            </span>
+        <span>!</span>
 
-          </div>
-
-
-          <!-- LAST NAME -->
-          <div class="information-item">
-
-            <span class="information-label">
-              Last Name
-            </span>
-
-            <span class="information-value">
-              {{ user.lastName || 'Not provided' }}
-            </span>
-
-          </div>
-
-
-          <!-- USERNAME -->
-          <div class="information-item">
-
-            <span class="information-label">
-              Username
-            </span>
-
-            <span class="information-value">
-              {{ user.username || 'Not provided' }}
-            </span>
-
-          </div>
-
-
-          <!-- EMAIL -->
-          <div class="information-item">
-
-            <span class="information-label">
-              Email
-            </span>
-
-            <span class="information-value">
-              {{ user.email || 'Not provided' }}
-            </span>
-
-          </div>
-
-
-          <!-- GENDER -->
-          <div class="information-item">
-
-            <span class="information-label">
-              Gender
-            </span>
-
-            <span class="information-value">
-              {{ user.gender || 'Not provided' }}
-            </span>
-
-          </div>
-
-
-          <!-- DATE OF BIRTH -->
-          <div class="information-item">
-
-            <span class="information-label">
-              Date of Birth
-            </span>
-
-            <span class="information-value">
-              {{ formattedDateOfBirth }}
-            </span>
-
-          </div>
-
-        </div>
+        {{ errorMessage }}
 
       </div>
 
+    }
 
-      <!-- ==========================================
-           BODY & WELLNESS
-      =========================================== -->
-      <div class="section">
 
-        <div class="section-title">
+    <!-- ==========================================
+         EDIT MODE
+    =========================================== -->
 
-          <div class="section-icon">
-            ✦
-          </div>
+    @if (editMode) {
+
+      <section class="profile-card edit-card">
+
+        <div class="edit-header">
 
           <div>
-            <h3>Body & Wellness</h3>
+
+            <p class="page-label">
+              EDIT PROFILE
+            </p>
+
+            <h2>
+              Update Your Information
+            </h2>
 
             <p>
-              Your current health information
+              Keep your profile information up to date so NutriFlow can personalize your experience.
             </p>
+
           </div>
 
         </div>
 
 
-        <div class="wellness-grid">
+        <!-- ======================================
+             PERSONAL INFORMATION
+        ======================================= -->
 
-          <!-- WEIGHT -->
-          <div class="wellness-card">
+        <div class="section">
 
-            <div class="wellness-icon">
-              ⚖
+          <div class="section-title">
+
+            <div class="section-icon">
+              ♡
             </div>
 
             <div>
 
-              <span class="wellness-label">
-                Weight
-              </span>
+              <h3>
+                Personal Information
+              </h3>
 
-              <strong>
-                {{ user.weight || '—' }}
-                <small *ngIf="user.weight">kg</small>
-              </strong>
+              <p>
+                Update your basic account information
+              </p>
 
             </div>
 
           </div>
 
 
-          <!-- HEIGHT -->
-          <div class="wellness-card">
+          <div class="edit-form-grid">
 
-            <div class="wellness-icon">
-              ↕
+            <!-- FIRST NAME -->
+
+            <div class="form-group">
+
+              <label for="firstName">
+                First Name
+              </label>
+
+              <input
+                id="firstName"
+                type="text"
+                [(ngModel)]="form.firstName"
+                placeholder="Enter your first name"
+              />
+
+            </div>
+
+
+            <!-- LAST NAME -->
+
+            <div class="form-group">
+
+              <label for="lastName">
+                Last Name
+              </label>
+
+              <input
+                id="lastName"
+                type="text"
+                [(ngModel)]="form.lastName"
+                placeholder="Enter your last name"
+              />
+
+            </div>
+
+
+            <!-- USERNAME -->
+
+            <div class="form-group">
+
+              <label for="username">
+                Username
+              </label>
+
+              <input
+                id="username"
+                type="text"
+                [(ngModel)]="form.username"
+                placeholder="Enter your username"
+              />
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+              <label for="email">
+                Email
+              </label>
+
+              <input
+                id="email"
+                type="email"
+                [value]="user.email || ''"
+                disabled
+              />
+
+              <small>
+                Email cannot be changed here.
+              </small>
+
+            </div>
+
+
+            <!-- DATE OF BIRTH -->
+
+            <div class="form-group">
+
+              <label for="dateOfBirth">
+                Date of Birth
+              </label>
+
+              <input
+                id="dateOfBirth"
+                type="date"
+                [(ngModel)]="form.dateOfBirth"
+              />
+
+            </div>
+
+
+            <!-- GENDER -->
+
+            <div class="form-group">
+
+              <label for="gender">
+                Gender
+              </label>
+
+              <select
+                id="gender"
+                [(ngModel)]="form.gender">
+
+                <option value="">
+                  Select gender
+                </option>
+
+                <option value="male">
+                  Male
+                </option>
+
+                <option value="female">
+                  Female
+                </option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ======================================
+             BODY & WELLNESS
+        ======================================= -->
+
+        <div class="section">
+
+          <div class="section-title">
+
+            <div class="section-icon">
+              ✦
             </div>
 
             <div>
 
-              <span class="wellness-label">
+              <h3>
+                Body & Wellness
+              </h3>
+
+              <p>
+                Update the information used for your personalized nutrition targets
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="edit-form-grid">
+
+            <!-- HEIGHT -->
+
+            <div class="form-group">
+
+              <label for="height">
                 Height
-              </span>
+              </label>
 
-              <strong>
-                {{ user.height || '—' }}
-                <small *ngIf="user.height">cm</small>
-              </strong>
+              <div class="input-with-unit">
+
+                <input
+                  id="height"
+                  type="number"
+                  min="1"
+                  [(ngModel)]="form.height"
+                  placeholder="e.g. 170"
+                />
+
+                <span>
+                  cm
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <!-- WEIGHT -->
+
+            <div class="form-group">
+
+              <label for="weight">
+                Weight
+              </label>
+
+              <div class="input-with-unit">
+
+                <input
+                  id="weight"
+                  type="number"
+                  min="1"
+                  step="0.1"
+                  [(ngModel)]="form.weight"
+                  placeholder="e.g. 65"
+                />
+
+                <span>
+                  kg
+                </span>
+
+              </div>
+
+            </div>
+
+
+            <!-- ACTIVITY -->
+
+            <div class="form-group">
+
+              <label for="activityLevel">
+                Activity Level
+              </label>
+
+              <select
+                id="activityLevel"
+                [(ngModel)]="form.activityLevel">
+
+                @for (
+                  level of activityLevels;
+                  track level.value
+                ) {
+
+                  <option
+                    [value]="level.value">
+
+                    {{ level.label }}
+
+                  </option>
+
+                }
+
+              </select>
+
+            </div>
+
+
+            <!-- NUTRITION GOAL -->
+
+            <div class="form-group">
+
+              <label for="nutritionGoal">
+                Nutrition Goal
+              </label>
+
+              <select
+                id="nutritionGoal"
+                [(ngModel)]="form.nutritionGoal">
+
+                @for (
+                  goal of nutritionGoals;
+                  track goal.value
+                ) {
+
+                  <option
+                    [value]="goal.value">
+
+                    {{ goal.label }}
+
+                  </option>
+
+                }
+
+              </select>
+
+            </div>
+
+
+            <!-- PERSONAL GOAL -->
+
+            <div class="form-group full-width">
+
+              <label for="personalGoal">
+                Personal Goal
+              </label>
+
+              <input
+                id="personalGoal"
+                type="text"
+                [(ngModel)]="form.goal"
+                placeholder="e.g. Build muscle, eat healthier, improve my energy..."
+              />
+
+              <small>
+                Tell NutriFlow what you personally want to achieve.
+              </small>
 
             </div>
 
           </div>
 
+        </div>
 
-          <!-- GOAL -->
-          <div class="wellness-card goal-card">
 
-            <div class="wellness-icon">
-              ◎
+        <!-- ======================================
+             ACTION BUTTONS
+        ======================================= -->
+
+        <div class="edit-actions">
+
+          <button
+            type="button"
+            class="cancel-button"
+            (click)="cancelEditing()"
+            [disabled]="saving">
+
+            Cancel
+
+          </button>
+
+
+          <button
+            type="button"
+            class="save-button"
+            (click)="saveProfile()"
+            [disabled]="saving">
+
+            @if (saving) {
+
+              Saving...
+
+            } @else {
+
+              ✓ Save Changes
+
+            }
+
+          </button>
+
+        </div>
+
+      </section>
+
+    }
+
+
+    <!-- ==========================================
+         NORMAL VIEW MODE
+    =========================================== -->
+
+    @else {
+
+      <section class="profile-card">
+
+        <!-- PROFILE TOP -->
+
+        <div class="profile-top">
+
+          <div class="profile-image-wrapper">
+
+            <img
+              [src]="profileImage"
+              [alt]="fullName + ' profile picture'"
+              (error)="onImageError($event)"
+              class="profile-image"
+            />
+
+          </div>
+
+
+          <div class="profile-main-info">
+
+            <h2>
+              {{ fullName }}
+            </h2>
+
+            <p class="username">
+              @{{ user.username || 'username' }}
+            </p>
+
+            <p class="email">
+              {{ user.email || 'Email not provided' }}
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- ======================================
+             PERSONAL INFORMATION
+        ======================================= -->
+
+        <div class="section">
+
+          <div class="section-title">
+
+            <div class="section-icon">
+              ♡
             </div>
 
             <div>
 
-              <span class="wellness-label">
-                Wellness Goal
+              <h3>
+                Personal Information
+              </h3>
+
+              <p>
+                Your basic account information
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="information-grid">
+
+            <div class="information-item">
+
+              <span class="information-label">
+                First Name
               </span>
 
-              <strong>
-                {{ user.goal || 'Not provided' }}
-              </strong>
+              <span class="information-value">
+                {{ user.firstName || 'Not provided' }}
+              </span>
+
+            </div>
+
+
+            <div class="information-item">
+
+              <span class="information-label">
+                Last Name
+              </span>
+
+              <span class="information-value">
+                {{ user.lastName || 'Not provided' }}
+              </span>
+
+            </div>
+
+
+            <div class="information-item">
+
+              <span class="information-label">
+                Username
+              </span>
+
+              <span class="information-value">
+                {{ user.username || 'Not provided' }}
+              </span>
+
+            </div>
+
+
+            <div class="information-item">
+
+              <span class="information-label">
+                Email
+              </span>
+
+              <span class="information-value">
+                {{ user.email || 'Not provided' }}
+              </span>
+
+            </div>
+
+
+            <div class="information-item">
+
+              <span class="information-label">
+                Gender
+              </span>
+
+              <span class="information-value">
+                {{ user.gender || 'Not provided' }}
+              </span>
+
+            </div>
+
+
+            <div class="information-item">
+
+              <span class="information-label">
+                Date of Birth
+              </span>
+
+              <span class="information-value">
+                {{ formattedDateOfBirth }}
+              </span>
 
             </div>
 
@@ -322,58 +701,261 @@
 
         </div>
 
-      </div>
 
+        <!-- ======================================
+             BODY & WELLNESS
+        ======================================= -->
 
-      <!-- ==========================================
-           ACCOUNT INFORMATION
-      =========================================== -->
-      <div class="section last-section">
+        <div class="section">
 
-        <div class="section-title">
+          <div class="section-title">
 
-          <div class="section-icon">
-            ✓
+            <div class="section-icon">
+              ✦
+            </div>
+
+            <div>
+
+              <h3>
+                Body & Wellness
+              </h3>
+
+              <p>
+                Your current health information
+              </p>
+
+            </div>
+
           </div>
 
-          <div>
-            <h3>Account Information</h3>
 
-            <p>
-              Information about your NutriFlow account
-            </p>
+          <div class="wellness-grid">
+
+            <div class="wellness-card">
+
+              <div class="wellness-icon">
+                ⚖
+              </div>
+
+              <div>
+
+                <span class="wellness-label">
+                  Weight
+                </span>
+
+                <strong>
+
+                  {{ user.weight || '—' }}
+
+                  <small *ngIf="user.weight">
+                    kg
+                  </small>
+
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <div class="wellness-card">
+
+              <div class="wellness-icon">
+                ↕
+              </div>
+
+              <div>
+
+                <span class="wellness-label">
+                  Height
+                </span>
+
+                <strong>
+
+                  {{ user.height || '—' }}
+
+                  <small *ngIf="user.height">
+                    cm
+                  </small>
+
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <div class="wellness-card goal-card">
+
+              <div class="wellness-icon">
+                ◎
+              </div>
+
+              <div>
+
+                <span class="wellness-label">
+                  Wellness Goal
+                </span>
+
+                <strong>
+                  {{ user.goal || 'Not provided' }}
+                </strong>
+
+              </div>
+
+            </div>
+
           </div>
 
         </div>
 
 
-        <div class="account-row">
+        <!-- ======================================
+             NUTRITION INFORMATION
+        ======================================= -->
 
-          <span class="information-label">
-            Member Since
-          </span>
+        @if (profile) {
 
-          <span class="information-value">
-            {{ formattedCreatedAt }}
-          </span>
+          <div class="section">
+
+            <div class="section-title">
+
+              <div class="section-icon">
+                ◈
+              </div>
+
+              <div>
+
+                <h3>
+                  Nutrition Preferences
+                </h3>
+
+                <p>
+                  Used to personalize your daily nutrition targets
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <div class="information-grid">
+
+              <div class="information-item">
+
+                <span class="information-label">
+                  Activity Level
+                </span>
+
+                <span class="information-value">
+                  {{ activityLevelLabel }}
+                </span>
+
+              </div>
+
+
+              <div class="information-item">
+
+                <span class="information-label">
+                  Nutrition Goal
+                </span>
+
+                <span class="information-value">
+                  {{ nutritionGoalLabel }}
+                </span>
+
+              </div>
+
+
+              <div class="information-item">
+
+                <span class="information-label">
+                  Daily Calories
+                </span>
+
+                <span class="information-value">
+                  {{ profile.dailyCalories || '—' }} kcal
+                </span>
+
+              </div>
+
+
+              <div class="information-item">
+
+                <span class="information-label">
+                  Protein Target
+                </span>
+
+                <span class="information-value">
+                  {{ profile.proteinTarget || '—' }} g
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        }
+
+
+        <!-- ======================================
+             ACCOUNT INFORMATION
+        ======================================= -->
+
+        <div class="section last-section">
+
+          <div class="section-title">
+
+            <div class="section-icon">
+              ✓
+            </div>
+
+            <div>
+
+              <h3>
+                Account Information
+              </h3>
+
+              <p>
+                Information about your NutriFlow account
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="account-row">
+
+            <span class="information-label">
+              Member Since
+            </span>
+
+            <span class="information-value">
+              {{ formattedCreatedAt }}
+            </span>
+
+          </div>
+
+
+          <div class="account-row">
+
+            <span class="information-label">
+              Account Status
+            </span>
+
+            <span class="status-badge">
+              Active
+            </span>
+
+          </div>
 
         </div>
 
-        <div class="account-row">
+      </section>
 
-          <span class="information-label">
-            Account Status
-          </span>
-
-          <span class="status-badge">
-            Active
-          </span>
-
-        </div>
-
-      </div>
-
-    </section>
+    }
 
   }
 

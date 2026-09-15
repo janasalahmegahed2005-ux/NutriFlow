@@ -1,21 +1,18 @@
 const NutritionProfile = require("../models/NutritionProfile");
-
 const User = require("../models/User");
+
 const {
   calculateBMR,
   calculateDailyCalories,
   calculateMacros,
 } = require("../utils/nutritionCalculator");
 
-
 // ==========================================
 // CREATE NUTRITION PROFILE
 // ==========================================
 
 const createNutritionProfile = async (req, res) => {
-
   try {
-
     const {
       age,
       gender,
@@ -25,22 +22,17 @@ const createNutritionProfile = async (req, res) => {
       goal,
     } = req.body;
 
-
     const existingProfile =
       await NutritionProfile.findOne({
         user: req.userId,
       });
 
-
     if (existingProfile) {
-
       return res.status(409).json({
         success: false,
         message: "Nutrition profile already exists",
       });
-
     }
-
 
     const bmr =
       calculateBMR({
@@ -50,14 +42,12 @@ const createNutritionProfile = async (req, res) => {
         gender,
       });
 
-
     const dailyCalories =
       calculateDailyCalories({
         bmr,
         activityLevel,
         goal,
       });
-
 
     const {
       proteinTarget,
@@ -69,10 +59,8 @@ const createNutritionProfile = async (req, res) => {
       weight
     );
 
-
     const profile =
       new NutritionProfile({
-
         user: req.userId,
 
         age,
@@ -96,84 +84,68 @@ const createNutritionProfile = async (req, res) => {
         fatTarget,
 
         fiberTarget,
-
       });
-
 
     const savedProfile =
       await profile.save();
 
-
     res.status(201).json({
-
       success: true,
 
       message:
         "Nutrition profile created successfully",
 
-      profile:
-        savedProfile,
-
+      profile: savedProfile,
     });
-
 
   } catch (error) {
 
-    if (error.name === "ValidationError") {
-
+    if (
+      error.name === "ValidationError"
+    ) {
       return res.status(400).json({
-
         success: false,
 
         message:
           "Invalid nutrition profile data",
 
         errors:
-          Object.values(error.errors).map(
+          Object.values(
+            error.errors
+          ).map(
             (err) => err.message
           ),
-
       });
-
     }
-
 
     console.error(
       "Create nutrition profile error:",
       error
     );
 
-
     res.status(500).json({
-
       success: false,
 
       message:
         "An internal server error occurred",
-
     });
-
   }
-
 };
-
-
 
 // ==========================================
 // GET MY NUTRITION PROFILE
 // ==========================================
 
-const getNutritionProfile = async (req, res) => {
-
+const getNutritionProfile = async (
+  req,
+  res
+) => {
   try {
-
-    // Try to find the user's existing nutrition profile
 
     let profile =
       await NutritionProfile.findOne({
         user: req.userId,
       });
-
 
     console.log(
       "🔥 PROFILE FOUND:",
@@ -185,8 +157,9 @@ const getNutritionProfile = async (req, res) => {
       req.userId
     );
 
-
-    // If no profile exists, create one automatically
+    // ======================================
+    // CREATE PROFILE IF MISSING
+    // ======================================
 
     if (!profile) {
 
@@ -194,28 +167,23 @@ const getNutritionProfile = async (req, res) => {
         "🔥 NO PROFILE FOUND - CREATING ONE NOW..."
       );
 
-
       const user =
         await User.findById(
           req.userId
         );
 
-
       if (!user) {
-
         return res.status(404).json({
-
           success: false,
 
           message:
             "User not found",
-
         });
-
       }
 
-
-      // Calculate age from date of birth
+      // ====================================
+      // CALCULATE AGE
+      // ====================================
 
       const today =
         new Date();
@@ -225,45 +193,44 @@ const getNutritionProfile = async (req, res) => {
           user.dateOfBirth
         );
 
-
       let age =
         today.getFullYear() -
         birthDate.getFullYear();
 
-
       const monthDifference =
         today.getMonth() -
         birthDate.getMonth();
-
 
       if (
         monthDifference < 0 ||
         (
           monthDifference === 0 &&
           today.getDate() <
-          birthDate.getDate()
+            birthDate.getDate()
         )
       ) {
-
         age--;
-
       }
 
-
-      // Safe defaults
+      // ====================================
+      // DEFAULT NUTRITION VALUES
+      // ====================================
 
       const activityLevel =
         "moderate";
 
+      // IMPORTANT:
+      // This is the NUTRITION goal.
+      // It is NOT the user's Wellness Goal.
       const nutritionGoal =
         "maintain_weight";
 
-
-      // Calculate nutrition targets
+      // ====================================
+      // CALCULATE TARGETS
+      // ====================================
 
       const bmr =
         calculateBMR({
-
           age,
 
           height:
@@ -274,22 +241,17 @@ const getNutritionProfile = async (req, res) => {
 
           gender:
             user.gender,
-
         });
-
 
       const dailyCalories =
         calculateDailyCalories({
-
           bmr,
 
           activityLevel,
 
           goal:
             nutritionGoal,
-
         });
-
 
       const {
         proteinTarget,
@@ -301,14 +263,13 @@ const getNutritionProfile = async (req, res) => {
         user.weight
       );
 
-
-      // Create the missing nutrition profile
+      // ====================================
+      // CREATE PROFILE
+      // ====================================
 
       profile =
         new NutritionProfile({
-
-          user:
-            req.userId,
+          user: req.userId,
 
           age,
 
@@ -323,6 +284,9 @@ const getNutritionProfile = async (req, res) => {
 
           activityLevel,
 
+          // IMPORTANT:
+          // NutritionProfile.goal stores
+          // ONLY the nutrition goal.
           goal:
             nutritionGoal,
 
@@ -335,29 +299,21 @@ const getNutritionProfile = async (req, res) => {
           fatTarget,
 
           fiberTarget,
-
         });
 
-
       await profile.save();
-
 
       console.log(
         "🔥 NEW NUTRITION PROFILE CREATED:",
         profile._id
       );
-
     }
 
-
     return res.status(200).json({
-
       success: true,
 
       profile,
-
     });
-
 
   } catch (error) {
 
@@ -366,28 +322,23 @@ const getNutritionProfile = async (req, res) => {
       error
     );
 
-
     return res.status(500).json({
-
       success: false,
 
       message:
         "An internal server error occurred",
-
     });
-
   }
-
 };
-
-
 
 // ==========================================
 // UPDATE MY NUTRITION PROFILE + USER
 // ==========================================
 
-const updateNutritionProfile = async (req, res) => {
-
+const updateNutritionProfile = async (
+  req,
+  res
+) => {
   try {
 
     const {
@@ -396,6 +347,8 @@ const updateNutritionProfile = async (req, res) => {
       height,
       weight,
       activityLevel,
+
+      // Nutrition Goal
       nutritionGoal,
 
       firstName,
@@ -403,11 +356,10 @@ const updateNutritionProfile = async (req, res) => {
       username,
       dateOfBirth,
 
-      // Free-text personal goal stored in User
+      // Wellness Goal
       goal,
 
     } = req.body;
-
 
     // ==========================================
     // GET CURRENT USER
@@ -418,20 +370,14 @@ const updateNutritionProfile = async (req, res) => {
         req.userId
       );
 
-
     if (!user) {
-
       return res.status(404).json({
-
         success: false,
 
         message:
           "User not found",
-
       });
-
     }
-
 
     // ==========================================
     // GET CURRENT NUTRITION PROFILE
@@ -439,160 +385,113 @@ const updateNutritionProfile = async (req, res) => {
 
     const profile =
       await NutritionProfile.findOne({
-
-        user:
-          req.userId,
-
+        user: req.userId,
       });
 
-
     if (!profile) {
-
       return res.status(404).json({
-
         success: false,
 
         message:
           "Nutrition profile not found",
-
       });
-
     }
-
 
     // ==========================================
     // UPDATE USER INFORMATION
     // ==========================================
 
     if (firstName !== undefined) {
-
       user.firstName =
         firstName;
-
     }
-
 
     if (lastName !== undefined) {
-
       user.lastName =
         lastName;
-
     }
 
+    if (gender !== undefined) {
+      user.gender =
+        gender;
+    }
+
+    if (dateOfBirth !== undefined) {
+      user.dateOfBirth =
+        dateOfBirth;
+    }
+
+    if (height !== undefined) {
+      user.height =
+        height;
+    }
+
+    if (weight !== undefined) {
+      user.weight =
+        weight;
+    }
+
+    // ==========================================
+    // IMPORTANT:
+    // WELLNESS GOAL
+    //
+    // user.goal is the personal goal entered
+    // by the user, for example:
+    //
+    // "I want to build muscle and gain weight
+    // in a healthy way"
+    //
+    // NEVER replace this with "maintain_weight".
+    // ==========================================
+
+    if (goal !== undefined) {
+      user.goal =
+        goal;
+    }
 
     // ==========================================
     // UPDATE USERNAME
     // ==========================================
 
-    if (username !== undefined) {
+    if (
+      username !== undefined
+    ) {
 
       const cleanUsername =
         username
           .trim()
           .toLowerCase();
 
-
-      // Validate username format
-
       if (
-        cleanUsername.length < 3 ||
-        cleanUsername.length > 30 ||
-        !/^(?=.*[A-Za-z]).+$/.test(
-          cleanUsername
-        )
+        cleanUsername !==
+        String(user.username || "")
+          .toLowerCase()
       ) {
 
-        return res.status(400).json({
+        const existingUser =
+          await User.findOne({
+            username:
+              cleanUsername,
 
-          success: false,
+            _id: {
+              $ne:
+                req.userId,
+            },
+          });
 
-          field:
-            "username",
+        if (existingUser) {
+          return res.status(409).json({
+            success: false,
 
-          message:
-            "Username must be at least 3 characters, no more than 30 characters, and contain at least one letter.",
-
-        });
-
+            message:
+              "This username is already taken.",
+          });
+        }
       }
-
-
-      // Check if another user already has this username
-
-      const existingUsername =
-        await User.findOne({
-
-          username:
-            cleanUsername,
-
-          _id:
-            { $ne: req.userId },
-
-        });
-
-
-      if (existingUsername) {
-
-        return res.status(409).json({
-
-          success: false,
-
-          field:
-            "username",
-
-          message:
-            "This username isn't available. Please choose another username.",
-
-        });
-
-      }
-
 
       user.username =
         cleanUsername;
-
     }
-
-
-    if (gender !== undefined) {
-
-      user.gender =
-        gender;
-
-    }
-
-
-    if (dateOfBirth !== undefined) {
-
-      user.dateOfBirth =
-        dateOfBirth;
-
-    }
-
-
-    if (height !== undefined) {
-
-      user.height =
-        height;
-
-    }
-
-
-    if (weight !== undefined) {
-
-      user.weight =
-        weight;
-
-    }
-
-
-    if (goal !== undefined) {
-
-      user.goal =
-        goal;
-
-    }
-
 
     // ==========================================
     // DETERMINE FINAL NUTRITION VALUES
@@ -603,30 +502,39 @@ const updateNutritionProfile = async (req, res) => {
         ? gender
         : profile.gender;
 
-
     const finalHeight =
       height !== undefined
         ? height
         : profile.height;
-
 
     const finalWeight =
       weight !== undefined
         ? weight
         : profile.weight;
 
-
     const finalActivityLevel =
       activityLevel !== undefined
         ? activityLevel
         : profile.activityLevel;
 
+    // ==========================================
+    // IMPORTANT:
+    // NUTRITION GOAL
+    //
+    // profile.goal is ONLY the nutrition goal.
+    //
+    // It can be:
+    // lose_weight
+    // maintain_weight
+    // gain_weight
+    //
+    // It must NEVER receive user.goal.
+    // ==========================================
 
     const finalNutritionGoal =
       nutritionGoal !== undefined
         ? nutritionGoal
         : profile.goal;
-
 
     // ==========================================
     // CALCULATE AGE
@@ -634,8 +542,9 @@ const updateNutritionProfile = async (req, res) => {
 
     let finalAge;
 
-
-    if (dateOfBirth !== undefined) {
+    if (
+      dateOfBirth !== undefined
+    ) {
 
       const birthDate =
         new Date(
@@ -645,54 +554,44 @@ const updateNutritionProfile = async (req, res) => {
       const today =
         new Date();
 
-
       finalAge =
         today.getFullYear() -
         birthDate.getFullYear();
 
-
       const monthDifference =
         today.getMonth() -
         birthDate.getMonth();
-
 
       if (
         monthDifference < 0 ||
         (
           monthDifference === 0 &&
           today.getDate() <
-          birthDate.getDate()
+            birthDate.getDate()
         )
       ) {
-
         finalAge--;
-
       }
 
-    }
-
-    else if (age !== undefined) {
+    } else if (
+      age !== undefined
+    ) {
 
       finalAge =
         age;
 
-    }
-
-    else {
+    } else {
 
       finalAge =
         profile.age;
-
     }
 
-
     // ==========================================
-    // CALCULATE NEW NUTRITION TARGETS
+    // CALCULATE NEW TARGETS
     // ==========================================
 
     const bmr =
       calculateBMR({
-
         age:
           finalAge,
 
@@ -704,23 +603,20 @@ const updateNutritionProfile = async (req, res) => {
 
         gender:
           finalGender,
-
       });
-
 
     const dailyCalories =
       calculateDailyCalories({
-
         bmr,
 
         activityLevel:
           finalActivityLevel,
 
+        // IMPORTANT:
+        // Use ONLY nutrition goal here.
         goal:
           finalNutritionGoal,
-
       });
-
 
     const {
       proteinTarget,
@@ -731,7 +627,6 @@ const updateNutritionProfile = async (req, res) => {
       dailyCalories,
       finalWeight
     );
-
 
     // ==========================================
     // UPDATE NUTRITION PROFILE
@@ -752,9 +647,10 @@ const updateNutritionProfile = async (req, res) => {
     profile.activityLevel =
       finalActivityLevel;
 
+    // IMPORTANT:
+    // profile.goal = NUTRITION GOAL ONLY
     profile.goal =
       finalNutritionGoal;
-
 
     profile.dailyCalories =
       dailyCalories;
@@ -771,7 +667,6 @@ const updateNutritionProfile = async (req, res) => {
     profile.fiberTarget =
       fiberTarget;
 
-
     // ==========================================
     // SAVE BOTH
     // ==========================================
@@ -780,69 +675,35 @@ const updateNutritionProfile = async (req, res) => {
 
     await profile.save();
 
-
     // ==========================================
-    // RESPONSE
+    // SAFE USER RESPONSE
     // ==========================================
 
     const safeUser =
       user.toObject();
 
-
     delete safeUser.password;
 
+    // ==========================================
+    // RESPONSE
+    // ==========================================
 
-    res.status(200).json({
-
+    return res.status(200).json({
       success: true,
 
       message:
         "Settings updated successfully",
 
+      // user.goal contains Wellness Goal
       user:
         safeUser,
 
+      // profile.goal contains Nutrition Goal
       profile:
         profile.toObject(),
-
     });
 
-
   } catch (error) {
-
-    // ==========================================
-    // DUPLICATE USERNAME
-    // ==========================================
-
-    if (error.code === 11000) {
-
-      const duplicateField =
-        Object.keys(
-          error.keyPattern || {}
-        )[0];
-
-
-      if (
-        duplicateField ===
-        "username"
-      ) {
-
-        return res.status(409).json({
-
-          success: false,
-
-          field:
-            "username",
-
-          message:
-            "This username isn't available. Please choose another username.",
-
-        });
-
-      }
-
-    }
-
 
     // ==========================================
     // MONGOOSE VALIDATION ERROR
@@ -854,7 +715,6 @@ const updateNutritionProfile = async (req, res) => {
     ) {
 
       return res.status(400).json({
-
         success: false,
 
         message:
@@ -867,73 +727,72 @@ const updateNutritionProfile = async (req, res) => {
             (err) =>
               err.message
           ),
-
       });
-
     }
 
+    // ==========================================
+    // DUPLICATE KEY
+    // ==========================================
+
+    if (
+      error.code === 11000
+    ) {
+
+      return res.status(409).json({
+        success: false,
+
+        message:
+          "Username is already taken.",
+      });
+    }
 
     console.error(
       "Update nutrition profile error:",
       error
     );
 
-
-    res.status(500).json({
-
+    return res.status(500).json({
       success: false,
 
       message:
         "An internal server error occurred",
-
     });
-
   }
-
 };
-
-
 
 // ==========================================
 // DELETE MY NUTRITION PROFILE
 // ==========================================
 
-const deleteNutritionProfile = async (req, res) => {
+const deleteNutritionProfile = async (
+  req,
+  res
+) => {
 
   try {
 
     const deletedProfile =
       await NutritionProfile.findOneAndDelete({
-
         user:
           req.userId,
-
       });
-
 
     if (!deletedProfile) {
 
       return res.status(404).json({
-
         success: false,
 
         message:
           "Nutrition profile not found",
-
       });
-
     }
 
-
     res.status(200).json({
-
       success: true,
 
       message:
         "Nutrition profile deleted successfully",
-
     });
-
 
   } catch (error) {
 
@@ -942,21 +801,14 @@ const deleteNutritionProfile = async (req, res) => {
       error
     );
 
-
     res.status(500).json({
-
       success: false,
 
       message:
         "An internal server error occurred",
-
     });
-
   }
-
 };
-
-
 
 // ==========================================
 // EXPORT

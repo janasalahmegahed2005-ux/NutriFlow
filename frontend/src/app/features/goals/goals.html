@@ -1,20 +1,33 @@
 <div class="page-layout">
 
   <app-sidebar></app-sidebar>
+
   <main class="main-content">
 
     <header class="page-header">
       <div>
         <p class="eyebrow">YOUR WELLNESS GOALS</p>
         <h2>Goals & Targets</h2>
-        <p class="subtitle">Your personalized nutrition targets based on your profile.</p>
+        <p class="subtitle">
+          Your personalized nutrition targets based on your profile.
+        </p>
       </div>
-      <a routerLink="/settings" class="edit-btn">✎ Edit Profile</a>
+
+      <!-- EDIT PROFILE BUTTON -->
+      <button
+        type="button"
+        class="edit-btn"
+        (click)="goToProfile()"
+      >
+        ✎ Edit Profile
+      </button>
+
     </header>
 
     <!-- GOAL STATEMENT -->
     <div class="goal-card">
       <div class="goal-icon">🎯</div>
+
       <div>
         <p class="goal-label">YOUR WELLNESS GOAL</p>
         <p class="goal-text">{{ goal }}</p>
@@ -26,6 +39,7 @@
 
       <div class="target-card calories-card">
         <div class="target-icon">🔥</div>
+
         <div class="target-info">
           <span class="target-label">Daily Calories</span>
           <strong class="target-value">{{ calorieTarget }}</strong>
@@ -33,8 +47,10 @@
         </div>
       </div>
 
+
       <div class="target-card protein-card">
         <div class="target-icon">💪</div>
+
         <div class="target-info">
           <span class="target-label">Protein Target</span>
           <strong class="target-value">{{ proteinTarget }}g</strong>
@@ -42,8 +58,10 @@
         </div>
       </div>
 
+
       <div class="target-card carbs-card">
         <div class="target-icon">🌾</div>
+
         <div class="target-info">
           <span class="target-label">Carbs Target</span>
           <strong class="target-value">{{ carbsTarget }}g</strong>
@@ -51,8 +69,10 @@
         </div>
       </div>
 
+
       <div class="target-card fats-card">
         <div class="target-icon">🥑</div>
+
         <div class="target-info">
           <span class="target-label">Fat Target</span>
           <strong class="target-value">{{ fatTarget }}g</strong>
@@ -62,9 +82,12 @@
 
     </div>
 
+
     <!-- BODY STATS -->
     <div class="stats-card">
+
       <h3>Your Body Stats</h3>
+
       <div class="stats-grid">
 
         <div class="stat-item">
@@ -72,74 +95,134 @@
           <strong class="stat-value">{{ weight }} kg</strong>
         </div>
 
+
         <div class="stat-item">
           <span class="stat-label">Height</span>
           <strong class="stat-value">{{ height }} cm</strong>
         </div>
 
+
         <div class="stat-item">
           <span class="stat-label">Gender</span>
-          <strong class="stat-value">{{ gender | titlecase }}</strong>
+          <strong class="stat-value">
+            {{ gender | titlecase }}
+          </strong>
         </div>
+
 
         <div class="stat-item">
           <span class="stat-label">BMI</span>
-          <strong class="stat-value" [style.color]="bmiColor">{{ bmi }}</strong>
-          <span class="stat-sub">{{ bmiCategory }}</span>
+
+          <strong
+            class="stat-value"
+            [style.color]="bmiColor"
+          >
+            {{ bmi }}
+          </strong>
+
+          <span class="stat-sub">
+            {{ bmiCategory }}
+          </span>
         </div>
 
       </div>
     </div>
 
+
     <!-- MACRO SPLIT -->
     <div class="macro-split-card">
+
       <h3>Macro Distribution</h3>
+
       <div class="macro-bars">
 
+        <!-- PROTEIN -->
         <div class="macro-bar-item">
+
           <div class="macro-bar-label">
             <span>Protein</span>
             <span>{{ proteinTarget }}g</span>
           </div>
+
           <div class="macro-bar-track">
-            <div class="macro-bar-fill protein" [style.width.%]="(proteinTarget * 4 / calorieTarget) * 100"></div>
+            <div
+              class="macro-bar-fill protein"
+              [style.width.%]="(proteinTarget * 4 / calorieTarget) * 100"
+            ></div>
           </div>
-          <span class="macro-pct">{{ ((proteinTarget * 4 / calorieTarget) * 100).toFixed(0) }}%</span>
+
+          <span class="macro-pct">
+            {{ ((proteinTarget * 4 / calorieTarget) * 100).toFixed(0) }}%
+          </span>
+
         </div>
 
+
+        <!-- CARBS -->
         <div class="macro-bar-item">
+
           <div class="macro-bar-label">
             <span>Carbs</span>
             <span>{{ carbsTarget }}g</span>
           </div>
+
           <div class="macro-bar-track">
-            <div class="macro-bar-fill carbs" [style.width.%]="(carbsTarget * 4 / calorieTarget) * 100"></div>
+            <div
+              class="macro-bar-fill carbs"
+              [style.width.%]="(carbsTarget * 4 / calorieTarget) * 100"
+            ></div>
           </div>
-          <span class="macro-pct">{{ ((carbsTarget * 4 / calorieTarget) * 100).toFixed(0) }}%</span>
+
+          <span class="macro-pct">
+            {{ ((carbsTarget * 4 / calorieTarget) * 100).toFixed(0) }}%
+          </span>
+
         </div>
 
+
+        <!-- FAT -->
         <div class="macro-bar-item">
+
           <div class="macro-bar-label">
             <span>Fat</span>
             <span>{{ fatTarget }}g</span>
           </div>
+
           <div class="macro-bar-track">
-            <div class="macro-bar-fill fats" [style.width.%]="(fatTarget * 9 / calorieTarget) * 100"></div>
+            <div
+              class="macro-bar-fill fats"
+              [style.width.%]="(fatTarget * 9 / calorieTarget) * 100"
+            ></div>
           </div>
-          <span class="macro-pct">{{ ((fatTarget * 9 / calorieTarget) * 100).toFixed(0) }}%</span>
+
+          <span class="macro-pct">
+            {{ ((fatTarget * 9 / calorieTarget) * 100).toFixed(0) }}%
+          </span>
+
         </div>
 
       </div>
     </div>
 
+
+    <!-- MOTIVATION -->
     <section class="motivation">
+
       <div class="motivation-icon">✦</div>
+
       <div>
         <strong>Your targets are uniquely yours.</strong>
-        <p>Calculated from your body stats and personal goal. Update your profile anytime in Settings.</p>
+
+        <p>
+          Calculated from your body stats and personal goal.
+          Update your profile anytime in Settings.
+        </p>
       </div>
+
       <span class="motivation-decoration">✿</span>
+
     </section>
 
   </main>
+
 </div>

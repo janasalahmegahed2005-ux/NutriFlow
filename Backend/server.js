@@ -56,26 +56,38 @@ app.use(express.json({ limit: "10kb" }));
 // API ROUTES
 // ==========================================
 
-
 app.use("/api/foods", foodRoutes);
+
 app.use("/api/auth", authRoutes);
+
 app.use("/api/meals", mealRoutes);
+
 app.use("/api/meal-plans", mealPlanRoutes);
+
 app.use("/api/profile", (req, res, next) => {
   console.log("🔥 PROFILE ROUTE HIT:", req.method, req.originalUrl);
   next();
 }, profileRoutes);
-app.use("/api/nutrition", nutritionRoutes);
-app.use("/api/goals", goalRoutes);
-app.use("/api/progress", progressRoutes);
-app.use("/api/recipes", recipeRoutes);
-app.use("/api/recipes/suggestions", recipeSuggestionRoutes);
-app.use("/api/water", waterRoutes);
-app.use("/api/lifestyle", lifestyleRoutes);
-app.use("/api/insights", insightRoutes);
-app.use("/api/balance", balanceRoutes);
-app.use("/api/ai-scanner", aiScannerRoutes);
 
+app.use("/api/nutrition", nutritionRoutes);
+
+app.use("/api/goals", goalRoutes);
+
+app.use("/api/progress", progressRoutes);
+
+app.use("/api/recipes", recipeRoutes);
+
+app.use("/api/recipes/suggestions", recipeSuggestionRoutes);
+
+app.use("/api/water", waterRoutes);
+
+app.use("/api/lifestyle", lifestyleRoutes);
+
+app.use("/api/insights", insightRoutes);
+
+app.use("/api/balance", balanceRoutes);
+
+app.use("/api/ai-scanner", aiScannerRoutes);
 
 
 // ==========================================

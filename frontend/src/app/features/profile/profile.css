@@ -7,6 +7,7 @@
   min-height: 100vh;
 
   --cream: #f8f7f3;
+
   --green-dark: #223d19;
   --green: #405c36;
   --green-soft: #dce8d7;
@@ -99,11 +100,17 @@
 
 
 /* ==========================================
-   HEADER TEXT
+   HEADER CONTENT
    ========================================== */
 
 .header-content {
   margin-top: 24px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  gap: 24px;
 }
 
 .page-label {
@@ -145,11 +152,43 @@
 
 
 /* ==========================================
+   EDIT PROFILE BUTTON
+   ========================================== */
+
+.edit-profile-button {
+  border: none;
+
+  background: #6f9275;
+
+  color: white;
+
+  padding: 13px 22px;
+
+  border-radius: 12px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+
+  white-space: nowrap;
+}
+
+.edit-profile-button:hover {
+  transform: translateY(-1px);
+  filter: brightness(0.95);
+}
+
+
+/* ==========================================
    MAIN PROFILE CARD
    ========================================== */
 
 .profile-card {
   max-width: 1100px;
+
   margin: 0 auto;
 
   background: rgba(255, 255, 255, 0.82);
@@ -405,7 +444,6 @@
   background: var(--green-soft);
 
   display: flex;
-
   align-items: center;
 
   gap: 14px;
@@ -415,11 +453,13 @@
 
 .wellness-card:nth-child(2) {
   background: var(--blue-soft);
+
   border-color: #d0e2e9;
 }
 
 .wellness-card:nth-child(3) {
   background: var(--rose-soft);
+
   border-color: #ead3d7;
 }
 
@@ -598,6 +638,7 @@
   justify-content: center;
 
   font-size: 24px;
+
   font-weight: 600;
 
   margin-bottom: 16px;
@@ -655,8 +696,289 @@
 
 
 /* ==========================================
+   EDIT CARD
+   ========================================== */
+
+.edit-card {
+  padding-bottom: 30px;
+}
+
+.edit-header {
+  padding: 28px 38px 24px;
+
+  border-bottom: 1px solid #eee7dd;
+}
+
+.edit-header h2 {
+  margin: 4px 0 8px;
+
+  font-size: 25px;
+
+  color: #354b3b;
+}
+
+.edit-header p:last-child {
+  margin: 0;
+
+  color: #7b817b;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+
+/* ==========================================
+   EDIT FORM
+   ========================================== */
+
+.edit-form-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  column-gap: 24px;
+
+  row-gap: 22px;
+
+  margin-top: 26px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+
+  min-width: 0;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-size: 13px;
+
+  font-weight: 600;
+
+  color: #47534a;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+
+  height: 46px;
+
+  box-sizing: border-box;
+
+  border: 1px solid #ddd7cd;
+
+  background: #fffdfa;
+
+  color: #364238;
+
+  padding: 0 14px;
+
+  border-radius: 10px;
+
+  font-size: 14px;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #88a58c;
+
+  box-shadow:
+    0 0 0 3px rgba(111, 146, 117, 0.12);
+}
+
+.form-group input:disabled {
+  background: #f1eee9;
+
+  color: #888c87;
+
+  cursor: not-allowed;
+}
+
+.form-group small {
+  font-size: 11px;
+
+  color: #8a8d88;
+
+  line-height: 1.4;
+}
+
+
+/* ==========================================
+   INPUT WITH UNIT
+   ========================================== */
+
+.input-with-unit {
+  position: relative;
+
+  width: 100%;
+}
+
+.input-with-unit input {
+  padding-right: 48px;
+}
+
+.input-with-unit span {
+  position: absolute;
+
+  right: 14px;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  color: #8b918b;
+
+  font-size: 12px;
+
+  pointer-events: none;
+}
+
+
+/* ==========================================
+   EDIT ACTIONS
+   ========================================== */
+
+.edit-actions {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 12px;
+
+  margin: 28px 38px 0;
+
+  padding-top: 24px;
+
+  border-top: 1px solid #eee7dd;
+}
+
+.cancel-button,
+.save-button {
+  border: none;
+
+  min-width: 130px;
+
+  height: 44px;
+
+  padding: 0 22px;
+
+  border-radius: 10px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.cancel-button {
+  background: #eeeae3;
+
+  color: #596159;
+}
+
+.cancel-button:hover:not(:disabled) {
+  background: #e5e0d8;
+}
+
+.save-button {
+  background: #6f9275;
+
+  color: white;
+}
+
+.save-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+
+  filter: brightness(0.95);
+}
+
+.cancel-button:disabled,
+.save-button:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+}
+
+
+/* ==========================================
+   SUCCESS / ERROR MESSAGES
+   ========================================== */
+
+.success-message,
+.profile-error-message {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 13px 16px;
+
+  margin: 0 auto 18px;
+
+  max-width: 1100px;
+
+  border-radius: 10px;
+
+  font-size: 14px;
+}
+
+.success-message {
+  background: #edf6ee;
+
+  color: #4d7353;
+
+  border: 1px solid #d6e8d8;
+}
+
+.profile-error-message {
+  background: #fff1ef;
+
+  color: #a75a50;
+
+  border: 1px solid #f0d5d1;
+}
+
+.success-message span,
+.profile-error-message span {
+  font-weight: 700;
+}
+
+
+/* ==========================================
    RESPONSIVE
    ========================================== */
+
+@media (max-width: 1100px) {
+
+  .profile-page {
+    width: calc(100% - 215px);
+
+    margin-left: 215px;
+
+    padding: 30px;
+  }
+
+}
+
 
 @media (max-width: 900px) {
 
@@ -671,6 +993,54 @@
   .goal-card {
     grid-column: 1 / -1;
   }
+
+}
+
+
+@media (max-width: 800px) {
+
+  .header-content {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 18px;
+  }
+
+  .edit-profile-button {
+    width: 100%;
+  }
+
+  .edit-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group.full-width {
+    grid-column: auto;
+  }
+
+  .edit-actions {
+    flex-direction: column-reverse;
+  }
+
+  .cancel-button,
+  .save-button {
+    width: 100%;
+  }
+
+}
+
+
+@media (max-width: 750px) {
+
+  .profile-page {
+    width: 100%;
+
+    margin-left: 0;
+
+    padding: 22px 16px 35px;
+  }
+
 }
 
 
@@ -696,6 +1066,10 @@
     padding: 26px 22px;
   }
 
+  .edit-header {
+    padding: 24px 22px;
+  }
+
   .information-grid {
     grid-template-columns: 1fr;
   }
@@ -711,6 +1085,12 @@
   .account-row {
     gap: 15px;
   }
+
+  .edit-actions {
+    margin-left: 22px;
+    margin-right: 22px;
+  }
+
 }
 
 
@@ -735,29 +1115,6 @@
   .profile-image-wrapper {
     width: 95px;
     height: 95px;
-  }
-}
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-@media (max-width: 1100px) {
-
-  .profile-page {
-    width: calc(100% - 215px);
-    margin-left: 215px;
-    padding: 30px;
-  }
-
-}
-
-
-@media (max-width: 750px) {
-
-  .profile-page {
-    width: 100%;
-    margin-left: 0;
-    padding: 22px 16px 35px;
   }
 
 }

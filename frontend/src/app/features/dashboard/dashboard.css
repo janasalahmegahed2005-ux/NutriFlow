@@ -2430,3 +2430,298 @@
 .profile-link:hover {
   text-decoration: none;
 }
+/* =========================================
+   NUTRIFLOW NOTIFICATIONS
+========================================= */
+
+.profile {
+  position: relative;
+  z-index: 1001;
+}
+
+.topbar {
+  position: relative;
+  z-index: 1000;
+}
+
+.notification {
+  position: relative;
+  z-index: 1002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.notification:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 15px rgba(34, 61, 25, .10);
+}
+
+
+/* =========================================
+   NOTIFICATION PANEL
+========================================= */
+
+.notification-panel {
+  position: absolute;
+
+  top: 48px;
+  right: 0;
+
+  width: 330px;
+
+  background: white;
+
+  border: 1px solid var(--border);
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 18px 45px rgba(40, 50, 35, .14);
+
+  z-index: 9999;
+
+  overflow: hidden;
+
+  animation:
+    notificationDrop .2s ease both;
+}
+
+
+/* =========================================
+   NOTIFICATION HEADER
+========================================= */
+
+.notification-header {
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  padding: 18px 18px 14px;
+
+  border-bottom:
+    1px solid var(--border);
+}
+
+.notification-label {
+  display: block;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1.2px;
+
+  font-size: 9px;
+
+  color: #718078;
+
+  font-weight: 600;
+}
+
+.notification-header h3 {
+  margin: 5px 0 0;
+
+  font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-size: 20px;
+
+  font-weight: 500;
+
+  color: var(--green-dark);
+}
+
+
+/* =========================================
+   CLOSE BUTTON
+========================================= */
+
+.notification-close {
+  width: 28px;
+  height: 28px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: var(--cream);
+
+  color: var(--text-soft);
+
+  font-size: 20px;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+.notification-close:hover {
+  background: var(--green-soft);
+
+  color: var(--green-dark);
+}
+
+
+/* =========================================
+   NOTIFICATION LIST
+========================================= */
+
+.notification-list {
+  padding: 8px;
+}
+
+
+/* =========================================
+   CLICKABLE NOTIFICATION ITEM
+========================================= */
+
+.notification-item {
+  width: 100%;
+
+  border: none;
+
+  background: transparent;
+
+  font-family: inherit;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 11px;
+
+  padding: 12px 10px;
+
+  border-radius: 12px;
+
+  transition:
+    background .2s ease,
+    transform .2s ease;
+}
+
+.notification-item:hover {
+  background: var(--cream);
+
+  transform: translateX(2px);
+}
+
+.notification-item:active {
+  transform: translateX(1px);
+}
+
+
+/* =========================================
+   NOTIFICATION ICON
+========================================= */
+
+.notification-icon {
+  width: 34px;
+  height: 34px;
+
+  flex-shrink: 0;
+
+  border-radius: 10px;
+
+  background: var(--green-soft);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 16px;
+}
+
+
+/* =========================================
+   NOTIFICATION CONTENT
+========================================= */
+
+.notification-content {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+
+  min-width: 0;
+}
+
+.notification-content strong {
+  font-size: 11px;
+
+  color: var(--green-dark);
+}
+
+.notification-content span {
+  font-size: 9px;
+
+  line-height: 1.4;
+
+  color: var(--text-soft);
+}
+
+
+/* =========================================
+   NOTIFICATION ANIMATION
+========================================= */
+
+@keyframes notificationDrop {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(-7px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+  .notification-panel {
+    position: fixed;
+
+    top: 75px;
+
+    right: 15px;
+
+    width:
+      calc(100vw - 30px);
+
+    max-width: 330px;
+  }
+
+}
