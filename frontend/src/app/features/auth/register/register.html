@@ -289,7 +289,35 @@
         ></textarea>
 
       </div>
+ 
+      <!-- Account Type -->
+<div class="form-group">
+  <label for="role">Account Type</label>
 
+  <select
+    id="role"
+    name="role"
+    [(ngModel)]="role"
+  >
+    <option value="user">User</option>
+    <option value="admin">Admin</option>
+  </select>
+</div>
+
+<!-- Admin Registration Code -->
+@if (role === 'admin') {
+  <div class="form-group">
+    <label for="adminCode">Admin Registration Code</label>
+
+    <input
+      type="password"
+      id="adminCode"
+      name="adminCode"
+      [(ngModel)]="adminCode"
+      placeholder="Enter admin registration code"
+    />
+  </div>
+}
 
       <!-- ===================================================
            PASSWORD

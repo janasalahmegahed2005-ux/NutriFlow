@@ -1,0 +1,430 @@
+<div class="admin-user-details-page">
+
+  <button
+    type="button"
+    class="back-button"
+    (click)="goBack()"
+  >
+    ← Back to Users
+  </button>
+
+
+  @if (loading()) {
+
+    <p class="loading">
+      Loading user details...
+    </p>
+
+  }
+
+
+  @if (errorMessage()) {
+
+    <div class="error">
+      {{ errorMessage() }}
+    </div>
+
+  }
+
+
+  @if (!loading() && !errorMessage() && user()) {
+
+    <div class="user-header">
+
+  <div class="user-header-content">
+
+    <div>
+
+      <h1>
+        {{ user().firstName }}
+        {{ user().lastName }}
+      </h1>
+
+      <p>
+        Username:
+        {{ user().username }}
+      </p>
+
+      <p>
+        Email:
+        {{ user().email }}
+      </p>
+
+      <p>
+        Role:
+        {{ user().role }}
+      </p>
+
+    </div>
+
+
+    @if (user()?.role === 'user') {
+
+  <div class="user-actions">
+
+    <button
+      type="button"
+      class="delete-button"
+      (click)="deleteUser()"
+      [disabled]="deleting()"
+    >
+
+      @if (deleting()) {
+
+        Deleting...
+
+      } @else {
+
+        Delete User Account
+
+      }
+
+    </button>
+
+  </div>
+
+}
+
+  </div>
+
+</div>
+
+
+    <div class="journey-section">
+
+      <h2>User Journey</h2>
+
+
+      <!-- Nutrition Profile -->
+
+      <div class="journey-card">
+
+        <h3>Nutrition Profile</h3>
+
+        @if (journey()?.nutritionProfile) {
+
+          <p>
+            Age:
+            {{ journey().nutritionProfile.age }}
+          </p>
+
+          <p>
+            Gender:
+            {{ journey().nutritionProfile.gender }}
+          </p>
+
+          <p>
+            Height:
+            {{ journey().nutritionProfile.height }}
+          </p>
+
+          <p>
+            Weight:
+            {{ journey().nutritionProfile.weight }}
+          </p>
+
+          <p>
+            Activity Level:
+            {{ journey().nutritionProfile.activityLevel }}
+          </p>
+
+          <p>
+            Nutrition Goal:
+            {{ journey().nutritionProfile.goal }}
+          </p>
+
+          <p>
+            Daily Calories:
+            {{ journey().nutritionProfile.dailyCalories }}
+          </p>
+
+        } @else {
+
+          <p>
+            No nutrition profile found.
+          </p>
+
+        }
+
+      </div>
+
+
+      <!-- Goals -->
+
+      <div class="journey-card">
+
+        <h3>Goals</h3>
+
+        @if (journey()?.goals?.length) {
+
+          @for (goal of journey().goals; track goal._id) {
+
+            <div class="item">
+
+              <p>
+                Goal Type:
+                {{ goal.type }}
+              </p>
+
+              <p>
+                Target Weight:
+                {{ goal.targetWeight }}
+              </p>
+
+              <p>
+                Daily Calories:
+                {{ goal.dailyCalories }}
+              </p>
+
+              <p>
+                Active:
+                {{ goal.isActive ? 'Yes' : 'No' }}
+              </p>
+
+            </div>
+
+          }
+
+        } @else {
+
+          <p>
+            No goals found.
+          </p>
+
+        }
+
+      </div>
+
+
+      <!-- Meals -->
+
+      <div class="journey-card">
+
+        <h3>Meals</h3>
+
+        @if (journey()?.meals?.length) {
+
+          @for (meal of journey().meals; track meal._id) {
+
+            <div class="item">
+
+              <h4>
+                {{ meal.name }}
+              </h4>
+
+              <p>
+                Food:
+                {{ meal.food }}
+              </p>
+
+              <p>
+                Meal Type:
+                {{ meal.mealType }}
+              </p>
+
+              <p>
+                Quantity:
+                {{ meal.quantity }}
+              </p>
+
+              <p>
+                Calories:
+                {{ meal.calories }}
+              </p>
+
+              <p>
+                Date:
+                {{ meal.date | date }}
+              </p>
+
+            </div>
+
+          }
+
+        } @else {
+
+          <p>
+            No meals found.
+          </p>
+
+        }
+
+      </div>
+
+
+      <!-- Meal Plans -->
+
+      <div class="journey-card">
+
+        <h3>Meal Plans</h3>
+
+        @if (journey()?.mealPlans?.length) {
+
+          @for (plan of journey().mealPlans; track plan._id) {
+
+            <div class="item">
+
+              <h4>
+                {{ plan.name }}
+              </h4>
+
+              <p>
+                Meal Type:
+                {{ plan.mealType }}
+              </p>
+
+              <p>
+                Food:
+                {{ plan.food }}
+              </p>
+
+              <p>
+                Quantity:
+                {{ plan.quantity }}
+              </p>
+
+              <p>
+                Calories:
+                {{ plan.calories }}
+              </p>
+
+              <p>
+                Date:
+                {{ plan.date | date }}
+              </p>
+
+            </div>
+
+          }
+
+        } @else {
+
+          <p>
+            No meal plans found.
+          </p>
+
+        }
+
+      </div>
+
+
+      <!-- Lifestyle -->
+
+      <div class="journey-card">
+
+        <h3>Lifestyle</h3>
+
+        @if (journey()?.lifestyle?.length) {
+
+          @for (entry of journey().lifestyle; track entry._id) {
+
+            <div class="item">
+
+              <p>
+                Sleep Hours:
+                {{ entry.sleepHours }}
+              </p>
+
+              <p>
+                Activity Minutes:
+                {{ entry.activityMinutes }}
+              </p>
+
+              <p>
+                Date:
+                {{ entry.date | date }}
+              </p>
+
+            </div>
+
+          }
+
+        } @else {
+
+          <p>
+            No lifestyle data found.
+          </p>
+
+        }
+
+      </div>
+
+
+      <!-- Water -->
+
+      <div class="journey-card">
+
+        <h3>Water Intake</h3>
+
+        @if (journey()?.water?.length) {
+
+          @for (entry of journey().water; track entry._id) {
+
+            <div class="item">
+
+              <p>
+                Amount:
+                {{ entry.amount }}
+              </p>
+
+              <p>
+                Date:
+                {{ entry.date | date }}
+              </p>
+
+            </div>
+
+          }
+
+        } @else {
+
+          <p>
+            No water records found.
+          </p>
+
+        }
+
+      </div>
+
+
+      <!-- Weight Entries -->
+
+      <div class="journey-card">
+
+        <h3>Weight History</h3>
+
+        @if (journey()?.weightEntries?.length) {
+
+          @for (entry of journey().weightEntries; track entry._id) {
+
+            <div class="item">
+
+              <p>
+                Weight:
+                {{ entry.weight }}
+              </p>
+
+              <p>
+                Date:
+                {{ entry.date | date }}
+              </p>
+
+            </div>
+
+          }
+
+        } @else {
+
+          <p>
+            No weight records found.
+          </p>
+
+        }
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

@@ -1,5 +1,7 @@
 const NutritionProfile = require("../models/NutritionProfile");
 const User = require("../models/User");
+const fs = require("fs");
+const path = require("path");
 
 const {
   calculateBMR,
@@ -180,6 +182,102 @@ const getNutritionProfile = async (
             "User not found",
         });
       }
+
+      // ==========================================
+// PROFILE IMAGE
+// ==========================================
+//
+// If a new image was uploaded:
+// - Delete the previous uploaded image
+// - Save the new image URL
+//
+// If the user requested removal:
+// - Delete the previous uploaded image
+// - Restore the default image
+// ==========================================
+
+const removeProfileImage =
+  req.body.removeProfileImage === "true";
+
+const deleteOldProfileImage = () => {
+  const currentImage =
+    user.imageUrl;
+
+  // Never delete the default image.
+  if (
+    !currentImage ||
+    currentImage ===
+      "/uploads/users/default-user.png"
+  ) {
+    return;
+  }
+
+  // Only delete files that belong
+  // to our uploads directory.
+  if (
+    !currentImage.startsWith(
+      "/uploads/users/"
+    )
+  ) {
+    return;
+  }
+
+  const oldImagePath =
+    path.join(
+      __dirname,
+      "..",
+      currentImage
+    );
+
+  if (fs.existsSync(oldImagePath)) {
+    try {
+      fs.unlinkSync(oldImagePath);
+
+      console.log(
+        "🗑️ Old profile image deleted:",
+        oldImagePath
+      );
+    } catch (fileError) {
+      console.warn(
+        "Could not delete old profile image:",
+        fileError
+      );
+    }
+  }
+};
+
+// ==========================================
+// NEW PROFILE IMAGE
+// ==========================================
+
+if (req.file) {
+
+  deleteOldProfileImage();
+
+  user.imageUrl =
+    `/uploads/users/${req.file.filename}`;
+
+  console.log(
+    "🖼️ New profile image:",
+    user.imageUrl
+  );
+}
+
+// ==========================================
+// REMOVE PROFILE IMAGE
+// ==========================================
+
+else if (removeProfileImage) {
+
+  deleteOldProfileImage();
+
+  user.imageUrl =
+    "/uploads/users/default-user.png";
+
+  console.log(
+    "🖼️ Profile image removed"
+  );
+}
 
       // ====================================
       // CALCULATE AGE

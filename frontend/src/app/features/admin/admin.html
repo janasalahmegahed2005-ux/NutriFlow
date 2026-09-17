@@ -1,0 +1,133 @@
+<div class="admin-page">
+
+  <app-sidebar></app-sidebar>
+
+
+  <main class="main-content">
+
+    <header class="page-header">
+
+      <div>
+
+        <p class="eyebrow">
+          ADMINISTRATION
+        </p>
+
+        <h1>
+          Admin Dashboard
+        </h1>
+
+        <p class="subtitle">
+          Manage NutriFlow user accounts and view their wellness journey.
+        </p>
+
+      </div>
+
+    </header>
+
+
+    @if (loading()) {
+
+      <div class="state-message">
+        <p>
+          Loading users...
+        </p>
+      </div>
+
+    }
+
+
+    @if (errorMessage()) {
+
+      <div class="error">
+        {{ errorMessage() }}
+      </div>
+
+    }
+
+
+    @if (!loading() && !errorMessage()) {
+
+      <section class="users-section">
+
+        <div class="section-header">
+
+          <div>
+
+            <p class="eyebrow">
+              USER ACCOUNTS
+            </p>
+
+            <h2>
+              All Users
+            </h2>
+
+          </div>
+
+          <span class="user-count">
+            {{ users().length }} users
+          </span>
+
+        </div>
+
+
+        <div class="users-list">
+
+          @for (user of users(); track user._id) {
+
+            <button
+              type="button"
+              class="user-card"
+              (click)="viewUser(user._id)"
+            >
+
+              <div class="user-info">
+
+                <h3>
+                  {{ user.firstName }}
+                  {{ user.lastName }}
+                </h3>
+
+                <p>
+                  <strong>Username:</strong>
+                  {{ user.username }}
+                </p>
+
+                <p>
+                  <strong>Email:</strong>
+                  {{ user.email }}
+                </p>
+
+                <p>
+                  <strong>Role:</strong>
+                  {{ user.role }}
+                </p>
+
+              </div>
+
+
+              <div class="view-user">
+
+                <span>
+                  View Journey
+                </span>
+
+                <span class="arrow">
+                  →
+                </span>
+
+              </div>
+
+            </button>
+
+          }
+
+        </div>
+
+      </section>
+
+    }
+
+  </main>
+
+</div>

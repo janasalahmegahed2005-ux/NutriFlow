@@ -1,0 +1,128 @@
+.admin-user-details-page {
+  padding: 30px;
+}
+
+.back-button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 25px;
+}
+
+.loading {
+  font-size: 18px;
+}
+
+.error {
+  color: red;
+  margin-top: 20px;
+}
+
+.user-header {
+  padding: 25px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+.user-header h1 {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.user-header p {
+  margin: 8px 0;
+}
+
+.journey-section h2 {
+  margin-bottom: 20px;
+}
+
+.journey-card {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.journey-card h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.item {
+  padding: 15px;
+  border-top: 1px solid #eee;
+  margin-top: 15px;
+}
+
+.item:first-child {
+  border-top: none;
+  margin-top: 0;
+}
+
+.item h4 {
+  margin-top: 0;
+}
+
+.item p,
+.journey-card p {
+  margin: 7px 0;
+}
+
+/* ==========================================
+   USER HEADER
+========================================== */
+
+.user-header-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+
+/* ==========================================
+   USER ACTIONS
+========================================== */
+
+.user-actions {
+  flex-shrink: 0;
+}
+
+
+/* ==========================================
+   DELETE BUTTON
+========================================== */
+
+.delete-button {
+  padding: 12px 18px;
+
+  border: 1px solid #d92d20;
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  color: #d92d20;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.delete-button:hover:not(:disabled) {
+  background: #d92d20;
+  color: #ffffff;
+}
+
+.delete-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

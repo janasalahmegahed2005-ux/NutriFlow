@@ -1,0 +1,19 @@
+@if (selectedDate) {
+
+  <div class="child-route-card">
+
+    <p class="child-route-label">
+      SELECTED DAY ROUTE
+    </p>
+
+    <h3>
+      {{ selectedDate | date:'EEEE, MMMM d, yyyy' }}
+    </h3>
+
+    <p>
+      This day is loaded using an Angular child route parameter.
+    </p>
+
+  </div>
+
+}

@@ -88,7 +88,7 @@ export class GoalsComponent {
   // GO TO PROFILE
   // ==========================================
 
-  goToProfile(): void {
-    this.router.navigate(['/profile']);
-  }
+ goToProfile(): void {
+  this.router.navigateByUrl('/profile');
+}
 }

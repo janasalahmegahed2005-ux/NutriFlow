@@ -1118,3 +1118,120 @@
   }
 
 }
+
+
+
+
+
+/* ==========================================
+   PROFILE PICTURE EDIT
+   ========================================== */
+
+.profile-picture-edit-section {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 24px;
+  margin-bottom: 28px;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background: #ffffff;
+}
+
+.profile-picture-edit-preview {
+  width: 110px;
+  height: 110px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #e5e7eb;
+  background: #f3f4f6;
+}
+
+.profile-picture-edit-preview .profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-picture-edit-content {
+  flex: 1;
+}
+
+.profile-picture-edit-content h3 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.profile-picture-edit-content p {
+  margin: 0 0 16px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.profile-picture-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.change-photo-button,
+.remove-photo-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.change-photo-button {
+  background: #111827;
+  color: #ffffff;
+}
+
+.change-photo-button:hover {
+  opacity: 0.9;
+}
+
+.remove-photo-button {
+  border: 1px solid #dc2626;
+  background: #ffffff;
+  color: #dc2626;
+}
+
+.remove-photo-button:hover {
+  background: #fef2f2;
+}
+
+
+/* ==========================================
+   PROFILE PICTURE EDIT - MOBILE
+   ========================================== */
+
+@media (max-width: 600px) {
+  .profile-picture-edit-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-picture-edit-preview {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile-picture-buttons {
+    width: 100%;
+  }
+
+  .change-photo-button,
+  .remove-photo-button {
+    flex: 1;
+  }
+}

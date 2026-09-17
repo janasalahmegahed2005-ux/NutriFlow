@@ -19,11 +19,16 @@ const lifestyleRoutes = require("./routes/lifestyleRoutes");
 const insightRoutes = require("./routes/insightRoutes");
 const balanceRoutes = require("./routes/balanceRoutes");
 const aiScannerRoutes = require("./routes/aiScannerRoutes");
-
+const adminRoutes = require("./routes/adminRoutes");
 
 const errorHandler = require("./middleware/errorMiddleware");
 
 const app = express();
+
+
+// ==========================================
+// SERVE UPLOADED FILES
+// ==========================================
 
 app.use("/uploads", express.static("uploads"));
 
@@ -43,6 +48,7 @@ app.use(
 );
 
 app.disable("x-powered-by");
+
 
 // ==========================================
 // BODY PARSING
@@ -64,10 +70,18 @@ app.use("/api/meals", mealRoutes);
 
 app.use("/api/meal-plans", mealPlanRoutes);
 
-app.use("/api/profile", (req, res, next) => {
-  console.log("🔥 PROFILE ROUTE HIT:", req.method, req.originalUrl);
-  next();
-}, profileRoutes);
+app.use(
+  "/api/profile",
+  (req, res, next) => {
+    console.log(
+      "🔥 PROFILE ROUTE HIT:",
+      req.method,
+      req.originalUrl
+    );
+    next();
+  },
+  profileRoutes
+);
 
 app.use("/api/nutrition", nutritionRoutes);
 
@@ -88,6 +102,8 @@ app.use("/api/insights", insightRoutes);
 app.use("/api/balance", balanceRoutes);
 
 app.use("/api/ai-scanner", aiScannerRoutes);
+
+app.use("/api/admin", adminRoutes);
 
 
 // ==========================================
@@ -134,5 +150,8 @@ mongoose
     });
   })
   .catch((error) => {
-    console.error("MongoDB connection failed:", error.message);
+    console.error(
+      "MongoDB connection failed:",
+      error.message
+    );
   });

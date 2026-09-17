@@ -28,6 +28,8 @@ export class Register {
   weight: string = '';
   height: string = '';
   goal: string = '';
+  role: string = 'user';
+ adminCode: string = '';
 
   selectedImage: File | null = null;
 
@@ -326,7 +328,16 @@ export class Register {
       event.target as HTMLFormElement;
 
     const formData =
-      new FormData(form);
+      new FormData(form); 
+      formData.set(
+  'role',
+  this.role
+);
+
+formData.set(
+  'adminCode',
+  this.adminCode
+);
 
     // ==========================================
     // MAKE SURE USERNAME IS INCLUDED
@@ -343,6 +354,16 @@ export class Register {
       'email',
       cleanEmail
     );
+
+
+    // ==========================================
+// MAKE SURE PERSONAL / WELLNESS GOAL IS INCLUDED
+// EXACTLY AS ENTERED BY THE USER
+// ==========================================
+formData.set(
+  'goal',
+  this.goal.trim()
+);
 
     // ==========================================
     // FAMILY NAME → LAST NAME

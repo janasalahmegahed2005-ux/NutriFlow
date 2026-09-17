@@ -102,6 +102,20 @@
       <span>Goals</span>
     </a>
 
+
+    @if (isAdmin()) {
+
+      <a
+        class="nav-item"
+        routerLink="/admin"
+        routerLinkActive="active"
+      >
+        <span class="nav-icon">♙</span>
+        <span>Admin Dashboard</span>
+      </a>
+
+    }
+
   </nav>
 
 

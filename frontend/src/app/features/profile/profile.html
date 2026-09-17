@@ -156,7 +156,10 @@
 
     @if (editMode) {
 
-      <section class="profile-card edit-card">
+      <form
+        class="profile-card edit-card"
+        [formGroup]="profileForm"
+        (ngSubmit)="saveProfile()">
 
         <div class="edit-header">
 
@@ -173,6 +176,102 @@
             <p>
               Keep your profile information up to date so NutriFlow can personalize your experience.
             </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- ======================================
+             PROFILE PICTURE
+        ======================================= -->
+
+        <div class="section profile-picture-section">
+
+          <div class="section-title">
+
+            <div class="section-icon">
+              ◎
+            </div>
+
+            <div>
+
+              <h3>
+                Profile Picture
+              </h3>
+
+              <p>
+                Choose a JPG, PNG, or WEBP image. Maximum size: 5 MB.
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="profile-picture-editor">
+
+            <!-- PROFILE IMAGE PREVIEW -->
+
+            <div class="profile-image-wrapper">
+
+              <img
+                [src]="profileImagePreview || profileImage"
+                [alt]="fullName + ' profile picture'"
+                (error)="onImageError($event)"
+                class="profile-image"
+              />
+
+            </div>
+
+
+            <!-- IMAGE ACTIONS -->
+
+            <div class="profile-picture-actions">
+
+              <!-- CHANGE PHOTO -->
+
+              <button
+                type="button"
+                class="change-photo-button"
+                (click)="profileImageInput.click()"
+                [disabled]="saving">
+
+                Change Photo
+
+              </button>
+
+
+              <!-- HIDDEN FILE INPUT -->
+
+              <input
+                #profileImageInput
+                id="profileImageInput"
+                type="file"
+                accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                (change)="onProfileImageSelected($event)"
+                hidden
+              />
+
+
+              <!-- REMOVE PHOTO -->
+
+              <button
+                type="button"
+                class="remove-photo-button"
+                (click)="removeSelectedProfileImage()"
+                [disabled]="saving">
+
+                Remove Photo
+
+              </button>
+
+
+              <small>
+                Recommended: JPG, PNG, or WEBP up to 5 MB.
+              </small>
+
+            </div>
 
           </div>
 
@@ -219,7 +318,7 @@
               <input
                 id="firstName"
                 type="text"
-                [(ngModel)]="form.firstName"
+                formControlName="firstName"
                 placeholder="Enter your first name"
               />
 
@@ -237,7 +336,7 @@
               <input
                 id="lastName"
                 type="text"
-                [(ngModel)]="form.lastName"
+                formControlName="lastName"
                 placeholder="Enter your last name"
               />
 
@@ -255,7 +354,7 @@
               <input
                 id="username"
                 type="text"
-                [(ngModel)]="form.username"
+                formControlName="username"
                 placeholder="Enter your username"
               />
 
@@ -295,7 +394,7 @@
               <input
                 id="dateOfBirth"
                 type="date"
-                [(ngModel)]="form.dateOfBirth"
+                formControlName="dateOfBirth"
               />
 
             </div>
@@ -311,7 +410,7 @@
 
               <select
                 id="gender"
-                [(ngModel)]="form.gender">
+                formControlName="gender">
 
                 <option value="">
                   Select gender
@@ -377,7 +476,7 @@
                   id="height"
                   type="number"
                   min="1"
-                  [(ngModel)]="form.height"
+                  formControlName="height"
                   placeholder="e.g. 170"
                 />
 
@@ -405,7 +504,7 @@
                   type="number"
                   min="1"
                   step="0.1"
-                  [(ngModel)]="form.weight"
+                  formControlName="weight"
                   placeholder="e.g. 65"
                 />
 
@@ -428,7 +527,7 @@
 
               <select
                 id="activityLevel"
-                [(ngModel)]="form.activityLevel">
+                formControlName="activityLevel">
 
                 @for (
                   level of activityLevels;
@@ -459,7 +558,7 @@
 
               <select
                 id="nutritionGoal"
-                [(ngModel)]="form.nutritionGoal">
+                formControlName="nutritionGoal">
 
                 @for (
                   goal of nutritionGoals;
@@ -491,7 +590,7 @@
               <input
                 id="personalGoal"
                 type="text"
-                [(ngModel)]="form.goal"
+                formControlName="goal"
                 placeholder="e.g. Build muscle, eat healthier, improve my energy..."
               />
 
@@ -524,9 +623,8 @@
 
 
           <button
-            type="button"
+            type="submit"
             class="save-button"
-            (click)="saveProfile()"
             [disabled]="saving">
 
             @if (saving) {
@@ -543,7 +641,7 @@
 
         </div>
 
-      </section>
+      </form>
 
     }
 

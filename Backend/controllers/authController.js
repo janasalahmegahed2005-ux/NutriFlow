@@ -115,17 +115,48 @@ const calculateMacroTargets = (
 const registerUser = async (req, res) => {
   try {
     const {
-      firstName,
-      lastName,
-      username,
-      email,
-      password,
-      gender,
-      dateOfBirth,
-      weight,
-      height,
-      goal,
-    } = req.body;
+  firstName,
+  lastName,
+  username,
+  email,
+  password,
+  gender,
+  dateOfBirth,
+  weight,
+  height,
+  goal,
+  role,
+  adminCode,
+} = req.body;
+
+// ==========================================
+// VALIDATE ACCOUNT ROLE
+// ==========================================
+
+const selectedRole =
+  role === "admin"
+    ? "admin"
+    : "user";
+
+
+// ==========================================
+// ADMIN REGISTRATION SECURITY
+// ==========================================
+
+if (selectedRole === "admin") {
+
+  if (
+    !adminCode ||
+    adminCode !== process.env.ADMIN_REGISTRATION_CODE
+  ) {
+    return res.status(403).json({
+      success: false,
+      message:
+        "Invalid admin registration code.",
+    });
+  }
+
+}
 
     // ==========================================
     // CHECK REQUIRED FIELDS
@@ -240,21 +271,24 @@ const registerUser = async (req, res) => {
     // CREATE USER
     // ==========================================
     const newUser = new User({
-      firstName,
-      lastName,
-      username: cleanUsername,
-      email: cleanEmail,
-      gender,
-      dateOfBirth,
-      weight: Number(weight),
-      height: Number(height),
-      goal,
-      password: hashedPassword,
+  firstName,
+  lastName,
+  username: cleanUsername,
+  email: cleanEmail,
+  gender,
+  dateOfBirth,
+  weight: Number(weight),
+  height: Number(height),
+  goal,
 
-      imageUrl: req.file
-        ? `/uploads/users/${req.file.filename}`
-        : "/uploads/users/default-user.png",
-    });
+  role: selectedRole,
+
+  password: hashedPassword,
+
+  imageUrl: req.file
+    ? `/uploads/users/${req.file.filename}`
+    : "/uploads/users/default-user.png",
+});
 
     const savedUser =
       await newUser.save();
@@ -311,6 +345,9 @@ const registerUser = async (req, res) => {
 
         height:
           savedUser.height,
+
+         role:
+          savedUser.role,
 
         goal:
           savedUser.goal,
@@ -563,6 +600,9 @@ const loginUser = async (
 
         height:
           user.height,
+        
+          role: 
+          user.role,
 
         goal:
           user.goal,
@@ -601,4 +641,4 @@ module.exports = {
   registerUser,
   getCurrentUser,
   loginUser,
-};
+}; 

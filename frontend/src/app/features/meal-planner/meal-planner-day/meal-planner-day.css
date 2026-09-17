@@ -1,0 +1,25 @@
+.child-route-card {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #dfe6dc;
+  border-radius: 16px;
+  background: #f8faf6;
+}
+
+.child-route-label {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #405c36;
+}
+
+.child-route-card h3 {
+  margin: 0 0 6px;
+  color: #244b2c;
+}
+
+.child-route-card p:last-child {
+  margin: 0;
+  color: #6b756d;
+}

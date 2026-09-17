@@ -747,7 +747,7 @@
 
       }
 
-    </section>
+        </section>
 
 
     <!-- MOTIVATION -->
@@ -775,7 +775,10 @@
 
     </section>
 
-  </main>
+
+    <router-outlet></router-outlet>
+
+  </main> 
 
 
   <!-- =====================================================
@@ -877,12 +880,12 @@
             </label>
 
             <input
-              id="meal-name"
-              type="text"
-              class="form-input"
-              placeholder="e.g. Grilled chicken with rice"
-              [(ngModel)]="mealForm.name"
-            />
+  id="meal-name"
+  type="text"
+  class="form-input"
+  placeholder="e.g. Grilled chicken with rice"
+  [formField]="mealFormFields.name"
+/>
 
           </div>
 
@@ -898,7 +901,7 @@
               id="meal-date"
               type="date"
               class="form-input"
-              [(ngModel)]="mealForm.date"
+              [formField]="mealFormFields.date"
             />
 
           </div>
@@ -914,9 +917,8 @@
             <input
               id="meal-quantity"
               type="number"
-              min="0"
               class="form-input"
-              [(ngModel)]="mealForm.quantity"
+              [formField]="$any(mealFormFields.quantity)"
             />
 
           </div>
@@ -935,9 +937,8 @@
               <input
                 id="meal-calories"
                 type="number"
-                min="0"
-                class="form-input"
-                [(ngModel)]="mealForm.calories"
+                 class="form-input"
+                [formField]="mealFormFields.calories"
               />
 
             </div>
@@ -953,9 +954,8 @@
               <input
                 id="meal-protein"
                 type="number"
-                min="0"
-                class="form-input"
-                [(ngModel)]="mealForm.protein"
+                 class="form-input"
+                [formField]="mealFormFields.protein"
               />
 
             </div>
@@ -971,9 +971,8 @@
               <input
                 id="meal-carbs"
                 type="number"
-                min="0"
-                class="form-input"
-                [(ngModel)]="mealForm.carbs"
+                 class="form-input"
+                [formField]="mealFormFields.carbs"
               />
 
             </div>
@@ -989,9 +988,8 @@
               <input
                 id="meal-fat"
                 type="number"
-                min="0"
-                class="form-input"
-                [(ngModel)]="mealForm.fat"
+                 class="form-input"
+                [formField]="mealFormFields.fat"
               />
 
             </div>
@@ -1007,9 +1005,8 @@
               <input
                 id="meal-fiber"
                 type="number"
-                min="0"
-                class="form-input"
-                [(ngModel)]="mealForm.fiber"
+                 class="form-input"
+                [formField]="mealFormFields.fiber"
               />
 
             </div>

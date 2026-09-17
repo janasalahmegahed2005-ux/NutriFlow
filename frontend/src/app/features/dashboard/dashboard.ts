@@ -1,7 +1,15 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  signal,
+  computed
+} from '@angular/core';
+
 import { DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { AuthService } from '../../services/auth.service';
 import { SidebarComponent } from '../../shared/sidebar';
 
@@ -16,33 +24,47 @@ export class Dashboard implements OnInit {
 
   user: any = null;
 
-  calories = 0;
+  // ================================
+  // NUTRITION DATA - SIGNALS
+  // ================================
+
+  calories = signal(0);
   calorieTarget = 2000;
-  protein = 0;
+
+  protein = signal(0);
   proteinTarget = 120;
-  carbs = 0;
+
+  carbs = signal(0);
   carbsTarget = 250;
-  fat = 0;
+
+  fat = signal(0);
   fatTarget = 65;
 
   // ================================
-  // WATER
+  // WATER - SIGNAL
   // ================================
 
-  waterConsumed = 0;
+  waterConsumed = signal(0);
   waterTarget = 2500;
 
-  meals: any[] = [];
-
-  loading = false;
-  errorMessage = '';
-
   // ================================
-  // NOTIFICATIONS
+  // MEALS
   // ================================
 
-  notificationsOpen = false;
-  hasUnreadNotifications = true;
+meals = signal<any[]>([]);
+  // ================================
+  // UI STATE - SIGNALS
+  // ================================
+
+  loading = signal(false);
+  errorMessage = signal('');
+
+  // ================================
+  // NOTIFICATIONS - SIGNALS
+  // ================================
+
+  notificationsOpen = signal(false);
+  hasUnreadNotifications = signal(true);
 
   notifications = [
     {
@@ -62,36 +84,166 @@ export class Dashboard implements OnInit {
     }
   ];
 
+  // ================================
+  // COMPUTED SIGNALS
+  // ================================
+
+  caloriePercentage = computed(() => {
+
+    if (!this.calorieTarget || this.calorieTarget <= 0) {
+      return 0;
+    }
+
+    return Math.min(
+      100,
+      Math.round(
+        (this.calories() / this.calorieTarget) * 100
+      )
+    );
+  });
+
+  caloriesRemaining = computed(() => {
+
+    return Math.max(
+      0,
+      this.calorieTarget - this.calories()
+    );
+  });
+
+  proteinPercentage = computed(() => {
+
+    if (!this.proteinTarget || this.proteinTarget <= 0) {
+      return 0;
+    }
+
+    return Math.min(
+      100,
+      (this.protein() / this.proteinTarget) * 100
+    );
+  });
+
+  carbsPercentage = computed(() => {
+
+    if (!this.carbsTarget || this.carbsTarget <= 0) {
+      return 0;
+    }
+
+    return Math.min(
+      100,
+      (this.carbs() / this.carbsTarget) * 100
+    );
+  });
+
+  fatPercentage = computed(() => {
+
+    if (!this.fatTarget || this.fatTarget <= 0) {
+      return 0;
+    }
+
+    return Math.min(
+      100,
+      (this.fat() / this.fatTarget) * 100
+    );
+  });
+
+  waterPercentage = computed(() => {
+
+    if (!this.waterTarget || this.waterTarget <= 0) {
+      return 0;
+    }
+
+    return Math.min(
+      100,
+      Math.round(
+        (this.waterConsumed() / this.waterTarget) * 100
+      )
+    );
+  });
+
+  waterRemaining = computed(() => {
+
+    return Math.max(
+      0,
+      this.waterTarget - this.waterConsumed()
+    );
+  });
+
+  waterLiters = computed(() => {
+
+    return Math.round(
+      (this.waterConsumed() / 1000) * 10
+    ) / 10;
+  });
+
+  waterTargetLiters = computed(() => {
+
+    return this.waterTarget / 1000;
+  });
+
+  waterRemainingLiters = computed(() => {
+
+    return Math.round(
+      (this.waterRemaining() / 1000) * 10
+    ) / 10;
+  });
+
+  // ================================
+  // CONSTRUCTOR
+  // ================================
+
   constructor(
     private authService: AuthService,
     private http: HttpClient,
     private cdr: ChangeDetectorRef
   ) {
+
     this.user = this.authService.getUser();
 
-    this.calorieTarget = this.user?.calorieTarget || 2000;
-    this.proteinTarget = this.user?.proteinTarget || 120;
-    this.carbsTarget = this.user?.carbsTarget || 250;
-    this.fatTarget = this.user?.fatTarget || 65;
+    this.calorieTarget =
+      this.user?.calorieTarget || 2000;
+
+    this.proteinTarget =
+      this.user?.proteinTarget || 120;
+
+    this.carbsTarget =
+      this.user?.carbsTarget || 250;
+
+    this.fatTarget =
+      this.user?.fatTarget || 65;
   }
+
+  // ================================
+  // INIT
+  // ================================
 
   ngOnInit(): void {
+
     this.loadDashboardData();
+
   }
 
+  // ================================
+  // USER INFORMATION
+  // ================================
+
   get firstName(): string {
+
     return this.user?.firstName || 'User';
+
   }
 
   get fullName(): string {
+
     if (!this.user) {
       return 'User';
     }
 
     return `${this.user.firstName || ''} ${this.user.lastName || ''}`.trim();
+
   }
 
   get greeting(): string {
+
     const hour = new Date().getHours();
 
     if (hour < 12) {
@@ -103,113 +255,17 @@ export class Dashboard implements OnInit {
     }
 
     return 'Good evening';
+
   }
 
   get formattedDate(): string {
+
     return new Date().toLocaleDateString('en-US', {
       weekday: 'long',
       month: 'long',
       day: 'numeric'
     });
-  }
 
-  // ================================
-  // CALORIE CALCULATIONS
-  // ================================
-
-  get caloriePercentage(): number {
-    if (!this.calorieTarget || this.calorieTarget <= 0) {
-      return 0;
-    }
-
-    return Math.min(
-      100,
-      Math.round((this.calories / this.calorieTarget) * 100)
-    );
-  }
-
-  get caloriesRemaining(): number {
-    return Math.max(
-      0,
-      this.calorieTarget - this.calories
-    );
-  }
-
-  // ================================
-  // MACRO CALCULATIONS
-  // ================================
-
-  get proteinPercentage(): number {
-    if (!this.proteinTarget || this.proteinTarget <= 0) {
-      return 0;
-    }
-
-    return Math.min(
-      100,
-      (this.protein / this.proteinTarget) * 100
-    );
-  }
-
-  get carbsPercentage(): number {
-    if (!this.carbsTarget || this.carbsTarget <= 0) {
-      return 0;
-    }
-
-    return Math.min(
-      100,
-      (this.carbs / this.carbsTarget) * 100
-    );
-  }
-
-  get fatPercentage(): number {
-    if (!this.fatTarget || this.fatTarget <= 0) {
-      return 0;
-    }
-
-    return Math.min(
-      100,
-      (this.fat / this.fatTarget) * 100
-    );
-  }
-
-  // ================================
-  // WATER CALCULATIONS
-  // ================================
-
-  get waterPercentage(): number {
-    if (!this.waterTarget || this.waterTarget <= 0) {
-      return 0;
-    }
-
-    return Math.min(
-      100,
-      Math.round(
-        (this.waterConsumed / this.waterTarget) * 100
-      )
-    );
-  }
-
-  get waterRemaining(): number {
-    return Math.max(
-      0,
-      this.waterTarget - this.waterConsumed
-    );
-  }
-
-  get waterLiters(): number {
-    return Math.round(
-      (this.waterConsumed / 1000) * 10
-    ) / 10;
-  }
-
-  get waterTargetLiters(): number {
-    return this.waterTarget / 1000;
-  }
-
-  get waterRemainingLiters(): number {
-    return Math.round(
-      (this.waterRemaining / 1000) * 10
-    ) / 10;
   }
 
   // ================================
@@ -217,6 +273,7 @@ export class Dashboard implements OnInit {
   // ================================
 
   formatMealTime(date: string | Date): string {
+
     if (!date) {
       return '';
     }
@@ -231,23 +288,37 @@ export class Dashboard implements OnInit {
       hour: 'numeric',
       minute: '2-digit'
     });
-  }
 
-  onImageError(event: Event): void {
-    const img = event.target as HTMLImageElement;
-    img.style.display = 'none';
   }
 
   // ================================
-  // NOTIFICATION ACTION
+  // IMAGE ERROR
+  // ================================
+
+  onImageError(event: Event): void {
+
+    const img = event.target as HTMLImageElement;
+
+    img.style.display = 'none';
+
+  }
+
+  // ================================
+  // NOTIFICATIONS
   // ================================
 
   toggleNotifications(): void {
-    this.notificationsOpen = !this.notificationsOpen;
 
-    if (this.notificationsOpen) {
-      this.hasUnreadNotifications = false;
+    this.notificationsOpen.update(
+      value => !value
+    );
+
+    if (this.notificationsOpen()) {
+
+      this.hasUnreadNotifications.set(false);
+
     }
+
   }
 
   // ================================
@@ -255,20 +326,21 @@ export class Dashboard implements OnInit {
   // ================================
 
   loadDashboardData(): void {
-    this.loading = true;
-    this.errorMessage = '';
 
-    this.meals = [];
+    this.loading.set(true);
 
-    this.calories = 0;
-    this.protein = 0;
-    this.carbs = 0;
-    this.fat = 0;
+    this.errorMessage.set('');
 
-    // IMPORTANT:
-    // Always reset water to 0 before loading today's
-    // actual water entries.
-    this.waterConsumed = 0;
+    this.meals.set([]);
+
+    this.calories.set(0);
+    this.protein.set(0);
+    this.carbs.set(0);
+    this.fat.set(0);
+
+    // Always reset water before loading
+    // today's actual water entries.
+    this.waterConsumed.set(0);
 
     this.cdr.detectChanges();
 
@@ -295,15 +367,18 @@ export class Dashboard implements OnInit {
 
           const meals = response?.meals || [];
 
-          this.meals = meals;
-
-          this.calories = meals.reduce(
+        this.meals.set(meals);
+          // Calculate total calories
+          const totalCalories = meals.reduce(
             (sum: number, m: any) =>
               sum + (Number(m.calories) || 0),
             0
           );
 
-          this.protein =
+          this.calories.set(totalCalories);
+
+          // Calculate protein
+          const totalProtein =
             Math.round(
               meals.reduce(
                 (sum: number, m: any) =>
@@ -312,16 +387,22 @@ export class Dashboard implements OnInit {
               ) * 10
             ) / 10;
 
-          this.carbs =
+          this.protein.set(totalProtein);
+
+          // Calculate carbs
+          const totalCarbs =
             Math.round(
               meals.reduce(
                 (sum: number, m: any) =>
                   sum + (Number(m.carbs) || 0),
-                0
+                  0
               ) * 10
             ) / 10;
 
-          this.fat =
+          this.carbs.set(totalCarbs);
+
+          // Calculate fat
+          const totalFat =
             Math.round(
               meals.reduce(
                 (sum: number, m: any) =>
@@ -330,22 +411,30 @@ export class Dashboard implements OnInit {
               ) * 10
             ) / 10;
 
-          this.loading = false;
+          this.fat.set(totalFat);
+
+          this.loading.set(false);
 
           this.cdr.detectChanges();
+
         },
 
         error: (error: any) => {
 
-          console.error('Load meals error:', error);
+          console.error(
+            'Load meals error:',
+            error
+          );
 
-          this.errorMessage =
+          this.errorMessage.set(
             error?.error?.message ||
-            'Failed to load your data. Please try again.';
+            'Failed to load your data. Please try again.'
+          );
 
-          this.loading = false;
+          this.loading.set(false);
 
           this.cdr.detectChanges();
+
         }
 
       });
@@ -363,26 +452,36 @@ export class Dashboard implements OnInit {
 
         next: (response: any) => {
 
-          // The backend returns the total water
-          // logged by this user for today.
-          this.waterConsumed =
+          // Backend returns the total water
+          // logged by this user today.
+
+          const totalWater =
             Number(response?.totalWater) || 0;
 
+          this.waterConsumed.set(totalWater);
+
           this.cdr.detectChanges();
+
         },
 
         error: (error: any) => {
 
-          console.error('Load water error:', error);
+          console.error(
+            'Load water error:',
+            error
+          );
 
           // Never display fake/default water
           // if the request fails.
-          this.waterConsumed = 0;
+
+          this.waterConsumed.set(0);
 
           this.cdr.detectChanges();
+
         }
 
       });
+
   }
 
   // ================================
@@ -398,5 +497,7 @@ export class Dashboard implements OnInit {
     ).padStart(2, '0')}-${String(
       today.getDate()
     ).padStart(2, '0')}`;
+
   }
+
 }

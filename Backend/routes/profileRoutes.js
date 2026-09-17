@@ -1,6 +1,7 @@
 const express = require("express");
 
 const protect = require("../middleware/authMiddleware");
+const uploadProfileImage = require("../middleware/uploadMiddleware");
 
 const {
   validateNutritionProfileUpdate,
@@ -44,9 +45,11 @@ router.get(
 // UPDATE MY PROFILE
 // ==========================================
 
+
 router.put(
   "/",
   protect,
+  uploadProfileImage.single("profileImage"),
   validateNutritionProfileUpdate,
   handleValidationErrors,
   updateNutritionProfile
